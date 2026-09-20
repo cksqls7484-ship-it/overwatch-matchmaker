@@ -1,552 +1,552 @@
-!DOCTYPE html
-html lang=ko
-head
-    meta charset=UTF-8
-    meta name=viewport content=width=device-width, initial-scale=1.0
-    titleOverwatch Matchmaker Pro 💙title
-    style
-        @import url('httpsfonts.googleapis.comcss2family=Noto+Sans+KRwght@400;600;800;900&display=swap');
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overwatch Matchmaker Pro 💙</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;800;900&display=swap');
 
-        root {
-            --bg-body #0b0f19;
-            --panel-bg rgba(22, 30, 46, 0.85);
-            --border-color #2e3d5a;
-            --accent-blue #38bdf8;
-            --accent-glow rgba(56, 189, 248, 0.25);
-            --text-main #f1f5f9;
-            --text-sub #94a3b8;
-            --team-a #38bdf8;
-            --team-b #f87171;
-            --team-c #34d399;
+        :root {
+            --bg-body: #0b0f19;
+            --panel-bg: rgba(22, 30, 46, 0.85);
+            --border-color: #2e3d5a;
+            --accent-blue: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.25);
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --team-a: #38bdf8;
+            --team-b: #f87171;
+            --team-c: #34d399;
         }
 
         body {
-            font-family 'Noto Sans KR', sans-serif;
-            background-color var(--bg-body);
-            background-image radial-gradient(circle at 50% 0%, #1e293b 0%, var(--bg-body) 70%);
-            color var(--text-main);
-            margin 0;
-            padding 20px;
-            min-height 100vh;
-            box-sizing border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-body);
+            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, var(--bg-body) 70%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
 
-        .container { max-width 1400px; margin 0 auto; }
+        .container { max-width: 1400px; margin: 0 auto; }
 
-         Header 
+        /* Header */
         .app-header {
-            display flex;
-            justify-content space-between;
-            align-items center;
-            background var(--panel-bg);
-            border 1px solid var(--border-color);
-            padding 16px 24px;
-            border-radius 16px;
-            margin-bottom 20px;
-            backdrop-filter blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 16px 24px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(12px);
         }
 
         .app-title {
-            font-size 24px;
-            font-weight 900;
-            color var(--accent-blue);
-            margin 0;
-            display flex;
-            align-items center;
-            gap 10px;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--accent-blue);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .app-title span { font-size 13px; color var(--text-sub); font-weight 600; }
+        .app-title span { font-size: 13px; color: var(--text-sub); font-weight: 600; }
 
         .btn-danger {
-            background rgba(239, 68, 68, 0.15);
-            border 1px solid #ef4444;
-            color #f87171;
-            padding 6px 12px;
-            border-radius 8px;
-            font-size 12px;
-            font-weight 700;
-            cursor pointer;
-            transition 0.2s;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #f87171;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        .btn-dangerhover { background #ef4444; color #fff; }
+        .btn-danger:hover { background: #ef4444; color: #fff; }
 
-         Main Split Layout 
+        /* Main Split Layout */
         .main-layout {
-            display grid;
-            grid-template-columns 380px 1fr;
-            gap 20px;
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 20px;
         }
 
-        @media (max-width 900px) {
-            .main-layout { grid-template-columns 1fr; }
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; }
         }
 
         .panel {
-            background var(--panel-bg);
-            border 1px solid var(--border-color);
-            border-radius 16px;
-            padding 20px;
-            backdrop-filter blur(12px);
-            box-shadow 0 10px 30px rgba(0,0,0,0.3);
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .panel-title {
-            font-size 16px;
-            font-weight 800;
-            color var(--accent-blue);
-            margin-top 0;
-            margin-bottom 16px;
-            display flex;
-            align-items center;
-            justify-content space-between;
-            padding-bottom 10px;
-            border-bottom 1px solid var(--border-color);
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-top: 0;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-         Form Controls 
+        /* Form Controls */
         .mode-grid {
-            display grid;
-            grid-template-columns repeat(3, 1fr);
-            gap 8px;
-            margin-bottom 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
         }
 
         .mode-btn {
-            background #111827;
-            border 1px solid var(--border-color);
-            color var(--text-sub);
-            padding 10px 0;
-            border-radius 10px;
-            font-size 13px;
-            font-weight 800;
-            cursor pointer;
-            transition 0.2s;
+            background: #111827;
+            border: 1px solid var(--border-color);
+            color: var(--text-sub);
+            padding: 10px 0;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
         .mode-btn.active {
-            background var(--accent-blue);
-            border-color var(--accent-blue);
-            color #0b0f19;
-            box-shadow 0 0 15px var(--accent-glow);
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: #0b0f19;
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
         .input-group {
-            display flex;
-            flex-direction column;
-            gap 8px;
-            margin-bottom 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
         }
 
-        .input-group label { font-size 12px; font-weight 700; color var(--text-sub); }
+        .input-group label { font-size: 12px; font-weight: 700; color: var(--text-sub); }
 
         .form-control {
-            background #0f172a;
-            border 1px solid var(--border-color);
-            color #fff;
-            padding 10px;
-            border-radius 8px;
-            font-size 13px;
-            font-family inherit;
-            outline none;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
         }
-        .form-controlfocus { border-color var(--accent-blue); }
+        .form-control:focus { border-color: var(--accent-blue); }
 
         .role-tier-inputs {
-            display grid;
-            grid-template-columns repeat(3, 1fr);
-            gap 8px;
-            margin-bottom 16px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
         }
 
         .btn-primary {
-            width 100%;
-            background linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-            border none;
-            color #0b0f19;
-            padding 12px;
-            border-radius 10px;
-            font-size 15px;
-            font-weight 900;
-            cursor pointer;
-            transition 0.2s;
-            box-shadow 0 4px 15px var(--accent-glow);
+            width: 100%;
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            border: none;
+            color: #0b0f19;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 15px var(--accent-glow);
         }
-        .btn-primaryhover { transform translateY(-1px); filter brightness(1.1); }
+        .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.1); }
 
-         Tier Settings Grid 
+        /* Tier Settings Grid */
         .tier-setting-grid {
-            display grid;
-            grid-template-columns repeat(3, 1fr);
-            gap 6px;
-            margin-top 10px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 10px;
         }
 
         .tier-item {
-            background #0f172a;
-            border 1px solid var(--border-color);
-            border-radius 8px;
-            padding 6px;
-            display flex;
-            flex-direction column;
-            align-items center;
-            gap 4px;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
         }
 
         .tier-item label { 
-            font-size 11px; 
-            font-weight 800; 
-            color #cbd5e1; 
-            display flex; 
-            align-items center; 
-            gap 4px; 
+            font-size: 11px; 
+            font-weight: 800; 
+            color: #cbd5e1; 
+            display: flex; 
+            align-items: center; 
+            gap: 4px; 
         }
 
         .tier-item input {
-            width 36px;
-            text-align center;
-            background transparent;
-            border 1px solid #334155;
-            color var(--accent-blue);
-            border-radius 4px;
-            font-size 12px;
-            font-weight 800;
+            width: 36px;
+            text-align: center;
+            background: transparent;
+            border: 1px solid #334155;
+            color: var(--accent-blue);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 800;
         }
 
-         Tier PNG Image Styles 
+        /* Tier PNG Image Styles */
         .tier-img-icon {
-            width 20px;
-            height 20px;
-            object-fit contain;
-            vertical-align middle;
-            flex-shrink 0;
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            vertical-align: middle;
+            flex-shrink: 0;
         }
 
-         Player Cards Grid 
+        /* Player Cards Grid */
         .player-tools {
-            display flex;
-            justify-content space-between;
-            align-items center;
-            gap 10px;
-            margin-bottom 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
         }
 
         .player-grid {
-            display grid;
-            grid-template-columns repeat(auto-fill, minmax(290px, 1fr));
-            gap 12px;
-            max-height 520px;
-            overflow-y auto;
-            padding-right 4px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 12px;
+            max-height: 520px;
+            overflow-y: auto;
+            padding-right: 4px;
         }
 
         .player-card {
-            background #111827;
-            border 1px solid var(--border-color);
-            border-radius 12px;
-            padding 12px;
-            display flex;
-            flex-direction column;
-            gap 10px;
-            transition 0.2s;
+            background: #111827;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: 0.2s;
         }
-        .player-cardhover { border-color var(--accent-blue); }
+        .player-card:hover { border-color: var(--accent-blue); }
 
         .card-header {
-            display flex;
-            justify-content space-between;
-            align-items center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .card-user {
-            display flex;
-            align-items center;
-            gap 8px;
-            flex 1;
-            min-width 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 0;
         }
 
-        .card-user input[type=checkbox] {
-            width 16px;
-            height 16px;
-            accent-color var(--accent-blue);
-            cursor pointer;
+        .card-user input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent-blue);
+            cursor: pointer;
         }
 
         .card-user label {
-            font-size 14px;
-            font-weight 800;
-            color #fff;
-            white-space nowrap;
-            overflow hidden;
-            text-overflow ellipsis;
-            cursor pointer;
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
         }
 
-        .card-actions { display flex; gap 4px; }
+        .card-actions { display: flex; gap: 4px; }
         .btn-icon {
-            background transparent;
-            border 1px solid var(--border-color);
-            color var(--text-sub);
-            padding 2px 6px;
-            border-radius 4px;
-            font-size 11px;
-            cursor pointer;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-sub);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
         }
-        .btn-iconhover { border-color var(--accent-blue); color #fff; }
+        .btn-icon:hover { border-color: var(--accent-blue); color: #fff; }
 
         .role-badges {
-            display flex;
-            gap 6px;
-            font-size 11px;
-            font-weight 800;
-            flex-wrap wrap;
+            display: flex;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            flex-wrap: wrap;
         }
 
         .badge {
-            padding 2px 6px;
-            border-radius 4px;
-            background #1e293b;
-            color var(--text-sub);
-            display flex;
-            align-items center;
-            gap 4px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #1e293b;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
-        .badge.tank { border-left 3px solid var(--accent-blue); }
-        .badge.dps { border-left 3px solid #f87171; }
-        .badge.sup { border-left 3px solid #34d399; }
+        .badge.tank { border-left: 3px solid var(--accent-blue); }
+        .badge.dps { border-left: 3px solid #f87171; }
+        .badge.sup { border-left: 3px solid #34d399; }
 
         .card-options {
-            display grid;
-            grid-template-columns repeat(3, 1fr);
-            gap 4px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
         }
 
         .card-options select {
-            background #0f172a;
-            border 1px solid var(--border-color);
-            color var(--text-sub);
-            font-size 10.5px;
-            font-weight 700;
-            padding 4px 2px;
-            border-radius 6px;
-            outline none;
-            cursor pointer;
-            text-align center;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            color: var(--text-sub);
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 4px 2px;
+            border-radius: 6px;
+            outline: none;
+            cursor: pointer;
+            text-align: center;
         }
 
-         Results Display 
+        /* Results Display */
         .results-section {
-            margin-top 20px;
-            display none;
-            flex-direction column;
-            gap 16px;
+            margin-top: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .results-grid {
-            display grid;
-            grid-template-columns repeat(auto-fit, minmax(280px, 1fr));
-            gap 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
         }
 
         .team-card {
-            background #111827;
-            border 1px solid var(--border-color);
-            border-radius 12px;
-            padding 16px;
+            background: #111827;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
         }
-        .team-card.a { border-top 4px solid var(--team-a); }
-        .team-card.b { border-top 4px solid var(--team-b); }
-        .team-card.c { border-top 4px solid var(--team-c); }
+        .team-card.a { border-top: 4px solid var(--team-a); }
+        .team-card.b { border-top: 4px solid var(--team-b); }
+        .team-card.c { border-top: 4px solid var(--team-c); }
 
         .team-header {
-            display flex;
-            justify-content space-between;
-            align-items center;
-            font-size 16px;
-            font-weight 900;
-            margin-bottom 12px;
-            padding-bottom 8px;
-            border-bottom 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .team-list { list-style none; padding 0; margin 0; display flex; flex-direction column; gap 6px; }
+        .team-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
         .team-item {
-            background #0f172a;
-            padding 8px 12px;
-            border-radius 8px;
-            display flex;
-            justify-content space-between;
-            align-items center;
-            font-size 13px;
+            background: #0f172a;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
         }
 
-        .player-tier-info { display flex; align-items center; gap 6px; }
+        .player-tier-info { display: flex; align-items: center; gap: 6px; }
 
-        .role-tag { font-weight 800; }
-        .role-tag.탱 { color var(--team-a); }
-        .role-tag.딜 { color var(--team-b); }
-        .role-tag.힐 { color var(--team-c); }
-    style
-head
-body
-    div class=container
-        !-- App Header --
-        header class=app-header
-            h1 class=app-title🎮 Overwatch Matchmaker spanPro Systemspanh1
-            button class=btn-danger onclick=resetAllData()데이터 초기화button
-        header
+        .role-tag { font-weight: 800; }
+        .role-tag.탱 { color: var(--team-a); }
+        .role-tag.딜 { color: var(--team-b); }
+        .role-tag.힐 { color: var(--team-c); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- App Header -->
+        <header class="app-header">
+            <h1 class="app-title">🎮 Overwatch Matchmaker <span>Pro System</span></h1>
+            <button class="btn-danger" onclick="resetAllData()">데이터 초기화</button>
+        </header>
 
-        !-- Main Content (2-Column Layout) --
-        div class=main-layout
-            !-- Left Column Controls & Add Player --
-            div style=display flex; flex-direction column; gap 20px;
-                !-- Match Mode & Execution --
-                div class=panel
-                    div class=panel-title⚡ 대전 모드 선택div
-                    div class=mode-grid
-                        button class=mode-btn id=m-5v5 onclick=setMode('5v5')5v5button
-                        button class=mode-btn active id=m-6v6 onclick=setMode('6v6')6v6button
-                        button class=mode-btn id=m-5v5v5 onclick=setMode('5v5v5')5v5v5button
-                    div
-                    button class=btn-primary onclick=generateTeams()팀 균등 랜덤 생성 🚀button
-                div
+        <!-- Main Content (2-Column Layout) -->
+        <div class="main-layout">
+            <!-- Left Column: Controls & Add Player -->
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <!-- Match Mode & Execution -->
+                <div class="panel">
+                    <div class="panel-title">⚡ 대전 모드 선택</div>
+                    <div class="mode-grid">
+                        <button class="mode-btn" id="m-5v5" onclick="setMode('5v5')">5v5</button>
+                        <button class="mode-btn active" id="m-6v6" onclick="setMode('6v6')">6v6</button>
+                        <button class="mode-btn" id="m-5v5v5" onclick="setMode('5v5v5')">5v5v5</button>
+                    </div>
+                    <button class="btn-primary" onclick="generateTeams()">팀 균등 랜덤 생성 🚀</button>
+                </div>
 
-                !-- Add Player --
-                div class=panel
-                    div class=panel-title id=form-heading➕ 선수 새로 등록div
-                    div class=input-group
-                        label선수 닉네임label
-                        input type=text id=p-name class=form-control placeholder=예 홍길동
-                    div
-                    div class=input-group
-                        label포지션별 티어 설정label
-                        div class=role-tier-inputs
-                            select id=p-tank class=form-control
-                                option value=none탱 없음option
-                                option value=챔피언챔피언option
-                                option value=그마그마option
-                                option value=마스터마스터option
-                                option value=다이아다이아option
-                                option value=에메랄드에메랄드option
-                                option value=플레플레option
-                                option value=골드골드option
-                                option value=실버실버option
-                                option value=브론즈브론즈option
-                            select
-                            select id=p-dps class=form-control
-                                option value=none딜 없음option
-                                option value=챔피언챔피언option
-                                option value=그마그마option
-                                option value=마스터마스터option
-                                option value=다이아다이아option
-                                option value=에메랄드에메랄드option
-                                option value=플레플레option
-                                option value=골드골드option
-                                option value=실버실버option
-                                option value=브론즈브론즈option
-                            select
-                            select id=p-sup class=form-control
-                                option value=none힐 없음option
-                                option value=챔피언챔피언option
-                                option value=그마그마option
-                                option value=마스터마스터option
-                                option value=다이아다이아option
-                                option value=에메랄드에메랄드option
-                                option value=플레플레option
-                                option value=골드골드option
-                                option value=실버실버option
-                                option value=브론즈브론즈option
-                            select
-                        div
-                    div
-                    button class=btn-primary style=background #334155; color #fff; id=btn-save-p onclick=savePlayerForm()선수 저장하기button
-                div
+                <!-- Add Player -->
+                <div class="panel">
+                    <div class="panel-title" id="form-heading">➕ 선수 새로 등록</div>
+                    <div class="input-group">
+                        <label>선수 닉네임</label>
+                        <input type="text" id="p-name" class="form-control" placeholder="예: 홍길동">
+                    </div>
+                    <div class="input-group">
+                        <label>포지션별 티어 설정</label>
+                        <div class="role-tier-inputs">
+                            <select id="p-tank" class="form-control">
+                                <option value="none">탱: 없음</option>
+                                <option value="챔피언">챔피언</option>
+                                <option value="그마">그마</option>
+                                <option value="마스터">마스터</option>
+                                <option value="다이아">다이아</option>
+                                <option value="에메랄드">에메랄드</option>
+                                <option value="플레">플레</option>
+                                <option value="골드">골드</option>
+                                <option value="실버">실버</option>
+                                <option value="브론즈">브론즈</option>
+                            </select>
+                            <select id="p-dps" class="form-control">
+                                <option value="none">딜: 없음</option>
+                                <option value="챔피언">챔피언</option>
+                                <option value="그마">그마</option>
+                                <option value="마스터">마스터</option>
+                                <option value="다이아">다이아</option>
+                                <option value="에메랄드">에메랄드</option>
+                                <option value="플레">플레</option>
+                                <option value="골드">골드</option>
+                                <option value="실버">실버</option>
+                                <option value="브론즈">브론즈</option>
+                            </select>
+                            <select id="p-sup" class="form-control">
+                                <option value="none">힐: 없음</option>
+                                <option value="챔피언">챔피언</option>
+                                <option value="그마">그마</option>
+                                <option value="마스터">마스터</option>
+                                <option value="다이아">다이아</option>
+                                <option value="에메랄드">에메랄드</option>
+                                <option value="플레">플레</option>
+                                <option value="골드">골드</option>
+                                <option value="실버">실버</option>
+                                <option value="브론즈">브론즈</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn-primary" style="background: #334155; color: #fff;" id="btn-save-p" onclick="savePlayerForm()">선수 저장하기</button>
+                </div>
 
-                !-- Tier Weight Settings --
-                div class=panel
-                    div class=panel-title
-                        span⚙️ 티어 가중치 점수span
-                        button class=btn-icon onclick=resetTierScores()복원button
-                    div
-                    div class=tier-setting-grid id=tier-weights-boxdiv
-                div
-            div
+                <!-- Tier Weight Settings -->
+                <div class="panel">
+                    <div class="panel-title">
+                        <span>⚙️ 티어 가중치 점수</span>
+                        <button class="btn-icon" onclick="resetTierScores()">복원</button>
+                    </div>
+                    <div class="tier-setting-grid" id="tier-weights-box"></div>
+                </div>
+            </div>
 
-            !-- Right Column Player Management & Results --
-            div style=display flex; flex-direction column; gap 20px;
-                !-- Player Management Panel --
-                div class=panel
-                    div class=panel-title
-                        span👥 명단 제어 패널 small id=lbl-count style=colorvar(--accent-blue);(12명 필요)smallspan
-                    div
+            <!-- Right Column: Player Management & Results -->
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <!-- Player Management Panel -->
+                <div class="panel">
+                    <div class="panel-title">
+                        <span>👥 명단 제어 패널 <small id="lbl-count" style="color:var(--accent-blue);">(12명 필요)</small></span>
+                    </div>
 
-                    div class=player-tools
-                        input type=text class=form-control id=search-box placeholder=닉네임 검색... oninput=renderPlayerCards() style=width 180px;
-                        div
-                            button class=btn-icon onclick=toggleSelectAll(true)전체 선택button
-                            button class=btn-icon onclick=toggleSelectAll(false)전체 해제button
-                        div
-                    div
+                    <div class="player-tools">
+                        <input type="text" class="form-control" id="search-box" placeholder="닉네임 검색..." oninput="renderPlayerCards()" style="width: 180px;">
+                        <div>
+                            <button class="btn-icon" onclick="toggleSelectAll(true)">전체 선택</button>
+                            <button class="btn-icon" onclick="toggleSelectAll(false)">전체 해제</button>
+                        </div>
+                    </div>
 
-                    !-- Cards Container --
-                    div class=player-grid id=player-griddiv
-                div
+                    <!-- Cards Container -->
+                    <div class="player-grid" id="player-grid"></div>
+                </div>
 
-                !-- Match Results Panel --
-                div class=results-section id=results-section
-                    div class=panel
-                        div class=panel-title
-                            span🏆 생성된 팀 배치 결과span
-                            button class=btn-icon onclick=copyResults()📋 결과 복사button
-                        div
-                        div class=results-grid id=results-griddiv
-                    div
-                div
-            div
-        div
-    div
+                <!-- Match Results Panel -->
+                <div class="results-section" id="results-section">
+                    <div class="panel">
+                        <div class="panel-title">
+                            <span>🏆 생성된 팀 배치 결과</span>
+                            <button class="btn-icon" onclick="copyResults()">📋 결과 복사</button>
+                        </div>
+                        <div class="results-grid" id="results-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    script
+    <script>
         let currentMode = '6v6';
         let editId = null;
 
-         PNG 파일 경로 매핑
+        // PNG 파일 경로 매핑
         const tierImageUrls = {
-            브론즈 .imagesbronze.png,
-            실버 .imagessilver.png,
-            골드 .imagesgold.png,
-            플레 .imagesplatinum.png,
-            에메랄드 .imagesemerald.png,
-            다이아 .imagesdiamond.png,
-            마스터 .imagesmaster.png,
-            그마 .imagesgrandmaster.png,
-            챔피언 .imageschampion.png
+            "브론즈": "./images/bronze.png",
+            "실버": "./images/silver.png",
+            "골드": "./images/gold.png",
+            "플레": "./images/platinum.png",
+            "에메랄드": "./images/emerald.png",
+            "다이아": "./images/diamond.png",
+            "마스터": "./images/master.png",
+            "그마": "./images/grandmaster.png",
+            "챔피언": "./images/champion.png"
         };
 
         function getTierImgHtml(tierName) {
             const url = tierImageUrls[tierName];
             if (!url) return '';
-            return `img src=${url} class=tier-img-icon alt=${tierName}`;
+            return `<img src="${url}" class="tier-img-icon" alt="${tierName}">`;
         }
 
-        const defaultTierWeights = { 챔피언 9, 그마 8, 마스터 7, 다이아 6, 에메랄드 5, 플레 4, 골드 3, 실버 2, 브론즈 1 };
+        const defaultTierWeights = { "챔피언": 9, "그마": 8, "마스터": 7, "다이아": 6, "에메랄드": 5, "플레": 4, "골드": 3, "실버": 2, "브론즈": 1 };
 
         const initialPlayers = [
-            { id 0, name 히지키 (ヒジキ), roles { 탱 그마, 딜 마스터, 힐 마스터 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 1, name 찬빈 (チャンビン), roles { 탱 마스터, 딜 그마, 힐 그마 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 2, name 이라카 (イラカ), roles { 탱 다이아, 딜 플레, 힐 마스터 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 3, name 츄리 (チュリ), roles { 딜 다이아 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 4, name 스이소 (スイソ), roles { 탱 다이아, 딜 에메랄드, 힐 다이아 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 5, name 팽팽 (ペンペン), roles { 탱 플레, 딜 플레, 힐 플레 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 6, name 테루루 (テルル), roles { 탱 플레, 딜 플레, 힐 플레 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 7, name 유즈키 (ユズキ), roles { 탱 골드, 딜 골드, 힐 플레 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 8, name 봉래 (ホウライ), roles { 탱 플레, 딜 골드, 힐 골드 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 9, name 채연 (チェヨン), roles { 힐 플레 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 10, name 카이 (カイ), roles { 탱 플레, 딜 다이아, 힐 플레 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 11, name 사바 (サバ), roles { 탱 마스터, 딜 마스터 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 12, name 윤덕 (ユンドク), roles { 탱 다이아, 딜 마스터, 힐 다이아 }, fixedRole auto, fixedTeam auto, excludeRole none },
-            { id 13, name 유키 (ユキ), roles { 딜 골드, 힐 골드 }, fixedRole auto, fixedTeam auto, excludeRole none }
+            { id: 0, name: "히지키 (ヒジキ)", roles: { "탱": "그마", "딜": "마스터", "힐": "마스터" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 1, name: "찬빈 (チャンビン)", roles: { "탱": "마스터", "딜": "그마", "힐": "그마" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 2, name: "이라카 (イラカ)", roles: { "탱": "다이아", "딜": "플레", "힐": "마스터" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 3, name: "츄리 (チュリ)", roles: { "딜": "다이아" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 4, name: "스이소 (スイソ)", roles: { "탱": "다이아", "딜": "에메랄드", "힐": "다이아" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 5, name: "팽팽 (ペンペン)", roles: { "탱": "플레", "딜": "플레", "힐": "플레" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 6, name: "테루루 (テルル)", roles: { "탱": "플레", "딜": "플레", "힐": "플레" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 7, name: "유즈키 (ユズキ)", roles: { "탱": "골드", "딜": "골드", "힐": "플레" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 8, name: "봉래 (ホウライ)", roles: { "탱": "플레", "딜": "골드", "힐": "골드" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 9, name: "채연 (チェヨン)", roles: { "힐": "플레" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 10, name: "카이 (カイ)", roles: { "탱": "플레", "딜": "다이아", "힐": "플레" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 11, name: "사바 (サバ)", roles: { "탱": "마스터", "딜": "마스터" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 12, name: "윤덕 (ユンドク)", roles: { "탱": "다이아", "딜": "마스터", "힐": "다이아" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
+            { id: 13, name: "유키 (ユキ)", roles: { "딜": "골드", "힐": "골드" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" }
         ];
 
         let tierWeights = loadWeights();
@@ -554,24 +554,24 @@ body
         let lastResult = null;
 
         function saveStorage() {
-            localStorage.setItem(ow_pro_players_v5, JSON.stringify(players));
-            localStorage.setItem(ow_pro_weights_v5, JSON.stringify(tierWeights));
+            localStorage.setItem("ow_pro_players_v5", JSON.stringify(players));
+            localStorage.setItem("ow_pro_weights_v5", JSON.stringify(tierWeights));
         }
 
         function loadPlayers() {
-            const data = localStorage.getItem(ow_pro_players_v5);
-            return data  JSON.parse(data)  [...initialPlayers];
+            const data = localStorage.getItem("ow_pro_players_v5");
+            return data ? JSON.parse(data) : [...initialPlayers];
         }
 
         function loadWeights() {
-            const data = localStorage.getItem(ow_pro_weights_v5);
-            return data  JSON.parse(data)  { ...defaultTierWeights };
+            const data = localStorage.getItem("ow_pro_weights_v5");
+            return data ? JSON.parse(data) : { ...defaultTierWeights };
         }
 
         function resetAllData() {
-            if (confirm(모든 데이터를 초기 상태로 복구하시겠습니까)) {
-                localStorage.removeItem(ow_pro_players_v5);
-                localStorage.removeItem(ow_pro_weights_v5);
+            if (confirm("모든 데이터를 초기 상태로 복구하시겠습니까?")) {
+                localStorage.removeItem("ow_pro_players_v5");
+                localStorage.removeItem("ow_pro_weights_v5");
                 players = [...initialPlayers];
                 tierWeights = { ...defaultTierWeights };
                 renderTierWeights();
@@ -580,19 +580,19 @@ body
         }
 
         function renderTierWeights() {
-            const box = document.getElementById(tier-weights-box);
-            box.innerHTML = ;
-            Object.keys(tierWeights).forEach(t = {
-                const item = document.createElement(div);
-                item.className = tier-item;
+            const box = document.getElementById("tier-weights-box");
+            box.innerHTML = "";
+            Object.keys(tierWeights).forEach(t => {
+                const item = document.createElement("div");
+                item.className = "tier-item";
                 const imgHtml = getTierImgHtml(t);
-                item.innerHTML = `label${imgHtml} ${t}labelinput type=number value=${tierWeights[t]} onchange=updateWeight('${t}', this.value)`;
+                item.innerHTML = `<label>${imgHtml} ${t}</label><input type="number" value="${tierWeights[t]}" onchange="updateWeight('${t}', this.value)">`;
                 box.appendChild(item);
             });
         }
 
         function updateWeight(t, val) {
-            tierWeights[t] = parseInt(val)  0;
+            tierWeights[t] = parseInt(val) || 0;
             saveStorage();
         }
 
@@ -604,73 +604,73 @@ body
 
         function setMode(m) {
             currentMode = m;
-            document.querySelectorAll('.mode-btn').forEach(btn = btn.classList.remove('active'));
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`m-${m}`).classList.add('active');
             updateCountLabel();
         }
 
         function getTargetCount() {
-            return currentMode === '5v5'  10  (currentMode === '6v6'  12  15);
+            return currentMode === '5v5' ? 10 : (currentMode === '6v6' ? 12 : 15);
         }
 
         function updateCountLabel() {
             const target = getTargetCount();
-            const checked = document.querySelectorAll('#player-grid input[type=checkbox]checked').length;
-            const lbl = document.getElementById(lbl-count);
-            lbl.innerText = `(${checked}  ${target}명 선택됨)`;
-            lbl.style.color = checked === target  var(--accent-blue)  #f87171;
+            const checked = document.querySelectorAll('#player-grid input[type="checkbox"]:checked').length;
+            const lbl = document.getElementById("lbl-count");
+            lbl.innerText = `(${checked} / ${target}명 선택됨)`;
+            lbl.style.color = checked === target ? "var(--accent-blue)" : "#f87171";
         }
 
         function renderPlayerCards() {
-            const grid = document.getElementById(player-grid);
-            grid.innerHTML = ;
-            const search = document.getElementById(search-box).value.toLowerCase();
+            const grid = document.getElementById("player-grid");
+            grid.innerHTML = "";
+            const search = document.getElementById("search-box").value.toLowerCase();
             const targetCount = getTargetCount();
 
-            players.forEach((p, idx) = {
+            players.forEach((p, idx) => {
                 if (search && !p.name.toLowerCase().includes(search)) return;
 
-                const isChecked = idx  targetCount;
-                const card = document.createElement(div);
-                card.className = player-card;
+                const isChecked = idx < targetCount;
+                const card = document.createElement("div");
+                card.className = "player-card";
 
                 let badges = [];
-                if (p.roles[탱]) badges.push(`span class=badge tank${getTierImgHtml(p.roles[탱])} 탱${p.roles[탱]}span`);
-                if (p.roles[딜]) badges.push(`span class=badge dps${getTierImgHtml(p.roles[딜])} 딜${p.roles[딜]}span`);
-                if (p.roles[힐]) badges.push(`span class=badge sup${getTierImgHtml(p.roles[힐])} 힐${p.roles[힐]}span`);
+                if (p.roles["탱"]) badges.push(`<span class="badge tank">${getTierImgHtml(p.roles["탱"])} 탱:${p.roles["탱"]}</span>`);
+                if (p.roles["딜"]) badges.push(`<span class="badge dps">${getTierImgHtml(p.roles["딜"])} 딜:${p.roles["딜"]}</span>`);
+                if (p.roles["힐"]) badges.push(`<span class="badge sup">${getTierImgHtml(p.roles["힐"])} 힐:${p.roles["힐"]}</span>`);
 
                 card.innerHTML = `
-                    div class=card-header
-                        div class=card-user
-                            input type=checkbox id=c-${p.id} value=${p.id} ${isChecked  checked  } onchange=updateCountLabel()
-                            label for=c-${p.id} title=${p.name}${p.name}label
-                        div
-                        div class=card-actions
-                            button class=btn-icon onclick=editPlayer(${p.id})수정button
-                            button class=btn-icon onclick=deletePlayer(${p.id})삭제button
-                        div
-                    div
-                    div class=role-badges${badges.join()}div
-                    div class=card-options
-                        select onchange=updateOpt(${p.id}, 'fixedRole', this.value)
-                            option value=auto ${p.fixedRole === 'auto'  'selected'  ''}포지션자동option
-                            option value=탱 ${p.fixedRole === '탱'  'selected'  ''}🛡️ 탱 고정option
-                            option value=딜 ${p.fixedRole === '딜'  'selected'  ''}⚔️ 딜 고정option
-                            option value=힐 ${p.fixedRole === '힐'  'selected'  ''}🌿 힐 고정option
-                        select
-                        select onchange=updateOpt(${p.id}, 'excludeRole', this.value)
-                            option value=none ${p.excludeRole === 'none'  'selected'  ''}제외없음option
-                            option value=탱 ${p.excludeRole === '탱'  'selected'  ''}🚫 탱 제외option
-                            option value=딜 ${p.excludeRole === '딜'  'selected'  ''}🚫 딜 제외option
-                            option value=힐 ${p.excludeRole === '힐'  'selected'  ''}🚫 힐 제외option
-                        select
-                        select onchange=updateOpt(${p.id}, 'fixedTeam', this.value)
-                            option value=auto ${p.fixedTeam === 'auto'  'selected'  ''}팀자동option
-                            option value=A ${p.fixedTeam === 'A'  'selected'  ''}🔷 A팀option
-                            option value=B ${p.fixedTeam === 'B'  'selected'  ''}🔴 B팀option
-                            option value=C ${p.fixedTeam === 'C'  'selected'  ''}🟢 C팀option
-                        select
-                    div
+                    <div class="card-header">
+                        <div class="card-user">
+                            <input type="checkbox" id="c-${p.id}" value="${p.id}" ${isChecked ? "checked" : ""} onchange="updateCountLabel()">
+                            <label for="c-${p.id}" title="${p.name}">${p.name}</label>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-icon" onclick="editPlayer(${p.id})">수정</button>
+                            <button class="btn-icon" onclick="deletePlayer(${p.id})">삭제</button>
+                        </div>
+                    </div>
+                    <div class="role-badges">${badges.join("")}</div>
+                    <div class="card-options">
+                        <select onchange="updateOpt(${p.id}, 'fixedRole', this.value)">
+                            <option value="auto" ${p.fixedRole === 'auto' ? 'selected' : ''}>포지션:자동</option>
+                            <option value="탱" ${p.fixedRole === '탱' ? 'selected' : ''}>🛡️ 탱 고정</option>
+                            <option value="딜" ${p.fixedRole === '딜' ? 'selected' : ''}>⚔️ 딜 고정</option>
+                            <option value="힐" ${p.fixedRole === '힐' ? 'selected' : ''}>🌿 힐 고정</option>
+                        </select>
+                        <select onchange="updateOpt(${p.id}, 'excludeRole', this.value)">
+                            <option value="none" ${p.excludeRole === 'none' ? 'selected' : ''}>제외:없음</option>
+                            <option value="탱" ${p.excludeRole === '탱' ? 'selected' : ''}>🚫 탱 제외</option>
+                            <option value="딜" ${p.excludeRole === '딜' ? 'selected' : ''}>🚫 딜 제외</option>
+                            <option value="힐" ${p.excludeRole === '힐' ? 'selected' : ''}>🚫 힐 제외</option>
+                        </select>
+                        <select onchange="updateOpt(${p.id}, 'fixedTeam', this.value)">
+                            <option value="auto" ${p.fixedTeam === 'auto' ? 'selected' : ''}>팀:자동</option>
+                            <option value="A" ${p.fixedTeam === 'A' ? 'selected' : ''}>🔷 A팀</option>
+                            <option value="B" ${p.fixedTeam === 'B' ? 'selected' : ''}>🔴 B팀</option>
+                            <option value="C" ${p.fixedTeam === 'C' ? 'selected' : ''}>🟢 C팀</option>
+                        </select>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
@@ -678,70 +678,70 @@ body
         }
 
         function updateOpt(id, key, val) {
-            let p = players.find(x = x.id === id);
+            let p = players.find(x => x.id === id);
             if (p) { p[key] = val; saveStorage(); }
         }
 
         function toggleSelectAll(select) {
-            document.querySelectorAll('#player-grid input[type=checkbox]').forEach(c = c.checked = select);
+            document.querySelectorAll('#player-grid input[type="checkbox"]').forEach(c => c.checked = select);
             updateCountLabel();
         }
 
         function savePlayerForm() {
-            const name = document.getElementById(p-name).value.trim();
-            if (!name) return alert(선수 닉네임을 입력하세요!);
+            const name = document.getElementById("p-name").value.trim();
+            if (!name) return alert("선수 닉네임을 입력하세요!");
 
-            const tank = document.getElementById(p-tank).value;
-            const dps = document.getElementById(p-dps).value;
-            const sup = document.getElementById(p-sup).value;
+            const tank = document.getElementById("p-tank").value;
+            const dps = document.getElementById("p-dps").value;
+            const sup = document.getElementById("p-sup").value;
 
             let roles = {};
-            if (tank !== 'none') roles[탱] = tank;
-            if (dps !== 'none') roles[딜] = dps;
-            if (sup !== 'none') roles[힐] = sup;
+            if (tank !== 'none') roles["탱"] = tank;
+            if (dps !== 'none') roles["딜"] = dps;
+            if (sup !== 'none') roles["힐"] = sup;
 
-            if (Object.keys(roles).length === 0) return alert(최소 한 개 이상의 포지션 티어를 지정해야 합니다.);
+            if (Object.keys(roles).length === 0) return alert("최소 한 개 이상의 포지션 티어를 지정해야 합니다.");
 
             if (editId !== null) {
-                let p = players.find(x = x.id === editId);
+                let p = players.find(x => x.id === editId);
                 if (p) { p.name = name; p.roles = roles; }
                 editId = null;
-                document.getElementById(form-heading).innerText = ➕ 선수 새로 등록;
+                document.getElementById("form-heading").innerText = "➕ 선수 새로 등록";
             } else {
-                const newId = players.length  Math.max(...players.map(x = x.id)) + 1  0;
-                players.push({ id newId, name, roles, fixedRole auto, fixedTeam auto, excludeRole none });
+                const newId = players.length ? Math.max(...players.map(x => x.id)) + 1 : 0;
+                players.push({ id: newId, name, roles, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" });
             }
 
-            document.getElementById(p-name).value = ;
-            document.getElementById(p-tank).value = none;
-            document.getElementById(p-dps).value = none;
-            document.getElementById(p-sup).value = none;
+            document.getElementById("p-name").value = "";
+            document.getElementById("p-tank").value = "none";
+            document.getElementById("p-dps").value = "none";
+            document.getElementById("p-sup").value = "none";
 
             saveStorage();
             renderPlayerCards();
         }
 
         function editPlayer(id) {
-            let p = players.find(x = x.id === id);
+            let p = players.find(x => x.id === id);
             if (!p) return;
             editId = id;
-            document.getElementById(form-heading).innerText = `✏️ 선수 정보 수정 (${p.name})`;
-            document.getElementById(p-name).value = p.name;
-            document.getElementById(p-tank).value = p.roles[탱]  none;
-            document.getElementById(p-dps).value = p.roles[딜]  none;
-            document.getElementById(p-sup).value = p.roles[힐]  none;
+            document.getElementById("form-heading").innerText = `✏️ 선수 정보 수정 (${p.name})`;
+            document.getElementById("p-name").value = p.name;
+            document.getElementById("p-tank").value = p.roles["탱"] || "none";
+            document.getElementById("p-dps").value = p.roles["딜"] || "none";
+            document.getElementById("p-sup").value = p.roles["힐"] || "none";
         }
 
         function deletePlayer(id) {
-            players = players.filter(x = x.id !== id);
+            players = players.filter(x => x.id !== id);
             saveStorage();
             renderPlayerCards();
         }
 
         function getSelectedPlayers() {
             let selected = [];
-            document.querySelectorAll('#player-grid input[type=checkbox]checked').forEach(c = {
-                let p = players.find(x = x.id === parseInt(c.value));
+            document.querySelectorAll('#player-grid input[type="checkbox"]:checked').forEach(c => {
+                let p = players.find(x => x.id === parseInt(c.value));
                 if (p) selected.push(p);
             });
             return selected;
@@ -751,35 +751,35 @@ body
             const selected = getSelectedPlayers();
             const target = getTargetCount();
 
-            if (selected.length !== target) return alert(`${currentMode} 모드는 ${target}명이 필요합니다. (현재 ${selected.length}명)`);
+            if (selected.length !== target) return alert(`${currentMode} 모드는 ${target}명이 필요합니다. (현재: ${selected.length}명)`);
 
-            let res = currentMode === '5v5v5'  solve3(selected)  solve2(selected);
-            if (!res) return alert(고정 및 제외 조건으로 인해 밸런스를 맞출 수 없습니다.);
+            let res = currentMode === '5v5v5' ? solve3(selected) : solve2(selected);
+            if (!res) return alert("고정 및 제외 조건으로 인해 밸런스를 맞출 수 없습니다.");
 
             lastResult = res;
             displayResults(res);
         }
 
         function solve2(list) {
-            let reqTank = currentMode === '5v5'  1  2;
-            let teamSize = currentMode === '5v5'  5  6;
+            let reqTank = currentMode === '5v5' ? 1 : 2;
+            let teamSize = currentMode === '5v5' ? 5 : 6;
             let best = null, minDiff = 999;
 
-            for (let i = 0; i  4000; i++) {
-                let sh = [...list].sort(() = Math.random() - 0.5);
+            for (let i = 0; i < 4000; i++) {
+                let sh = [...list].sort(() => Math.random() - 0.5);
                 let tA = sh.slice(0, teamSize), tB = sh.slice(teamSize);
 
-                if (!validTeam(tA, 'A')  !validTeam(tB, 'B')) continue;
+                if (!validTeam(tA, 'A') || !validTeam(tB, 'B')) continue;
 
                 let aA = assignRoles(tA, reqTank, 2, 2);
                 let aB = assignRoles(tB, reqTank, 2, 2);
 
                 if (aA && aB) {
-                    let sA = aA.reduce((s, x) = s + x.score, 0);
-                    let sB = aB.reduce((s, x) = s + x.score, 0);
+                    let sA = aA.reduce((s, x) => s + x.score, 0);
+                    let sB = aB.reduce((s, x) => s + x.score, 0);
                     let diff = Math.abs(sA - sB);
 
-                    if (diff  minDiff) {
+                    if (diff < minDiff) {
                         minDiff = diff;
                         best = { aA, aB, sA, sB };
                         if (diff === 0) break;
@@ -792,27 +792,27 @@ body
         function solve3(list) {
             let best = null, minDiff = 999;
 
-            for (let i = 0; i  10000; i++) {
-                let sh = [...list].sort(() = Math.random() - 0.5);
+            for (let i = 0; i < 10000; i++) {
+                let sh = [...list].sort(() => Math.random() - 0.5);
                 let tA = sh.slice(0, 5), tB = sh.slice(5, 10), tC = sh.slice(10, 15);
 
-                if (!validTeam(tA, 'A')  !validTeam(tB, 'B')  !validTeam(tC, 'C')) continue;
+                if (!validTeam(tA, 'A') || !validTeam(tB, 'B') || !validTeam(tC, 'C')) continue;
 
                 let aA = assignRoles(tA, 1, 2, 2);
                 let aB = assignRoles(tB, 1, 2, 2);
                 let aC = assignRoles(tC, 1, 2, 2);
 
                 if (aA && aB && aC) {
-                    let sA = aA.reduce((s, x) = s + x.score, 0);
-                    let sB = aB.reduce((s, x) = s + x.score, 0);
-                    let sC = aC.reduce((s, x) = s + x.score, 0);
+                    let sA = aA.reduce((s, x) => s + x.score, 0);
+                    let sB = aB.reduce((s, x) => s + x.score, 0);
+                    let sC = aC.reduce((s, x) => s + x.score, 0);
 
                     let diff = Math.max(sA, sB, sC) - Math.min(sA, sB, sC);
 
-                    if (diff  minDiff) {
+                    if (diff < minDiff) {
                         minDiff = diff;
                         best = { aA, aB, aC, sA, sB, sC };
-                        if (diff = 1) break;
+                        if (diff <= 1) break;
                     }
                 }
             }
@@ -820,7 +820,7 @@ body
         }
 
         function validTeam(team, teamName) {
-            return team.every(p = p.fixedTeam === 'auto'  p.fixedTeam === teamName);
+            return team.every(p => p.fixedTeam === 'auto' || p.fixedTeam === teamName);
         }
 
         function assignRoles(team, reqT, reqD, reqS) {
@@ -832,18 +832,18 @@ body
                     return;
                 }
                 let p = team[idx];
-                let fixed = p.fixedRole  'auto';
-                let excl = p.excludeRole  'none';
+                let fixed = p.fixedRole || 'auto';
+                let excl = p.excludeRole || 'none';
 
                 let avail = Object.keys(p.roles);
-                if (fixed !== 'auto') avail = avail.includes(fixed)  [fixed]  [];
-                if (excl !== 'none') avail = avail.filter(r = r !== excl);
+                if (fixed !== 'auto') avail = avail.includes(fixed) ? [fixed] : [];
+                if (excl !== 'none') avail = avail.filter(r => r !== excl);
 
                 for (let r of avail) {
-                    let item = { p, role r, tier p.roles[r], score tierWeights[p.roles[r]]  0 };
-                    if (r === '탱' && t  reqT) dfs(idx + 1, t + 1, d, s, [...cur, item]);
-                    if (r === '딜' && d  reqD) dfs(idx + 1, t, d + 1, s, [...cur, item]);
-                    if (r === '힐' && s  reqS) dfs(idx + 1, t, d, s + 1, [...cur, item]);
+                    let item = { p, role: r, tier: p.roles[r], score: tierWeights[p.roles[r]] || 0 };
+                    if (r === '탱' && t < reqT) dfs(idx + 1, t + 1, d, s, [...cur, item]);
+                    if (r === '딜' && d < reqD) dfs(idx + 1, t, d + 1, s, [...cur, item]);
+                    if (r === '힐' && s < reqS) dfs(idx + 1, t, d, s + 1, [...cur, item]);
                 }
             }
             dfs(0, 0, 0, 0, []);
@@ -851,67 +851,67 @@ body
         }
 
         function displayResults(data) {
-            const sec = document.getElementById(results-section);
-            const grid = document.getElementById(results-grid);
-            sec.style.display = flex;
-            grid.innerHTML = ;
+            const sec = document.getElementById("results-section");
+            const grid = document.getElementById("results-grid");
+            sec.style.display = "flex";
+            grid.innerHTML = "";
 
-            grid.appendChild(buildTeamCard(a, 🔷 A팀, data.aA, data.sA));
-            grid.appendChild(buildTeamCard(b, 🔴 B팀, data.aB, data.sB));
-            if (data.aC) grid.appendChild(buildTeamCard(c, 🟢 C팀, data.aC, data.sC));
+            grid.appendChild(buildTeamCard("a", "🔷 A팀", data.aA, data.sA));
+            grid.appendChild(buildTeamCard("b", "🔴 B팀", data.aB, data.sB));
+            if (data.aC) grid.appendChild(buildTeamCard("c", "🟢 C팀", data.aC, data.sC));
 
-            sec.scrollIntoView({ behavior 'smooth' });
+            sec.scrollIntoView({ behavior: 'smooth' });
         }
 
         function buildTeamCard(type, title, list, score) {
-            const card = document.createElement(div);
+            const card = document.createElement("div");
             card.className = `team-card ${type}`;
 
-            const order = { 탱 1, 딜 2, 힐 3 };
-            list.sort((a, b) = order[a.role] - order[b.role]);
+            const order = { "탱": 1, "딜": 2, "힐": 3 };
+            list.sort((a, b) => order[a.role] - order[b.role]);
 
-            let itemsHtml = list.map(i = `
-                li class=team-item
-                    span class=player-tier-info
+            let itemsHtml = list.map(i => `
+                <li class="team-item">
+                    <span class="player-tier-info">
                         ${getTierImgHtml(i.tier)}
-                        strong${i.p.name}strong
-                        small style=colorvar(--text-sub);(${i.tier})small
-                    span
-                    span class=role-tag ${i.role}${i.role === '탱'  '🛡️'  (i.role === '딜'  '⚔️'  '🌿')} ${i.role}span
-                li
-            `).join();
+                        <strong>${i.p.name}</strong>
+                        <small style="color:var(--text-sub);">(${i.tier})</small>
+                    </span>
+                    <span class="role-tag ${i.role}">${i.role === '탱' ? '🛡️' : (i.role === '딜' ? '⚔️' : '🌿')} ${i.role}</span>
+                </li>
+            `).join("");
 
             card.innerHTML = `
-                div class=team-header
-                    span${title}span
-                    span style=colorvar(--accent-blue);${score}점span
-                div
-                ul class=team-list${itemsHtml}ul
+                <div class="team-header">
+                    <span>${title}</span>
+                    <span style="color:var(--accent-blue);">${score}점</span>
+                </div>
+                <ul class="team-list">${itemsHtml}</ul>
             `;
             return card;
         }
 
         function copyResults() {
             if (!lastResult) return;
-            let txt = `🎮 Overwatch Match Result (${currentMode})nn`;
+            let txt = `🎮 Overwatch Match Result (${currentMode})\n\n`;
 
             function format(name, list, score) {
-                let r = `[${name} - ${score}점]n`;
-                list.forEach(i = r += `- ${i.role} ${i.p.name} (${i.tier})n`);
-                return r + 'n';
+                let r = `[${name} - ${score}점]\n`;
+                list.forEach(i => r += `- ${i.role}: ${i.p.name} (${i.tier})\n`);
+                return r + '\n';
             }
 
-            txt += format(A팀, lastResult.aA, lastResult.sA);
-            txt += format(B팀, lastResult.aB, lastResult.sB);
-            if (lastResult.aC) txt += format(C팀, lastResult.aC, lastResult.sC);
+            txt += format("A팀", lastResult.aA, lastResult.sA);
+            txt += format("B팀", lastResult.aB, lastResult.sB);
+            if (lastResult.aC) txt += format("C팀", lastResult.aC, lastResult.sC);
 
-            navigator.clipboard.writeText(txt).then(() = alert(결과가 클립보드에 복사되었습니다!));
+            navigator.clipboard.writeText(txt).then(() => alert("결과가 클립보드에 복사되었습니다!"));
         }
 
         window.onload = function() {
             renderTierWeights();
             renderPlayerCards();
         };
-    script
-body
-html
+    </script>
+</body>
+</html>
