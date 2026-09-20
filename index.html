@@ -3,254 +3,469 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overwatch Matchmaker Pro 💙</title>
+    <title>Overwatch Matchmaker Pro - Bracket UI</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;800;900&display=swap');
 
         :root {
-            --bg-body: #0b0f19;
-            --panel-bg: rgba(22, 30, 46, 0.85);
-            --border-color: #2e3d5a;
-            --accent-blue: #38bdf8;
-            --accent-glow: rgba(56, 189, 248, 0.25);
-            --text-main: #f1f5f9;
-            --text-sub: #94a3b8;
+            --bg-body: #1e1b22;
+            --panel-bg: #282430;
+            --panel-sub-bg: #322d3d;
+            --panel-selected-bg: #3f2f45;
+            --border-color: #4c4456;
+            --border-selected: #f472b6;
+            --accent-pink: #f472b6;
+            --accent-rose: #fb7185;
+            --text-main: #f3e8ff;
+            --text-sub: #d8b4fe;
             --team-a: #38bdf8;
-            --team-b: #f87171;
+            --team-b: #fb7185;
             --team-c: #34d399;
+            --team-d: #a78bfa;
+            --team-e: #fb923c;
+            --team-f: #a855f7;
+            --team-g: #2dd4bf;
+            --team-h: #f43f5e;
         }
 
         body {
             font-family: 'Noto Sans KR', sans-serif;
             background-color: var(--bg-body);
-            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, var(--bg-body) 70%);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 0;
             min-height: 100vh;
             box-sizing: border-box;
         }
 
-        .container { max-width: 1400px; margin: 0 auto; }
-
-        /* Header */
-        .app-header {
+        .ow-navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            padding: 16px 24px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(12px);
+            background-color: var(--panel-bg);
+            border-bottom: 2px solid var(--border-color);
+            padding: 0 24px;
+            height: 54px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .app-title {
-            font-size: 24px;
+        .ow-logo-area {
             font-weight: 900;
-            color: var(--accent-blue);
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 16px;
+            color: var(--accent-rose);
+            letter-spacing: 0.5px;
         }
 
-        .app-title span { font-size: 13px; color: var(--text-sub); font-weight: 600; }
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 16px;
+        }
 
-        .btn-danger {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid #ef4444;
-            color: #f87171;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
+        .sub-tab-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background-color: var(--panel-bg);
+            padding: 8px;
+            border-radius: 14px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .sub-tab-btn {
+            background-color: transparent;
+            border: 1px solid transparent;
+            color: var(--text-sub);
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 900;
             cursor: pointer;
             transition: 0.2s;
         }
-        .btn-danger:hover { background: #ef4444; color: #fff; }
 
-        /* Main Split Layout */
-        .main-layout {
-            display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 20px;
+        .sub-tab-btn.active {
+            background-color: var(--accent-pink);
+            color: #1e1b22;
+            box-shadow: 0 4px 12px rgba(244, 114, 182, 0.3);
         }
 
-        @media (max-width: 900px) {
+        .main-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
             .main-layout { grid-template-columns: 1fr; }
         }
 
         .panel {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
+            background-color: var(--panel-bg);
+            border: 2px solid var(--border-color);
             border-radius: 16px;
-            padding: 20px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 18px;
+            position: relative;
+            margin-bottom: 16px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .panel:last-child {
+            margin-bottom: 0;
         }
 
         .panel-title {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--accent-blue);
+            font-size: 14px;
+            font-weight: 900;
+            color: var(--accent-rose);
             margin-top: 0;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border-color);
         }
 
-        /* Form Controls */
         .mode-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .mode-btn-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
         }
 
         .mode-btn {
-            background: #111827;
-            border: 1px solid var(--border-color);
+            background-color: var(--panel-sub-bg);
+            border: 2px solid var(--border-color);
             color: var(--text-sub);
-            padding: 10px 0;
+            padding: 8px 12px;
             border-radius: 10px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 800;
             cursor: pointer;
             transition: 0.2s;
         }
 
         .mode-btn.active {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-            color: #0b0f19;
-            box-shadow: 0 0 15px var(--accent-glow);
+            background-color: var(--accent-pink);
+            border-color: var(--accent-pink);
+            color: #1e1b22;
+            box-shadow: 0 4px 10px rgba(244, 114, 182, 0.3);
+        }
+
+        .mode-delete-btn {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background-color: #fb7185;
+            color: #1e1b22;
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 16px;
+            gap: 5px;
+            margin-bottom: 12px;
         }
 
-        .input-group label { font-size: 12px; font-weight: 700; color: var(--text-sub); }
+        .input-group label { font-size: 11px; font-weight: 800; color: var(--text-sub); }
 
         .form-control {
-            background: #0f172a;
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 13px;
+            background-color: var(--panel-sub-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 10px;
+            border-radius: 10px;
+            font-size: 12px;
             font-family: inherit;
             outline: none;
+            transition: 0.2s;
         }
-        .form-control:focus { border-color: var(--accent-blue); }
+        .form-control:focus { border-color: var(--accent-pink); background-color: #282430; }
 
         .role-tier-inputs {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 16px;
+            gap: 6px;
+            margin-bottom: 12px;
         }
 
         .btn-primary {
             width: 100%;
-            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            background-color: var(--accent-pink);
             border: none;
-            color: #0b0f19;
+            color: #1e1b22;
             padding: 12px;
-            border-radius: 10px;
-            font-size: 15px;
+            border-radius: 12px;
+            font-size: 14px;
             font-weight: 900;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 114, 182, 0.3);
             transition: 0.2s;
-            box-shadow: 0 4px 15px var(--accent-glow);
         }
-        .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.1); }
+        .btn-primary:hover { background-color: var(--accent-rose); transform: translateY(-1px); }
 
-        /* Tier Settings Grid */
+        .btn-secondary {
+            background-color: var(--panel-sub-bg);
+            border: 2px solid var(--border-color);
+            color: var(--accent-rose);
+            padding: 8px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-secondary:hover { background-color: #3e384b; }
+
         .tier-setting-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 6px;
-            margin-top: 10px;
+            margin-top: 6px;
         }
 
         .tier-item {
-            background: #0f172a;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 6px;
+            background-color: var(--panel-sub-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
 
         .tier-item label { 
             font-size: 11px; 
             font-weight: 800; 
-            color: #cbd5e1; 
+            color: var(--text-main); 
             display: flex; 
             align-items: center; 
-            gap: 4px; 
+            gap: 5px; 
         }
 
-        .tier-item input {
-            width: 36px;
+        .tier-item input[type="text"] {
+            width: 42px;
             text-align: center;
-            background: transparent;
-            border: 1px solid #334155;
-            color: var(--accent-blue);
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 800;
+            background-color: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            color: var(--accent-rose);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 900;
+            outline: none;
+            padding: 3px 0;
         }
 
-        /* Tier PNG Image Styles */
+        .custom-size-input {
+            width: 100%;
+            text-align: center;
+            background-color: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            outline: none;
+            box-sizing: border-box;
+        }
+
         .tier-img-icon {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             object-fit: contain;
             vertical-align: middle;
             flex-shrink: 0;
         }
 
-        /* Player Cards Grid */
+        .role-img-icon {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            vertical-align: middle;
+            flex-shrink: 0;
+        }
+
+        .team-icon-small {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
+        .custom-tier-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .custom-tier-btn {
+            background-color: var(--panel-sub-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px;
+            border-radius: 10px;
+            font-size: 12px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            height: 38px;
+            box-sizing: border-box;
+        }
+        .custom-tier-btn:hover { border-color: var(--accent-pink); }
+
+        .custom-tier-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 260px;
+            background-color: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            margin-top: 6px;
+            display: none;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            padding: 8px;
+            z-index: 200;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+
+        .custom-tier-dropdown.show { display: grid; }
+
+        .custom-tier-option {
+            padding: 6px 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            background-color: var(--panel-sub-bg);
+        }
+        .custom-tier-option:hover { border-color: var(--accent-pink); background-color: #3e384b; }
+
+        .team-select-wrapper {
+            position: relative;
+            flex: 1;
+        }
+
+        .team-select-btn {
+            background-color: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 800;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+        .team-select-btn:hover { border-color: var(--accent-pink); }
+
+        .team-select-dropdown {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 4px;
+            display: none;
+            flex-direction: column;
+            gap: 2px;
+            padding: 4px;
+            z-index: 200;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+
+        .team-select-dropdown.show { display: flex; }
+
+        .team-select-option {
+            padding: 6px 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-main);
+            background-color: var(--panel-sub-bg);
+        }
+        .team-select-option:hover { background-color: #3e384b; color: var(--accent-pink); }
+
         .player-tools {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 16px;
+            gap: 8px;
+            margin-bottom: 14px;
         }
 
         .player-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 12px;
-            max-height: 520px;
+            max-height: 580px;
             overflow-y: auto;
             padding-right: 4px;
         }
 
         .player-card {
-            background: #111827;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px;
+            background-color: var(--panel-sub-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            transition: 0.2s;
+            justify-content: space-between;
+            min-height: 145px;
+            height: auto;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: 0.15s ease-in-out;
+            overflow: visible;
         }
-        .player-card:hover { border-color: var(--accent-blue); }
+        .player-card:hover { border-color: var(--accent-pink); }
+
+        .player-card.selected {
+            background-color: var(--panel-selected-bg);
+            border-color: var(--border-selected);
+            box-shadow: 0 4px 12px rgba(244, 114, 182, 0.15);
+        }
 
         .card-header {
             display: flex;
@@ -264,243 +479,338 @@
             gap: 8px;
             flex: 1;
             min-width: 0;
-        }
-
-        .card-user input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            accent-color: var(--accent-blue);
-            cursor: pointer;
+            pointer-events: none;
         }
 
         .card-user label {
             font-size: 14px;
-            font-weight: 800;
-            color: #fff;
+            font-weight: 900;
+            color: var(--text-main);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            cursor: pointer;
+            pointer-events: none;
         }
 
-        .card-actions { display: flex; gap: 4px; }
+        .card-actions { 
+            display: flex; 
+            gap: 4px; 
+            pointer-events: auto; 
+        }
+
         .btn-icon {
-            background: transparent;
-            border: 1px solid var(--border-color);
+            background-color: var(--panel-bg);
+            border: 2px solid var(--border-color);
             color: var(--text-sub);
-            padding: 2px 6px;
-            border-radius: 4px;
+            padding: 4px 8px;
+            border-radius: 6px;
             font-size: 11px;
+            font-weight: 800;
             cursor: pointer;
         }
-        .btn-icon:hover { border-color: var(--accent-blue); color: #fff; }
+        .btn-icon:hover { border-color: var(--accent-pink); color: var(--text-main); background-color: var(--panel-sub-bg); }
 
         .role-badges {
             display: flex;
             gap: 6px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 800;
             flex-wrap: wrap;
+            pointer-events: none;
         }
 
         .badge {
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: #1e293b;
-            color: var(--text-sub);
+            padding: 6px 10px;
+            border-radius: 10px;
+            background-color: var(--panel-bg);
+            color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 4px;
-        }
-        .badge.tank { border-left: 3px solid var(--accent-blue); }
-        .badge.dps { border-left: 3px solid #f87171; }
-        .badge.sup { border-left: 3px solid #34d399; }
-
-        .card-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-        }
-
-        .card-options select {
-            background: #0f172a;
-            border: 1px solid var(--border-color);
-            color: var(--text-sub);
-            font-size: 10.5px;
-            font-weight: 700;
-            padding: 4px 2px;
-            border-radius: 6px;
-            outline: none;
+            gap: 8px;
             cursor: pointer;
-            text-align: center;
+            border: 2px solid var(--border-color);
+            pointer-events: auto;
         }
 
-        /* Results Display */
+        .badge:hover { filter: brightness(1.1); }
+        .badge.excluded { opacity: 0.3; filter: grayscale(1); background-color: #1e1b22; }
+
         .results-section {
             margin-top: 20px;
             display: none;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
         }
 
         .results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 16px;
+            align-items: start;
+        }
+
+        @media (max-width: 1100px) {
+            .results-grid { grid-template-columns: 1fr; }
         }
 
         .team-card {
-            background: #111827;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
+            background-color: var(--panel-sub-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
             padding: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            box-sizing: border-box;
         }
-        .team-card.a { border-top: 4px solid var(--team-a); }
-        .team-card.b { border-top: 4px solid var(--team-b); }
-        .team-card.c { border-top: 4px solid var(--team-c); }
+        .team-card.a { border-top: 6px solid var(--team-a); }
+        .team-card.b { border-top: 6px solid var(--team-b); }
+        .team-card.c { border-top: 6px solid var(--team-c); }
+        .team-card.d { border-top: 6px solid var(--team-d); }
+        .team-card.e { border-top: 6px solid var(--team-e); }
+        .team-card.f { border-top: 6px solid var(--team-f); }
+        .team-card.g { border-top: 6px solid var(--team-g); }
+        .team-card.h { border-top: 6px solid var(--team-h); }
 
         .team-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 900;
             margin-bottom: 12px;
             padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+            color: var(--text-main);
         }
 
-        .team-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+        .team-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
         .team-item {
-            background: #0f172a;
-            padding: 8px 12px;
-            border-radius: 8px;
+            background-color: var(--panel-bg);
+            padding: 10px 12px;
+            border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 13px;
+            border: 2px solid var(--border-color);
+            color: var(--text-main);
         }
 
-        .player-tier-info { display: flex; align-items: center; gap: 6px; }
+        .player-tier-info { display: flex; align-items: center; gap: 8px; font-weight: 800; }
+        .player-role-info { display: flex; align-items: center; gap: 4px; font-weight: 900; }
 
-        .role-tag { font-weight: 800; }
-        .role-tag.탱 { color: var(--team-a); }
-        .role-tag.딜 { color: var(--team-b); }
-        .role-tag.힐 { color: var(--team-c); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .bracket-grid-container {
+            position: relative;
+            display: grid;
+            grid-template-columns: 240px 70px 240px;
+            grid-template-rows: auto 45px auto;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 10px;
+            overflow-x: auto;
+        }
+
+        .bracket-node {
+            background-color: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 2;
+            width: 230px;
+        }
+
+        .bracket-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            background-color: var(--panel-sub-bg);
+            font-size: 14px;
+            font-weight: 900;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .bracket-row:last-child { border-bottom: none; }
+        .bracket-row:hover { background-color: #3e384b; }
+        .bracket-row.winner {
+            background-color: var(--panel-selected-bg);
+            border-left: 4px solid var(--accent-pink);
+            color: var(--accent-pink);
+        }
+
+        .bracket-svg-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bracket-svg-lines path {
+            fill: none;
+            stroke: var(--border-color);
+            stroke-width: 3px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
     </style>
 </head>
 <body>
+    <nav class="ow-navbar">
+        <div class="ow-logo-area">Overwatch</div>
+        <button class="btn-icon" onclick="resetAllData()">데이터 초기화</button>
+    </nav>
+
     <div class="container">
-        <!-- App Header -->
-        <header class="app-header">
-            <h1 class="app-title">🎮 Overwatch Matchmaker <span>Pro System</span></h1>
-            <button class="btn-danger" onclick="resetAllData()">데이터 초기화</button>
-        </header>
+        <!-- 상단 탭 네비게이션 -->
+        <div class="sub-tab-bar">
+            <button class="sub-tab-btn active" id="tab-player-btn" onclick="switchTab('player')">👤 플레이어 관리</button>
+            <button class="sub-tab-btn" id="tab-match-btn" onclick="switchTab('match')">⚔️ 내전 매치</button>
+            <button class="sub-tab-btn" id="tab-tourney-btn" onclick="switchTab('tourney')">🏆 토너먼트</button>
+        </div>
 
-        <!-- Main Content (2-Column Layout) -->
-        <div class="main-layout">
-            <!-- Left Column: Controls & Add Player -->
-            <div style="display: flex; flex-direction: column; gap: 20px;">
-                <!-- Match Mode & Execution -->
-                <div class="panel">
-                    <div class="panel-title">⚡ 대전 모드 선택</div>
-                    <div class="mode-grid">
-                        <button class="mode-btn" id="m-5v5" onclick="setMode('5v5')">5v5</button>
-                        <button class="mode-btn active" id="m-6v6" onclick="setMode('6v6')">6v6</button>
-                        <button class="mode-btn" id="m-5v5v5" onclick="setMode('5v5v5')">5v5v5</button>
-                    </div>
-                    <button class="btn-primary" onclick="generateTeams()">팀 균등 랜덤 생성 🚀</button>
-                </div>
-
-                <!-- Add Player -->
-                <div class="panel">
-                    <div class="panel-title" id="form-heading">➕ 선수 새로 등록</div>
-                    <div class="input-group">
-                        <label>선수 닉네임</label>
-                        <input type="text" id="p-name" class="form-control" placeholder="예: 홍길동">
-                    </div>
-                    <div class="input-group">
-                        <label>포지션별 티어 설정</label>
-                        <div class="role-tier-inputs">
-                            <select id="p-tank" class="form-control">
-                                <option value="none">탱: 없음</option>
-                                <option value="챔피언">챔피언</option>
-                                <option value="그마">그마</option>
-                                <option value="마스터">마스터</option>
-                                <option value="다이아">다이아</option>
-                                <option value="에메랄드">에메랄드</option>
-                                <option value="플레">플레</option>
-                                <option value="골드">골드</option>
-                                <option value="실버">실버</option>
-                                <option value="브론즈">브론즈</option>
-                            </select>
-                            <select id="p-dps" class="form-control">
-                                <option value="none">딜: 없음</option>
-                                <option value="챔피언">챔피언</option>
-                                <option value="그마">그마</option>
-                                <option value="마스터">마스터</option>
-                                <option value="다이아">다이아</option>
-                                <option value="에메랄드">에메랄드</option>
-                                <option value="플레">플레</option>
-                                <option value="골드">골드</option>
-                                <option value="실버">실버</option>
-                                <option value="브론즈">브론즈</option>
-                            </select>
-                            <select id="p-sup" class="form-control">
-                                <option value="none">힐: 없음</option>
-                                <option value="챔피언">챔피언</option>
-                                <option value="그마">그마</option>
-                                <option value="마스터">마스터</option>
-                                <option value="다이아">다이아</option>
-                                <option value="에메랄드">에메랄드</option>
-                                <option value="플레">플레</option>
-                                <option value="골드">골드</option>
-                                <option value="실버">실버</option>
-                                <option value="브론즈">브론즈</option>
-                            </select>
+        <!-- 1. 플레이어 관리 탭 화면 -->
+        <div id="tab-content-player" class="tab-content active">
+            <div class="main-layout">
+                <div>
+                    <div class="panel">
+                        <div class="panel-title">➕ 선수 새로 등록</div>
+                        <div class="input-group">
+                            <label>선수 닉네임</label>
+                            <input type="text" id="p-name" class="form-control" placeholder="예: 홍길동">
                         </div>
-                    </div>
-                    <button class="btn-primary" style="background: #334155; color: #fff;" id="btn-save-p" onclick="savePlayerForm()">선수 저장하기</button>
-                </div>
-
-                <!-- Tier Weight Settings -->
-                <div class="panel">
-                    <div class="panel-title">
-                        <span>⚙️ 티어 가중치 점수</span>
-                        <button class="btn-icon" onclick="resetTierScores()">복원</button>
-                    </div>
-                    <div class="tier-setting-grid" id="tier-weights-box"></div>
-                </div>
-            </div>
-
-            <!-- Right Column: Player Management & Results -->
-            <div style="display: flex; flex-direction: column; gap: 20px;">
-                <!-- Player Management Panel -->
-                <div class="panel">
-                    <div class="panel-title">
-                        <span>👥 명단 제어 패널 <small id="lbl-count" style="color:var(--accent-blue);">(12명 필요)</small></span>
-                    </div>
-
-                    <div class="player-tools">
-                        <input type="text" class="form-control" id="search-box" placeholder="닉네임 검색..." oninput="renderPlayerCards()" style="width: 180px;">
-                        <div>
-                            <button class="btn-icon" onclick="toggleSelectAll(true)">전체 선택</button>
-                            <button class="btn-icon" onclick="toggleSelectAll(false)">전체 해제</button>
+                        <div class="input-group">
+                            <label>포지션별 티어 설정</label>
+                            <div class="role-tier-inputs" id="add-player-tiers"></div>
                         </div>
+                        <button class="btn-secondary" style="width:100%;" onclick="saveNewPlayer()">선수 등록하기</button>
                     </div>
 
-                    <!-- Cards Container -->
-                    <div class="player-grid" id="player-grid"></div>
-                </div>
-
-                <!-- Match Results Panel -->
-                <div class="results-section" id="results-section">
                     <div class="panel">
                         <div class="panel-title">
-                            <span>🏆 생성된 팀 배치 결과</span>
-                            <button class="btn-icon" onclick="copyResults()">📋 결과 복사</button>
+                            <span>⚙️ 티어 가중치 점수</span>
+                            <button class="btn-icon" onclick="resetTierScores()">기본값</button>
                         </div>
-                        <div class="results-grid" id="results-grid"></div>
+                        <div class="tier-setting-grid" id="tier-weights-box"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="panel">
+                        <div class="panel-title">
+                            <span>👥 전체 선수 명단 관리 <small id="lbl-count" style="color:var(--accent-rose);">(12명 필요)</small></span>
+                        </div>
+
+                        <div class="player-tools">
+                            <input type="text" class="form-control" id="search-box" placeholder="닉네임 검색..." oninput="renderPlayerCards()" style="width: 160px;">
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn-secondary" style="padding: 5px 8px; font-size: 10px;" onclick="toggleSelectAll(true)">전체 선택</button>
+                                <button class="btn-secondary" style="padding: 5px 8px; font-size: 10px;" onclick="toggleSelectAll(false)">전체 해제</button>
+                            </div>
+                        </div>
+
+                        <div class="player-grid" id="player-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 내전 매치 탭 화면 -->
+        <div id="tab-content-match" class="tab-content">
+            <div class="main-layout">
+                <div>
+                    <div class="panel">
+                        <div class="panel-title">⚡ 대전 모드 선택</div>
+                        <div class="mode-grid" id="mode-grid"></div>
+                        
+                        <div style="background-color: var(--panel-sub-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+                            <label style="font-size: 10px; font-weight: 800; color: var(--accent-rose); display: block; margin-bottom: 5px;">➕ 커스텀 모드 만들기 (팀별 인원 설정)</label>
+                            <div class="input-group" style="margin-bottom: 8px;">
+                                <label>모드 이름</label>
+                                <input type="text" id="new-mode-name" class="form-control" placeholder="예: 4팀 난전 (4v4v4v4)">
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 10px;">
+                                <div class="input-group" style="margin-bottom:0;">
+                                    <label style="font-size:9px;">A팀</label>
+                                    <input type="text" id="team-a-size" class="custom-size-input" value="5">
+                                </div>
+                                <div class="input-group" style="margin-bottom:0;">
+                                    <label style="font-size:9px;">B팀</label>
+                                    <input type="text" id="team-b-size" class="custom-size-input" value="5">
+                                </div>
+                                <div class="input-group" style="margin-bottom:0;">
+                                    <label style="font-size:9px;">C팀</label>
+                                    <input type="text" id="team-c-size" class="custom-size-input" value="0">
+                                </div>
+                                <div class="input-group" style="margin-bottom:0;">
+                                    <label style="font-size:9px;">D팀</label>
+                                    <input type="text" id="team-d-size" class="custom-size-input" value="0">
+                                </div>
+                            </div>
+
+                            <button class="btn-secondary" style="width:100%; padding: 7px;" onclick="addNewCustomMode()">커스텀 모드 생성</button>
+                        </div>
+
+                        <button class="btn-primary" onclick="generateTeams()">Random 매치 돌리기 🎲</button>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="results-section" id="results-section" style="display: flex; margin-top: 0;">
+                        <div class="panel" style="width: 100%;">
+                            <div class="panel-title">
+                                <span>🏆 생성된 팀 배치 결과</span>
+                                <button class="btn-secondary" style="padding: 5px 8px; font-size: 10px;" onclick="copyResults()">📋 결과 복사</button>
+                            </div>
+                            <div class="results-grid" id="results-grid">
+                                <div style="text-align: center; color: var(--text-sub); padding: 40px; font-weight: 800; grid-column: 1 / -1;">
+                                    좌측에서 모드를 선택하고 'Random 매치 돌리기' 버튼을 눌러주세요!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 토너먼트 탭 화면 -->
+        <div id="tab-content-tourney" class="tab-content">
+            <div class="panel">
+                <div class="panel-title">
+                    <span>🏆 토너먼트 대진표 관리</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: center; margin-bottom: 14px;">
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <label>토너먼트 포맷 (팀당 인원)</label>
+                        <select id="tourney-team-size" class="form-control">
+                            <option value="5">5v5 토너먼트</option>
+                            <option value="6" selected>6v6 토너먼트</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <label>참가 팀 수 선택</label>
+                        <select id="tourney-team-count" class="form-control">
+                            <option value="3">3팀 토너먼트 (패자부활전 포함)</option>
+                            <option value="4">4팀 토너먼트 (준결승 → 결승)</option>
+                            <option value="8">8팀 토너먼트 (8강 → 준결승 → 결승)</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary" style="width: auto; padding: 10px 20px; font-size: 12px; margin-top: 17px;" onclick="startTournament()">대진표 생성 🚀</button>
+                </div>
+                <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 14px;">
+                    * 팀을 클릭하여 승리 팀을 결정하면 꺾은선 브래킷을 따라 자동으로 진출합니다. (대진표에는 팀원과 점수가 표시되지 않습니다)
+                </div>
+                <div class="tournament-bracket" id="tournament-bracket-area">
+                    <div style="text-align: center; color: var(--text-sub); padding: 40px; font-weight: 800;">
+                        상단에서 포맷을 설정하고 대진표를 생성해 주세요!
                     </div>
                 </div>
             </div>
@@ -508,45 +818,244 @@
     </div>
 
     <script>
-        let currentMode = '6v6';
-        let editId = null;
-
-        // 이미지들이 index.html과 같은 위치에 있으므로 경로 수정 완료
         const tierImageUrls = {
-            "브론즈": "./bronze.png",
-            "실버": "./silver.png",
-            "골드": "./gold.png",
-            "플레": "./platinum.png",
-            "에메랄드": "./emerald.png",
-            "다이아": "./diamond.png",
-            "마스터": "./master.png",
-            "그마": "./grandmaster.png",
-            "챔피언": "./champion.png"
+            "브론즈": "./bronze.png", "실버": "./silver.png", "골드": "./gold.png",
+            "플레": "./platinum.png", "에메랄드": "./emerald.png", "다이아": "./diamond.png",
+            "마스터": "./master.png", "그마": "./grandmaster.png", "챔피언": "./champion.png"
         };
+
+        const roleImageUrls = {
+            "탱": "./role_tank.png", "딜": "./role_dps.png", "힐": "./role_support.png"
+        };
+
+        const teamImageUrls = {
+            "auto": "./team_auto.png",
+            "A": "./team_a.png", "B": "./team_b.png", "C": "./team_c.png", "D": "./team_d.png",
+            "E": "./team_e.png", "F": "./team_f.png", "G": "./team_g.png", "H": "./team_h.png"
+        };
+
+        const teamNamesList = ['A팀', 'B팀', 'C팀', 'D팀', 'E팀', 'F팀', 'G팀', 'H팀'];
+        const teamKeysList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
+        const tiersList = ["챔피언", "그마", "마스터", "다이아", "에메랄드", "플레", "골드", "실버", "브론즈"];
+
+        let defaultModes = [
+            { id: '5v5', name: '5v5', teamSizes: [5, 5], isDefault: true },
+            { id: '6v6', name: '6v6', teamSizes: [6, 6], isDefault: true },
+            { id: '5v5v5', name: '5v5v5', teamSizes: [5, 5, 5], isDefault: true }
+        ];
+
+        let customModes = loadCustomModes();
+        let currentModeId = '6v6';
+        let editingId = null;
+        let tournamentState = null;
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if (tabName === 'player') {
+                document.getElementById('tab-player-btn').classList.add('active');
+                document.getElementById('tab-content-player').classList.add('active');
+            } else if (tabName === 'match') {
+                document.getElementById('tab-match-btn').classList.add('active');
+                document.getElementById('tab-content-match').classList.add('active');
+            } else if (tabName === 'tourney') {
+                document.getElementById('tab-tourney-btn').classList.add('active');
+                document.getElementById('tab-content-tourney').classList.add('active');
+            }
+        }
+
+        function loadCustomModes() {
+            const data = localStorage.getItem("ow_pro_custom_modes_v31");
+            return data ? JSON.parse(data) : [...defaultModes];
+        }
+
+        function saveCustomModesStorage() {
+            localStorage.setItem("ow_pro_custom_modes_v31", JSON.stringify(customModes));
+        }
+
+        function getTeamImgHtml(teamKey) {
+            const url = teamImageUrls[teamKey];
+            if (!url) return '';
+            return `<img src="${url}" class="team-icon-small" alt="${teamKey}">`;
+        }
+
+        function renderModes() {
+            const grid = document.getElementById("mode-grid");
+            if (!grid) return;
+            grid.innerHTML = "";
+            customModes.forEach(m => {
+                const wrapper = document.createElement("div");
+                wrapper.className = "mode-btn-wrapper";
+
+                const btn = document.createElement("button");
+                btn.className = `mode-btn ${currentModeId === m.id ? 'active' : ''}`;
+                btn.innerText = m.name;
+                btn.onclick = () => setMode(m.id);
+                wrapper.appendChild(btn);
+
+                if (!m.isDefault) {
+                    const delBtn = document.createElement("button");
+                    delBtn.className = "mode-delete-btn";
+                    delBtn.innerText = "×";
+                    delBtn.title = "모드 삭제";
+                    delBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        deleteCustomMode(m.id);
+                    };
+                    wrapper.appendChild(delBtn);
+                }
+                grid.appendChild(wrapper);
+            });
+            updateCountLabel();
+        }
+
+        function addNewCustomMode() {
+            const name = document.getElementById("new-mode-name").value.trim();
+            const a = parseFloat(document.getElementById("team-a-size").value) || 0;
+            const b = parseFloat(document.getElementById("team-b-size").value) || 0;
+            const c = parseFloat(document.getElementById("team-c-size").value) || 0;
+            const d = parseFloat(document.getElementById("team-d-size").value) || 0;
+
+            if (!name) return alert("모드 이름을 입력하세요!");
+            
+            let teamSizes = [];
+            if (a > 0) teamSizes.push(a);
+            if (b > 0) teamSizes.push(b);
+            if (c > 0) teamSizes.push(c);
+            if (d > 0) teamSizes.push(d);
+
+            if (teamSizes.length < 2) return alert("최소 2개 이상의 팀에 인원이 설정되어야 합니다.");
+
+            const id = 'custom_' + Date.now();
+            customModes.push({ id, name, teamSizes, isDefault: false });
+            saveCustomModesStorage();
+
+            document.getElementById("new-mode-name").value = "";
+            renderModes();
+            setMode(id);
+        }
+
+        function deleteCustomMode(id) {
+            if (customModes.length <= 1) return alert("최소 한 개의 모드는 존재해야 합니다.");
+            customModes = customModes.filter(m => m.id !== id);
+            saveCustomModesStorage();
+            if (currentModeId === id) {
+                currentModeId = customModes[0].id;
+            }
+            renderModes();
+            renderPlayerCards();
+        }
+
+        function setMode(id) {
+            currentModeId = id;
+            renderModes();
+            renderPlayerCards();
+        }
+
+        function getCurrentModeObj() {
+            return customModes.find(m => m.id === currentModeId) || customModes[0];
+        }
+
+        function getTargetCount() {
+            const mode = getCurrentModeObj();
+            return mode.teamSizes.reduce((sum, val) => sum + val, 0);
+        }
 
         function getTierImgHtml(tierName) {
             const url = tierImageUrls[tierName];
             if (!url) return '';
-            return `<img src="${url}" class="tier-img-icon" alt="${tierName}">`;
+            return `<img src="${url}" class="tier-img-icon" alt="${tierName}" title="${tierName}">`;
         }
+
+        function getRoleImgHtml(roleName) {
+            const url = roleImageUrls[roleName];
+            if (!url) return '';
+            return `<img src="${url}" class="role-img-icon" alt="${roleName}">`;
+        }
+
+        function createCustomTierSelect(prefix, roleKey, currentTier) {
+            let optionsHtml = `<div class="custom-tier-option" onclick="selectTier(event, '${prefix}', '${roleKey}', 'none')" title="없음"><span style="font-size:10px; color:var(--text-sub); font-weight:800;">없음</span></div>`;
+            tiersList.forEach(t => {
+                optionsHtml += `
+                    <div class="custom-tier-option" onclick="selectTier(event, '${prefix}', '${roleKey}', '${t}')">
+                        ${getTierImgHtml(t)}
+                    </div>
+                `;
+            });
+            let currentDisplay = currentTier && currentTier !== 'none' ? `${getTierImgHtml(currentTier)}` : `<span style="font-size:11px; color:var(--text-sub);">없음</span>`;
+            return `
+                <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+                    ${getRoleImgHtml(roleKey)}
+                    <div class="custom-tier-select-wrapper">
+                        <div class="custom-tier-btn" id="${prefix}-btn-${roleKey}" onclick="toggleCustomDropdown(event, '${prefix}', '${roleKey}')">
+                            ${currentDisplay}
+                        </div>
+                        <div class="custom-tier-dropdown" id="${prefix}-dropdown-${roleKey}">
+                            ${optionsHtml}
+                        </div>
+                        <input type="hidden" id="${prefix}-val-${roleKey}" value="${currentTier || 'none'}">
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleCustomDropdown(e, prefix, roleKey) {
+            e.stopPropagation();
+            document.querySelectorAll('.custom-tier-dropdown').forEach(d => {
+                if (d.id !== `${prefix}-dropdown-${roleKey}`) d.classList.remove('show');
+            });
+            const dropdown = document.getElementById(`${prefix}-dropdown-${roleKey}`);
+            dropdown.classList.toggle('show');
+        }
+
+        function selectTier(e, prefix, roleKey, tierName) {
+            e.stopPropagation();
+            document.getElementById(`${prefix}-val-${roleKey}`).value = tierName;
+            const btn = document.getElementById(`${prefix}-btn-${roleKey}`);
+            btn.innerHTML = tierName !== 'none' ? `${getTierImgHtml(tierName)}` : `<span style="font-size:11px; color:var(--text-sub);">없음</span>`;
+            document.getElementById(`${prefix}-dropdown-${roleKey}`).classList.remove('show');
+        }
+
+        function toggleTeamDropdown(e, playerId) {
+            e.stopPropagation();
+            document.querySelectorAll('.team-select-dropdown').forEach(d => {
+                if (d.id !== `team-dropdown-${playerId}`) d.classList.remove('show');
+            });
+            const dropdown = document.getElementById(`team-dropdown-${playerId}`);
+            dropdown.classList.toggle('show');
+        }
+
+        function selectTeamFix(e, playerId, teamVal) {
+            e.stopPropagation();
+            updateOpt(playerId, 'fixedTeam', teamVal);
+            document.getElementById(`team-dropdown-${playerId}`).classList.remove('show');
+            renderPlayerCards();
+        }
+
+        window.addEventListener('click', () => {
+            document.querySelectorAll('.custom-tier-dropdown').forEach(d => d.classList.remove('show'));
+            document.querySelectorAll('.team-select-dropdown').forEach(d => d.classList.remove('show'));
+        });
 
         const defaultTierWeights = { "챔피언": 9, "그마": 8, "마스터": 7, "다이아": 6, "에메랄드": 5, "플레": 4, "골드": 3, "실버": 2, "브론즈": 1 };
 
         const initialPlayers = [
-            { id: 0, name: "히지키 (ヒジキ)", roles: { "탱": "그마", "딜": "마스터", "힐": "마스터" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 1, name: "찬빈 (チャンビン)", roles: { "탱": "마스터", "딜": "그마", "힐": "그마" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 2, name: "이라카 (イラカ)", roles: { "탱": "다이아", "딜": "플레", "힐": "마스터" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 3, name: "츄리 (チュリ)", roles: { "딜": "다이아" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 4, name: "스이소 (スイソ)", roles: { "탱": "다이아", "딜": "에메랄드", "힐": "다이아" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 5, name: "팽팽 (ペンペン)", roles: { "탱": "플레", "딜": "플레", "힐": "플레" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 6, name: "테루루 (テルル)", roles: { "탱": "플레", "딜": "플레", "힐": "플레" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 7, name: "유즈키 (ユズキ)", roles: { "탱": "골드", "딜": "골드", "힐": "플레" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 8, name: "봉래 (ホウライ)", roles: { "탱": "플레", "딜": "골드", "힐": "골드" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 9, name: "채연 (チェヨン)", roles: { "힐": "플레" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 10, name: "카이 (カイ)", roles: { "탱": "플레", "딜": "다이아", "힐": "플레" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 11, name: "사바 (サバ)", roles: { "탱": "마스터", "딜": "마스터" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 12, name: "윤덕 (ユンドク)", roles: { "탱": "다이아", "딜": "마스터", "힐": "다이아" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" },
-            { id: 13, name: "유키 (ユキ)", roles: { "딜": "골드", "힐": "골드" }, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" }
+            { id: 0, name: "히지키 (ヒジキ)", roles: { "탱": "그마", "딜": "마스터", "힐": "마스터" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 1, name: "찬빈 (チャンビン)", roles: { "탱": "마스터", "딜": "그마", "힐": "그마" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 2, name: "이라카 (イラカ)", roles: { "탱": "다이아", "딜": "플레", "힐": "마스터" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 3, name: "츄리 (チュリ)", roles: { "딜": "다이아" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 4, name: "스이소 (スイソ)", roles: { "탱": "다이아", "딜": "에메랄드", "힐": "다이아" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 5, name: "팽팽 (ペンペン)", roles: { "탱": "플레", "딜": "플레", "힐": "플레" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 6, name: "테루루 (テルル)", roles: { "탱": "플레", "딜": "플레", "힐": "플레" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 7, name: "유즈키 (ユズキ)", roles: { "탱": "골드", "딜": "골드", "힐": "플레" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 8, name: "봉래 (ホウライ)", roles: { "탱": "플레", "딜": "골드", "힐": "골드" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 9, name: "채연 (チェヨン)", roles: { "힐": "플레" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 10, name: "카이 (カイ)", roles: { "탱": "플레", "딜": "다이아", "힐": "플레" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 11, name: "사바 (サバ)", roles: { "탱": "마스터", "딜": "마스터" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 12, name: "윤덕 (ユンドク)", roles: { "탱": "다이아", "딜": "마스터", "힐": "다이아" }, fixedTeam: "auto", excludedRoles: [], selected: false },
+            { id: 13, name: "유키 (ユキ)", roles: { "딜": "골드", "힐": "골드" }, fixedTeam: "auto", excludedRoles: [], selected: false }
         ];
 
         let tierWeights = loadWeights();
@@ -554,45 +1063,57 @@
         let lastResult = null;
 
         function saveStorage() {
-            localStorage.setItem("ow_pro_players_v6", JSON.stringify(players));
-            localStorage.setItem("ow_pro_weights_v6", JSON.stringify(tierWeights));
+            localStorage.setItem("ow_pro_players_v31", JSON.stringify(players));
+            localStorage.setItem("ow_pro_weights_v31", JSON.stringify(tierWeights));
         }
 
         function loadPlayers() {
-            const data = localStorage.getItem("ow_pro_players_v6");
-            return data ? JSON.parse(data) : [...initialPlayers];
+            const data = localStorage.getItem("ow_pro_players_v31");
+            if (!data) return [...initialPlayers];
+            let parsed = JSON.parse(data);
+            parsed.forEach((p, idx) => { 
+                if (!p.excludedRoles) p.excludedRoles = []; 
+                if (p.selected === undefined) p.selected = (idx < 12);
+            });
+            return parsed;
         }
 
         function loadWeights() {
-            const data = localStorage.getItem("ow_pro_weights_v6");
+            const data = localStorage.getItem("ow_pro_weights_v31");
             return data ? JSON.parse(data) : { ...defaultTierWeights };
         }
 
         function resetAllData() {
             if (confirm("모든 데이터를 초기 상태로 복구하시겠습니까?")) {
-                localStorage.removeItem("ow_pro_players_v6");
-                localStorage.removeItem("ow_pro_weights_v6");
+                localStorage.removeItem("ow_pro_players_v31");
+                localStorage.removeItem("ow_pro_weights_v31");
+                localStorage.removeItem("ow_pro_custom_modes_v31");
                 players = [...initialPlayers];
                 tierWeights = { ...defaultTierWeights };
+                customModes = [...defaultModes];
+                currentModeId = '6v6';
+                editingId = null;
                 renderTierWeights();
+                renderModes();
                 renderPlayerCards();
+                initAddPlayerForm();
             }
         }
 
         function renderTierWeights() {
             const box = document.getElementById("tier-weights-box");
+            if (!box) return;
             box.innerHTML = "";
             Object.keys(tierWeights).forEach(t => {
                 const item = document.createElement("div");
                 item.className = "tier-item";
-                const imgHtml = getTierImgHtml(t);
-                item.innerHTML = `<label>${imgHtml} ${t}</label><input type="number" value="${tierWeights[t]}" onchange="updateWeight('${t}', this.value)">`;
+                item.innerHTML = `<label>${getTierImgHtml(t)}</label><input type="text" value="${tierWeights[t]}" onchange="updateWeight('${t}', this.value)">`;
                 box.appendChild(item);
             });
         }
 
         function updateWeight(t, val) {
-            tierWeights[t] = parseInt(val) || 0;
+            tierWeights[t] = parseFloat(val) || 0;
             saveStorage();
         }
 
@@ -602,98 +1123,185 @@
             saveStorage();
         }
 
-        function setMode(m) {
-            currentMode = m;
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`m-${m}`).classList.add('active');
-            updateCountLabel();
-        }
-
-        function getTargetCount() {
-            return currentMode === '5v5' ? 10 : (currentMode === '6v6' ? 12 : 15);
-        }
-
         function updateCountLabel() {
             const target = getTargetCount();
-            const checked = document.querySelectorAll('#player-grid input[type="checkbox"]:checked').length;
+            const checked = players.filter(p => p.selected).length;
             const lbl = document.getElementById("lbl-count");
+            if (!lbl) return;
             lbl.innerText = `(${checked} / ${target}명 선택됨)`;
-            lbl.style.color = checked === target ? "var(--accent-blue)" : "#f87171";
+            lbl.style.color = checked === target ? "#f472b6" : "#fb7185";
+        }
+
+        function handleBadgeClick(event, id, roleKey) {
+            event.stopPropagation();
+            let p = players.find(x => x.id === id);
+            if (!p) return;
+            if (!p.excludedRoles) p.excludedRoles = [];
+
+            let index = p.excludedRoles.indexOf(roleKey);
+            if (index > -1) {
+                p.excludedRoles.splice(index, 1);
+            } else {
+                let availableRoles = Object.keys(p.roles).filter(r => !p.excludedRoles.includes(r) && r !== roleKey);
+                if (availableRoles.length === 0) {
+                    alert("모든 포지션을 끌 수는 없습니다!");
+                    return;
+                }
+                p.excludedRoles.push(roleKey);
+            }
+            saveStorage();
+            renderPlayerCards();
+        }
+
+        function initAddPlayerForm() {
+            const box = document.getElementById("add-player-tiers");
+            if (!box) return;
+            box.innerHTML = `
+                ${createCustomTierSelect('add', '탱', 'none')}
+                ${createCustomTierSelect('add', '딜', 'none')}
+                ${createCustomTierSelect('add', '힐', 'none')}
+            `;
         }
 
         function renderPlayerCards() {
             const grid = document.getElementById("player-grid");
+            if (!grid) return;
             grid.innerHTML = "";
-            const search = document.getElementById("search-box").value.toLowerCase();
+            const searchBox = document.getElementById("search-box");
+            const search = searchBox ? searchBox.value.toLowerCase() : "";
             const targetCount = getTargetCount();
 
-            players.forEach((p, idx) => {
+            players.forEach((p) => {
                 if (search && !p.name.toLowerCase().includes(search)) return;
 
-                const isChecked = idx < targetCount;
+                if (!p.excludedRoles) p.excludedRoles = [];
+                const isEditing = (editingId === p.id);
                 const card = document.createElement("div");
-                card.className = "player-card";
+                
+                card.className = p.selected ? `player-card selected` : `player-card`;
 
-                let badges = [];
-                if (p.roles["탱"]) badges.push(`<span class="badge tank">${getTierImgHtml(p.roles["탱"])} 탱:${p.roles["탱"]}</span>`);
-                if (p.roles["딜"]) badges.push(`<span class="badge dps">${getTierImgHtml(p.roles["딜"])} 딜:${p.roles["딜"]}</span>`);
-                if (p.roles["힐"]) badges.push(`<span class="badge sup">${getTierImgHtml(p.roles["힐"])} 힐:${p.roles["힐"]}</span>`);
+                if (isEditing) {
+                    card.innerHTML = `
+                        <div class="input-group" style="margin-bottom:4px;">
+                            <label style="font-size:9px;">닉네임 수정</label>
+                            <input type="text" id="edit-name-${p.id}" class="form-control" value="${p.name}" style="padding:4px 6px; font-size:11px;">
+                        </div>
+                        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:4px; align-items:center;">
+                            ${createCustomTierSelect(`edit-${p.id}`, '탱', p.roles["탱"])}
+                            ${createCustomTierSelect(`edit-${p.id}`, '딜', p.roles["딜"])}
+                            ${createCustomTierSelect(`edit-${p.id}`, '힐', p.roles["힐"])}
+                        </div>
+                        <div style="display:flex; gap:4px; margin-top:4px;">
+                            <button class="btn-primary" style="flex:1; padding:6px; font-size:11px;" onclick="saveInlineEdit(event, ${p.id})">저장</button>
+                            <button class="btn-secondary" style="flex:1; padding:6px; font-size:11px;" onclick="cancelInlineEdit(event)">취소</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                } else {
+                    let badges = [];
+                    ['탱', '딜', '힐'].forEach(rKey => {
+                        if (p.roles[rKey]) {
+                            let isExcluded = p.excludedRoles.includes(rKey);
+                            let stateClass = isExcluded ? 'excluded' : '';
+                            badges.push(`
+                                <span class="badge ${stateClass}" title="클릭하여 포지션 켜기/끄기" onclick="handleBadgeClick(event, ${p.id}, '${rKey}')">
+                                    ${getRoleImgHtml(rKey)}
+                                    ${getTierImgHtml(p.roles[rKey])}
+                                </span>
+                            `);
+                        }
+                    });
 
-                card.innerHTML = `
-                    <div class="card-header">
-                        <div class="card-user">
-                            <input type="checkbox" id="c-${p.id}" value="${p.id}" ${isChecked ? "checked" : ""} onchange="updateCountLabel()">
-                            <label for="c-${p.id}" title="${p.name}">${p.name}</label>
+                    let currentFixHtml = p.fixedTeam === 'auto' ? `${getTeamImgHtml('auto')} 자동 배치` : `${getTeamImgHtml(p.fixedTeam)} ${p.fixedTeam}팀 고정`;
+                    let teamFixHtml = `
+                        <div class="team-select-wrapper">
+                            <div class="team-select-btn" onclick="toggleTeamDropdown(event, ${p.id})">
+                                <span>${currentFixHtml}</span>
+                                <span style="font-size:9px; color:var(--text-sub);">▼</span>
+                            </div>
+                            <div class="team-select-dropdown" id="team-dropdown-${p.id}">
+                                <div class="team-select-option" onclick="selectTeamFix(event, ${p.id}, 'auto')">
+                                    ${getTeamImgHtml('auto')} 자동 배치
+                                </div>
+                                <div class="team-select-option" onclick="selectTeamFix(event, ${p.id}, 'A')">
+                                    ${getTeamImgHtml('A')} A팀 고정
+                                </div>
+                                <div class="team-select-option" onclick="selectTeamFix(event, ${p.id}, 'B')">
+                                    ${getTeamImgHtml('B')} B팀 고정
+                                </div>
+                                <div class="team-select-option" onclick="selectTeamFix(event, ${p.id}, 'C')">
+                                    ${getTeamImgHtml('C')} C팀 고정
+                                </div>
+                                <div class="team-select-option" onclick="selectTeamFix(event, ${p.id}, 'D')">
+                                    ${getTeamImgHtml('D')} D팀 고정
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-actions">
-                            <button class="btn-icon" onclick="editPlayer(${p.id})">수정</button>
-                            <button class="btn-icon" onclick="deletePlayer(${p.id})">삭제</button>
+                    `;
+
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <div class="card-user">
+                                <label title="${p.name}">${p.name}</label>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-icon" onclick="startInlineEdit(event, ${p.id})">수정</button>
+                                <button class="btn-icon" onclick="deletePlayer(event, ${p.id})">삭제</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="role-badges">${badges.join("")}</div>
-                    <div class="card-options">
-                        <select onchange="updateOpt(${p.id}, 'fixedRole', this.value)">
-                            <option value="auto" ${p.fixedRole === 'auto' ? 'selected' : ''}>포지션:자동</option>
-                            <option value="탱" ${p.fixedRole === '탱' ? 'selected' : ''}>🛡️ 탱 고정</option>
-                            <option value="딜" ${p.fixedRole === '딜' ? 'selected' : ''}>⚔️ 딜 고정</option>
-                            <option value="힐" ${p.fixedRole === '힐' ? 'selected' : ''}>🌿 힐 고정</option>
-                        </select>
-                        <select onchange="updateOpt(${p.id}, 'excludeRole', this.value)">
-                            <option value="none" ${p.excludeRole === 'none' ? 'selected' : ''}>제외:없음</option>
-                            <option value="탱" ${p.excludeRole === '탱' ? 'selected' : ''}>🚫 탱 제외</option>
-                            <option value="딜" ${p.excludeRole === '딜' ? 'selected' : ''}>🚫 딜 제외</option>
-                            <option value="힐" ${p.excludeRole === '힐' ? 'selected' : ''}>🚫 힐 제외</option>
-                        </select>
-                        <select onchange="updateOpt(${p.id}, 'fixedTeam', this.value)">
-                            <option value="auto" ${p.fixedTeam === 'auto' ? 'selected' : ''}>팀:자동</option>
-                            <option value="A" ${p.fixedTeam === 'A' ? 'selected' : ''}>🔷 A팀</option>
-                            <option value="B" ${p.fixedTeam === 'B' ? 'selected' : ''}>🔴 B팀</option>
-                            <option value="C" ${p.fixedTeam === 'C' ? 'selected' : ''}>🟢 C팀</option>
-                        </select>
-                    </div>
-                `;
-                grid.appendChild(card);
+                        <div class="role-badges">${badges.join("")}</div>
+                        <div style="display: flex; gap: 6px; align-items: center; margin-top: 4px;">
+                            <span style="font-size:11px; color:var(--text-sub); font-weight:800;">팀 고정:</span>
+                            ${teamFixHtml}
+                        </div>
+                    `;
+                    
+                    card.onclick = (e) => {
+                        if (e.target.closest('button') || e.target.closest('.team-select-wrapper') || e.target.closest('.badge')) {
+                            return;
+                        }
+
+                        const currentSelectedCount = players.filter(x => x.selected).length;
+                        const target = getTargetCount();
+
+                        if (!p.selected && currentSelectedCount >= target) {
+                            alert(`현재 모드는 최대 ${target}명까지만 선택할 수 있습니다!`);
+                            return;
+                        }
+
+                        p.selected = !p.selected;
+                        saveStorage();
+                        renderPlayerCards();
+                    };
+
+                    grid.appendChild(card);
+                }
             });
             updateCountLabel();
         }
 
-        function updateOpt(id, key, val) {
+        function startInlineEdit(e, id) {
+            e.stopPropagation();
+            editingId = id;
+            renderPlayerCards();
+        }
+
+        function cancelInlineEdit(e) {
+            e.stopPropagation();
+            editingId = null;
+            renderPlayerCards();
+        }
+
+        function saveInlineEdit(e, id) {
+            e.stopPropagation();
             let p = players.find(x => x.id === id);
-            if (p) { p[key] = val; saveStorage(); }
-        }
+            if (!p) return;
+            const newName = document.getElementById(`edit-name-${id}`).value.trim();
+            if (!newName) return alert("닉네임을 입력하세요!");
 
-        function toggleSelectAll(select) {
-            document.querySelectorAll('#player-grid input[type="checkbox"]').forEach(c => c.checked = select);
-            updateCountLabel();
-        }
-
-        function savePlayerForm() {
-            const name = document.getElementById("p-name").value.trim();
-            if (!name) return alert("선수 닉네임을 입력하세요!");
-
-            const tank = document.getElementById("p-tank").value;
-            const dps = document.getElementById("p-dps").value;
-            const sup = document.getElementById("p-sup").value;
+            const tank = document.getElementById(`edit-${id}-val-탱`).value;
+            const dps = document.getElementById(`edit-${id}-val-딜`).value;
+            const sup = document.getElementById(`edit-${id}-val-힐`).value;
 
             let roles = {};
             if (tank !== 'none') roles["탱"] = tank;
@@ -702,125 +1310,139 @@
 
             if (Object.keys(roles).length === 0) return alert("최소 한 개 이상의 포지션 티어를 지정해야 합니다.");
 
-            if (editId !== null) {
-                let p = players.find(x => x.id === editId);
-                if (p) { p.name = name; p.roles = roles; }
-                editId = null;
-                document.getElementById("form-heading").innerText = "➕ 선수 새로 등록";
-            } else {
-                const newId = players.length ? Math.max(...players.map(x => x.id)) + 1 : 0;
-                players.push({ id: newId, name, roles, fixedRole: "auto", fixedTeam: "auto", excludeRole: "none" });
-            }
-
-            document.getElementById("p-name").value = "";
-            document.getElementById("p-tank").value = "none";
-            document.getElementById("p-dps").value = "none";
-            document.getElementById("p-sup").value = "none";
-
+            p.name = newName;
+            p.roles = roles;
+            editingId = null;
             saveStorage();
             renderPlayerCards();
         }
 
-        function editPlayer(id) {
-            let p = players.find(x => x.id === id);
-            if (!p) return;
-            editId = id;
-            document.getElementById("form-heading").innerText = `✏️ 선수 정보 수정 (${p.name})`;
-            document.getElementById("p-name").value = p.name;
-            document.getElementById("p-tank").value = p.roles["탱"] || "none";
-            document.getElementById("p-dps").value = p.roles["딜"] || "none";
-            document.getElementById("p-sup").value = p.roles["힐"] || "none";
+        function saveNewPlayer() {
+            const name = document.getElementById("p-name").value.trim();
+            if (!name) return alert("선수 닉네임을 입력하세요!");
+
+            const tank = document.getElementById(`add-val-탱`).value;
+            const dps = document.getElementById(`add-val-딜`).value;
+            const sup = document.getElementById(`add-val-힐`).value;
+
+            let roles = {};
+            if (tank !== 'none') roles["탱"] = tank;
+            if (dps !== 'none') roles["딜"] = dps;
+            if (sup !== 'none') roles["힐"] = sup;
+
+            if (Object.keys(roles).length === 0) return alert("최소 한 개 이상의 포지션 티어를 지정해야 합니다.");
+
+            const newId = players.length ? Math.max(...players.map(x => x.id)) + 1 : 0;
+            const target = getTargetCount();
+            const currentSelectedCount = players.filter(x => x.selected).length;
+            const autoSelect = currentSelectedCount < target;
+
+            players.push({ id: newId, name, roles, fixedTeam: "auto", excludedRoles: [], selected: autoSelect });
+
+            document.getElementById("p-name").value = "";
+            initAddPlayerForm();
+            saveStorage();
+            renderPlayerCards();
         }
 
-        function deletePlayer(id) {
+        function updateOpt(id, key, val) {
+            let p = players.find(x => x.id === id);
+            if (p) { p[key] = val; saveStorage(); }
+        }
+
+        function toggleSelectAll(select) {
+            const target = getTargetCount();
+            players.forEach((p, idx) => {
+                p.selected = (select && idx < target);
+            });
+            saveStorage();
+            renderPlayerCards();
+        }
+
+        function deletePlayer(e, id) {
+            e.stopPropagation();
+            if (editingId === id) editingId = null;
             players = players.filter(x => x.id !== id);
             saveStorage();
             renderPlayerCards();
         }
 
         function getSelectedPlayers() {
-            let selected = [];
-            document.querySelectorAll('#player-grid input[type="checkbox"]:checked').forEach(c => {
-                let p = players.find(x => x.id === parseInt(c.value));
-                if (p) selected.push(p);
-            });
-            return selected;
+            let filteredPlayers = players.filter(p => p.selected);
+            return filteredPlayers;
         }
 
         function generateTeams() {
             const selected = getSelectedPlayers();
-            const target = getTargetCount();
+            const modeObj = getCurrentModeObj();
+            const target = modeObj.teamSizes.reduce((a, b) => a + b, 0);
 
-            if (selected.length !== target) return alert(`${currentMode} 모드는 ${target}명이 필요합니다. (현재: ${selected.length}명)`);
+            if (selected.length !== target) return alert(`${modeObj.name} 모드는 총 ${target}명이 필요합니다. (현재 선택된 선수가 ${selected.length}명입니다. '플레이어 관리' 탭에서 인원을 맞춰주세요!)`);
 
-            let res = currentMode === '5v5v5' ? solve3(selected) : solve2(selected);
-            if (!res) return alert("고정 및 제외 조건으로 인해 밸런스를 맞출 수 없습니다.");
+            let res = solveMultiTeams(selected, modeObj.teamSizes);
+            if (!res) return alert("고정 및 제외 조건으로 인해 해당 팀 인원수로 밸런스를 맞출 수 없습니다.");
 
             lastResult = res;
-            displayResults(res);
+            displayResults(res, modeObj);
         }
 
-        function solve2(list) {
-            let reqTank = currentMode === '5v5' ? 1 : 2;
-            let teamSize = currentMode === '5v5' ? 5 : 6;
+        function solveMultiTeams(list, teamSizes) {
             let best = null, minDiff = 999;
+            const numTeams = teamSizes.length;
 
-            for (let i = 0; i < 4000; i++) {
+            for (let i = 0; i < 8000; i++) {
                 let sh = [...list].sort(() => Math.random() - 0.5);
-                let tA = sh.slice(0, teamSize), tB = sh.slice(teamSize);
+                let teamPlayersList = [];
+                let idx = 0;
+                let valid = true;
 
-                if (!validTeam(tA, 'A') || !validTeam(tB, 'B')) continue;
+                for (let t = 0; t < numTeams; t++) {
+                    let size = teamSizes[t];
+                    let tMembers = sh.slice(idx, idx + size);
+                    idx += size;
 
-                let aA = assignRoles(tA, reqTank, 2, 2);
-                let aB = assignRoles(tB, reqTank, 2, 2);
-
-                if (aA && aB) {
-                    let sA = aA.reduce((s, x) => s + x.score, 0);
-                    let sB = aB.reduce((s, x) => s + x.score, 0);
-                    let diff = Math.abs(sA - sB);
-
-                    if (diff < minDiff) {
-                        minDiff = diff;
-                        best = { aA, aB, sA, sB };
-                        if (diff === 0) break;
+                    if (!tMembers.every(p => p.fixedTeam === 'auto' || p.fixedTeam === teamKeysList[t])) {
+                        valid = false;
+                        break;
                     }
+                    teamPlayersList.push(tMembers);
                 }
-            }
-            return best;
-        }
+                if (!valid) continue;
 
-        function solve3(list) {
-            let best = null, minDiff = 999;
+                let assignedTeams = [];
+                let scores = [];
+                let allAssigned = true;
 
-            for (let i = 0; i < 10000; i++) {
-                let sh = [...list].sort(() => Math.random() - 0.5);
-                let tA = sh.slice(0, 5), tB = sh.slice(5, 10), tC = sh.slice(10, 15);
+                for (let t = 0; t < numTeams; t++) {
+                    let size = teamSizes[t];
+                    let reqTank = (size === 5) ? 1 : 2;
+                    if (size <= 3) reqTank = 1;
+                    let reqDps = Math.floor((size - reqTank) / 2);
+                    let reqSup = size - reqTank - reqDps;
 
-                if (!validTeam(tA, 'A') || !validTeam(tB, 'B') || !validTeam(tC, 'C')) continue;
+                    let assigned = assignRoles(teamPlayersList[t], reqTank, reqDps, reqSup);
+                    if (!assigned) {
+                        allAssigned = false;
+                        break;
+                    }
+                    let score = assigned.reduce((s, x) => s + x.score, 0);
+                    assignedTeams.push(assigned);
+                    scores.push(score);
+                }
 
-                let aA = assignRoles(tA, 1, 2, 2);
-                let aB = assignRoles(tB, 1, 2, 2);
-                let aC = assignRoles(tC, 1, 2, 2);
-
-                if (aA && aB && aC) {
-                    let sA = aA.reduce((s, x) => s + x.score, 0);
-                    let sB = aB.reduce((s, x) => s + x.score, 0);
-                    let sC = aC.reduce((s, x) => s + x.score, 0);
-
-                    let diff = Math.max(sA, sB, sC) - Math.min(sA, sB, sC);
+                if (allAssigned) {
+                    let maxS = Math.max(...scores);
+                    let minS = Math.min(...scores);
+                    let diff = maxS - minS;
 
                     if (diff < minDiff) {
                         minDiff = diff;
-                        best = { aA, aB, aC, sA, sB, sC };
+                        best = { assignedTeams, scores };
                         if (diff <= 1) break;
                     }
                 }
             }
             return best;
-        }
-
-        function validTeam(team, teamName) {
-            return team.every(p => p.fixedTeam === 'auto' || p.fixedTeam === teamName);
         }
 
         function assignRoles(team, reqT, reqD, reqS) {
@@ -832,18 +1454,13 @@
                     return;
                 }
                 let p = team[idx];
-                let fixed = p.fixedRole || 'auto';
-                let excl = p.excludeRole || 'none';
-
-                let avail = Object.keys(p.roles);
-                if (fixed !== 'auto') avail = avail.includes(fixed) ? [fixed] : [];
-                if (excl !== 'none') avail = avail.filter(r => r !== excl);
+                let excluded = p.excludedRoles || [];
+                let avail = Object.keys(p.roles).filter(r => !excluded.includes(r));
 
                 for (let r of avail) {
                     let item = { p, role: r, tier: p.roles[r], score: tierWeights[p.roles[r]] || 0 };
                     if (r === '탱' && t < reqT) dfs(idx + 1, t + 1, d, s, [...cur, item]);
-                    if (r === '딜' && t < reqT && d < reqD) // corrected logic context
-                    if (r === '딜' && d < reqD) dfs(idx + 1, t, d + 1, s, [...cur, item]);
+                    if (r === '딜' && d < reqD) dfs(idx + 1, t, d, s + 1, [...cur, item]);
                     if (r === '힐' && s < reqS) dfs(idx + 1, t, d, s + 1, [...cur, item]);
                 }
             }
@@ -851,41 +1468,43 @@
             return res;
         }
 
-        function displayResults(data) {
-            const sec = document.getElementById("results-section");
+        function displayResults(data, modeObj) {
             const grid = document.getElementById("results-grid");
-            sec.style.display = "flex";
+            if (!grid) return;
             grid.innerHTML = "";
 
-            grid.appendChild(buildTeamCard("a", "🔷 A팀", data.aA, data.sA));
-            grid.appendChild(buildTeamCard("b", "🔴 B팀", data.aB, data.sB));
-            if (data.aC) grid.appendChild(buildTeamCard("c", "🟢 C팀", data.aC, data.sC));
-
-            sec.scrollIntoView({ behavior: 'smooth' });
+            const numTeams = modeObj.teamSizes.length;
+            for (let t = 0; t < numTeams; t++) {
+                let typeKey = teamKeysList[t].toLowerCase();
+                grid.appendChild(buildTeamCard(typeKey, teamNamesList[t], data.assignedTeams[t], data.scores[t], teamKeysList[t]));
+            }
         }
 
-        function buildTeamCard(type, title, list, score) {
+        function buildTeamCard(type, title, list, score, teamKey) {
             const card = document.createElement("div");
             card.className = `team-card ${type}`;
 
             const order = { "탱": 1, "딜": 2, "힐": 3 };
             list.sort((a, b) => order[a.role] - order[b.role]);
 
+            let logoHtml = getTeamImgHtml(teamKey);
+
             let itemsHtml = list.map(i => `
                 <li class="team-item">
                     <span class="player-tier-info">
                         ${getTierImgHtml(i.tier)}
                         <strong>${i.p.name}</strong>
-                        <small style="color:var(--text-sub);">(${i.tier})</small>
                     </span>
-                    <span class="role-tag ${i.role}">${i.role === '탱' ? '🛡️' : (i.role === '딜' ? '⚔️' : '🌿')} ${i.role}</span>
+                    <span class="player-role-info">
+                        ${getRoleImgHtml(i.role)}
+                    </span>
                 </li>
             `).join("");
 
             card.innerHTML = `
                 <div class="team-header">
-                    <span>${title}</span>
-                    <span style="color:var(--accent-blue);">${score}점</span>
+                    <span style="display:flex; align-items:center;">${logoHtml}${title}</span>
+                    <span style="color:var(--accent-pink);">${score}점</span>
                 </div>
                 <ul class="team-list">${itemsHtml}</ul>
             `;
@@ -894,24 +1513,265 @@
 
         function copyResults() {
             if (!lastResult) return;
-            let txt = `🎮 Overwatch Match Result (${currentMode})\n\n`;
+            let modeObj = getCurrentModeObj();
+            let txt = `🎮 내전 매치 결과 (${modeObj.name})\n\n`;
 
-            function format(name, list, score) {
-                let r = `[${name} - ${score}점]\n`;
-                list.forEach(i => r += `- ${i.role}: ${i.p.name} (${i.tier})\n`);
-                return r + '\n';
+            for (let t = 0; t < lastResult.assignedTeams.length; t++) {
+                let list = lastResult.assignedTeams[t];
+                let score = lastResult.scores[t];
+                txt += `[${teamNamesList[t]} - ${score}점]\n`;
+                list.forEach(i => txt += `- ${i.role}: ${i.p.name}\n`);
+                txt += '\n';
             }
-
-            txt += format("A팀", lastResult.aA, lastResult.sA);
-            txt += format("B팀", lastResult.aB, lastResult.sB);
-            if (lastResult.aC) txt += format("C팀", lastResult.aC, lastResult.sC);
 
             navigator.clipboard.writeText(txt).then(() => alert("결과가 클립보드에 복사되었습니다!"));
         }
 
+        function getTeamCardContentHtml(teamObj) {
+            if (!teamObj) return '<span style="color:var(--text-sub); font-size:12px;">팀 대기 중...</span>';
+            return `
+                <div style="display:flex; align-items:center;">
+                    ${getTeamImgHtml(teamObj.key)}
+                    <strong>${teamObj.name}</strong>
+                </div>
+            `;
+        }
+
+        function startTournament() {
+            const selected = getSelectedPlayers();
+            const teamSizeElem = document.getElementById("tourney-team-size");
+            const teamCountElem = document.getElementById("tourney-team-count");
+            
+            const teamSize = teamSizeElem ? parseInt(teamSizeElem.value) : 6;
+            const tourneyTeamCount = teamCountElem ? parseInt(teamCountElem.value) : 4;
+            const requiredTotal = teamSize * tourneyTeamCount;
+
+            if (selected.length < requiredTotal) {
+                return alert(`${teamSize}v${teamSize} ${tourneyTeamCount}팀 토너먼트를 진행하려면 총 ${requiredTotal}명의 선수가 필요합니다! (현재 선택: ${selected.length}명)`);
+            }
+
+            let teamSizesArr = new Array(tourneyTeamCount).fill(teamSize);
+            let res = solveMultiTeams(selected, teamSizesArr);
+            if (!res) return alert("토너먼트 팀 분배에 실패했습니다. 인원과 고정 조건을 확인해주세요.");
+
+            let teamsMeta = [];
+            for (let i = 0; i < tourneyTeamCount; i++) {
+                teamsMeta.push({
+                    name: teamNamesList[i],
+                    members: res.assignedTeams[i],
+                    score: res.scores[i],
+                    key: teamKeysList[i]
+                });
+            }
+
+            if (tourneyTeamCount === 3) {
+                tournamentState = {
+                    type: 3,
+                    match1: { id: 1, teamA: teamsMeta[0], teamB: teamsMeta[1], winner: null, loser: null },
+                    match2: { id: 2, teamA: null, teamB: teamsMeta[2], winner: null },
+                    finals: { id: 3, teamA: null, teamB: null, winner: null }
+                };
+            } else if (tourneyTeamCount === 4) {
+                tournamentState = {
+                    type: 4,
+                    semis: [
+                        { id: 1, teamA: teamsMeta[0], teamB: teamsMeta[1], winner: null },
+                        { id: 2, teamA: teamsMeta[2], teamB: teamsMeta[3], winner: null }
+                    ],
+                    finals: { id: 3, teamA: null, teamB: null, winner: null }
+                };
+            } else {
+                tournamentState = {
+                    type: 8,
+                    quarters: [
+                        { id: 1, teamA: teamsMeta[0], teamB: teamsMeta[1], winner: null },
+                        { id: 2, teamA: teamsMeta[2], teamB: teamsMeta[3], winner: null },
+                        { id: 3, teamA: teamsMeta[4], teamB: teamsMeta[5], winner: null },
+                        { id: 4, teamA: teamsMeta[6], teamB: teamsMeta[7], winner: null }
+                    ],
+                    semis: [
+                        { id: 5, teamA: null, teamB: null, winner: null },
+                        { id: 6, teamA: null, teamB: null, winner: null }
+                    ],
+                    finals: { id: 7, teamA: null, teamB: null, winner: null }
+                };
+            }
+
+            renderTournament();
+        }
+
+        function renderTournament() {
+            const area = document.getElementById("tournament-bracket-area");
+            if (!area || !tournamentState) return;
+
+            let html = '';
+
+            if (tournamentState.type === 3) {
+                let m1 = tournamentState.match1;
+                let m2 = tournamentState.match2;
+                let f = tournamentState.finals;
+
+                let m1rA = m1.winner === 'A' ? 'bracket-row winner' : 'bracket-row';
+                let m1rB = m1.winner === 'B' ? 'bracket-row winner' : 'bracket-row';
+                let m2rA = m2.winner === 'A' ? 'bracket-row winner' : 'bracket-row';
+                let m2rB = m2.winner === 'B' ? 'bracket-row winner' : 'bracket-row';
+                let fR1 = f.winner === 'A' ? 'bracket-row winner' : 'bracket-row';
+                let fR2 = f.winner === 'B' ? 'bracket-row winner' : 'bracket-row';
+
+                html = `
+                    <div class="bracket-grid-container">
+                        <svg class="bracket-svg-lines">
+                            <path d="M 230 52 L 285 52 L 285 75 L 540 75" />
+                            <path d="M 230 207 L 285 207 L 285 140 L 540 140" />
+                        </svg>
+
+                        <!-- 1라운드 -->
+                        <div class="bracket-node" style="grid-column: 1; grid-row: 1;">
+                            <div style="font-size:10px; font-weight:800; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg); border-bottom:1px solid var(--border-color);">1라운드 (A vs B)</div>
+                            <div class="${m1rA}" onclick="setTourneyWinner('3team_m1', 0, 'A')">
+                                ${getTeamCardContentHtml(m1.teamA)}
+                                <span>${m1.winner === 'A' ? '👑' : ''}</span>
+                            </div>
+                            <div class="${m1rB}" onclick="setTourneyWinner('3team_m1', 0, 'B')">
+                                ${getTeamCardContentHtml(m1.teamB)}
+                                <span>${m1.winner === 'B' ? '👑' : ''}</span>
+                            </div>
+                        </div>
+
+                        <!-- 패자부활전 -->
+                        <div class="bracket-node" style="grid-column: 1; grid-row: 3;">
+                            <div style="font-size:10px; font-weight:800; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg); border-bottom:1px solid var(--border-color);">패자부활전 (패자 vs C팀)</div>
+                            <div class="${m2rA}" ${m2.teamA ? `onclick="setTourneyWinner('3team_m2', 0, 'A')"` : ''}>
+                                ${getTeamCardContentHtml(m2.teamA)}
+                                <span>${m2.winner === 'A' ? '👑' : ''}</span>
+                            </div>
+                            <div class="${m2rB}" onclick="setTourneyWinner('3team_m2', 0, 'B')">
+                                ${getTeamCardContentHtml(m2.teamB)}
+                                <span>${m2.winner === 'B' ? '👑' : ''}</span>
+                            </div>
+                        </div>
+
+                        <!-- 결승전 -->
+                        <div class="bracket-node" style="grid-column: 3; grid-row: 1 / span 3; align-self: center;">
+                            <div style="font-size:10px; font-weight:800; color:var(--accent-pink); padding:6px 10px; background:var(--panel-sub-bg); border-bottom:1px solid var(--border-color);">🏆 결승전</div>
+                            <div class="${fR1}" ${f.teamA ? `onclick="setTourneyWinner('3team_finals', 0, 'A')"` : ''}>
+                                ${getTeamCardContentHtml(f.teamA)}
+                                <span>${f.winner === 'A' ? '👑 우승' : ''}</span>
+                            </div>
+                            <div class="${fR2}" ${f.teamB ? `onclick="setTourneyWinner('3team_finals', 0, 'B')"` : ''}>
+                                ${getTeamCardContentHtml(f.teamB)}
+                                <span>${f.winner === 'B' ? '👑 우승' : ''}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (tournamentState.type === 4) {
+                let s1 = tournamentState.semis[0];
+                let s2 = tournamentState.semis[1];
+                let f = tournamentState.finals;
+
+                let s1rA = s1.winner === 'A' ? 'bracket-row winner' : 'bracket-row';
+                let s1rB = s1.winner === 'B' ? 'bracket-row winner' : 'bracket-row';
+                let s2rA = s2.winner === 'A' ? 'bracket-row winner' : 'bracket-row';
+                let s2rB = s2.winner === 'B' ? 'bracket-row winner' : 'bracket-row';
+                let fR1 = f.winner === 'A' ? 'bracket-row winner' : 'bracket-row';
+                let fR2 = f.winner === 'B' ? 'bracket-row winner' : 'bracket-row';
+
+                html = `
+                    <div class="bracket-grid-container">
+                        <svg class="bracket-svg-lines">
+                            <path d="M 230 52 L 285 52 L 285 75 L 540 75" />
+                            <path d="M 230 207 L 285 207 L 285 140 L 540 140" />
+                        </svg>
+                        <div class="bracket-node" style="grid-column: 1; grid-row: 1;">
+                            <div style="font-size:10px; font-weight:800; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg); border-bottom:1px solid var(--border-color);">준결승 1</div>
+                            <div class="${s1rA}" onclick="setTourneyWinner('semis', 0, 'A')">
+                                ${getTeamCardContentHtml(s1.teamA)}
+                                <span>${s1.winner === 'A' ? '👑' : ''}</span>
+                            </div>
+                            <div class="${s1rB}" onclick="setTourneyWinner('semis', 0, 'B')">
+                                ${getTeamCardContentHtml(s1.teamB)}
+                                <span>${s1.winner === 'B' ? '👑' : ''}</span>
+                            </div>
+                        </div>
+                        <div class="bracket-node" style="grid-column: 1; grid-row: 3;">
+                            <div style="font-size:10px; font-weight:800; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg); border-bottom:1px solid var(--border-color);">준결승 2</div>
+                            <div class="${s2rA}" onclick="setTourneyWinner('semis', 1, 'A')">
+                                ${getTeamCardContentHtml(s2.teamA)}
+                                <span>${s2.winner === 'A' ? '👑' : ''}</span>
+                            </div>
+                            <div class="${s2rB}" onclick="setTourneyWinner('semis', 1, 'B')">
+                                ${getTeamCardContentHtml(s2.teamB)}
+                                <span>${s2.winner === 'B' ? '👑' : ''}</span>
+                            </div>
+                        </div>
+                        <div class="bracket-node" style="grid-column: 3; grid-row: 1 / span 3; align-self: center;">
+                            <div style="font-size:10px; font-weight:800; color:var(--accent-pink); padding:6px 10px; background:var(--panel-sub-bg); border-bottom:1px solid var(--border-color);">🏆 결승전</div>
+                            <div class="${fR1}" ${f.teamA ? `onclick="setTourneyWinner('finals', 0, 'A')"` : ''}>
+                                ${getTeamCardContentHtml(f.teamA)}
+                                <span>${f.winner === 'A' ? '👑 우승' : ''}</span>
+                            </div>
+                            <div class="${fR2}" ${f.teamB ? `onclick="setTourneyWinner('finals', 0, 'B')"` : ''}>
+                                ${getTeamCardContentHtml(f.teamB)}
+                                <span>${f.winner === 'B' ? '👑 우승' : ''}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                html = `<div style="text-align:center; padding:20px; font-weight:800; color:var(--text-sub);">8팀 대진표는 4팀/3팀 포맷을 먼저 테스트해 보세요!</div>`;
+            }
+
+            area.innerHTML = html;
+        }
+
+        function setTourneyWinner(round, index, teamChoice) {
+            if (round === '3team_m1') {
+                let m1 = tournamentState.match1;
+                m1.winner = teamChoice;
+                let winnerTeam = teamChoice === 'A' ? m1.teamA : m1.teamB;
+                let loserTeam = teamChoice === 'A' ? m1.teamB : m1.teamA;
+
+                m1.loser = loserTeam;
+                tournamentState.match2.teamA = loserTeam;
+                tournamentState.match2.winner = null;
+                tournamentState.finals.teamA = winnerTeam;
+                tournamentState.finals.teamB = null;
+                tournamentState.finals.winner = null;
+            } else if (round === '3team_m2') {
+                let m2 = tournamentState.match2;
+                m2.winner = teamChoice;
+                let winnerTeam = teamChoice === 'A' ? m2.teamA : m2.teamB;
+
+                tournamentState.finals.teamB = winnerTeam;
+                tournamentState.finals.winner = null;
+            } else if (round === '3team_finals') {
+                tournamentState.finals.winner = teamChoice;
+            } else if (round === 'semis') {
+                let match = tournamentState.semis[index];
+                match.winner = teamChoice;
+
+                if (index === 0) tournamentState.semis[0].winner = teamChoice;
+                if (index === 1) tournamentState.semis[1].winner = teamChoice;
+
+                let t1 = tournamentState.semis[0].winner ? (tournamentState.semis[0].winner === 'A' ? tournamentState.semis[0].teamA : tournamentState.semis[0].teamB) : null;
+                let t2 = tournamentState.semis[1].winner ? (tournamentState.semis[1].winner === 'A' ? tournamentState.semis[1].teamA : tournamentState.semis[1].teamB) : null;
+
+                tournamentState.finals.teamA = t1;
+                tournamentState.finals.teamB = t2;
+                tournamentState.finals.winner = null;
+            } else if (round === 'finals') {
+                if (!tournamentState.finals.teamA || !tournamentState.finals.teamB) return;
+                tournamentState.finals.winner = teamChoice;
+            }
+            renderTournament();
+        }
+
         window.onload = function() {
             renderTierWeights();
+            renderModes();
             renderPlayerCards();
+            initAddPlayerForm();
         };
     </script>
 </body>
