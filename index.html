@@ -511,17 +511,17 @@
         let currentMode = '6v6';
         let editId = null;
 
-        // PNG 파일 경로 매핑
+        // 이미지들이 index.html과 같은 위치에 있으므로 경로 수정 완료
         const tierImageUrls = {
-            "브론즈": "./images/bronze.png",
-            "실버": "./images/silver.png",
-            "골드": "./images/gold.png",
-            "플레": "./images/platinum.png",
-            "에메랄드": "./images/emerald.png",
-            "다이아": "./images/diamond.png",
-            "마스터": "./images/master.png",
-            "그마": "./images/grandmaster.png",
-            "챔피언": "./images/champion.png"
+            "브론즈": "./bronze.png",
+            "실버": "./silver.png",
+            "골드": "./gold.png",
+            "플레": "./platinum.png",
+            "에메랄드": "./emerald.png",
+            "다이아": "./diamond.png",
+            "마스터": "./master.png",
+            "그마": "./grandmaster.png",
+            "챔피언": "./champion.png"
         };
 
         function getTierImgHtml(tierName) {
@@ -554,24 +554,24 @@
         let lastResult = null;
 
         function saveStorage() {
-            localStorage.setItem("ow_pro_players_v5", JSON.stringify(players));
-            localStorage.setItem("ow_pro_weights_v5", JSON.stringify(tierWeights));
+            localStorage.setItem("ow_pro_players_v6", JSON.stringify(players));
+            localStorage.setItem("ow_pro_weights_v6", JSON.stringify(tierWeights));
         }
 
         function loadPlayers() {
-            const data = localStorage.getItem("ow_pro_players_v5");
+            const data = localStorage.getItem("ow_pro_players_v6");
             return data ? JSON.parse(data) : [...initialPlayers];
         }
 
         function loadWeights() {
-            const data = localStorage.getItem("ow_pro_weights_v5");
+            const data = localStorage.getItem("ow_pro_weights_v6");
             return data ? JSON.parse(data) : { ...defaultTierWeights };
         }
 
         function resetAllData() {
             if (confirm("모든 데이터를 초기 상태로 복구하시겠습니까?")) {
-                localStorage.removeItem("ow_pro_players_v5");
-                localStorage.removeItem("ow_pro_weights_v5");
+                localStorage.removeItem("ow_pro_players_v6");
+                localStorage.removeItem("ow_pro_weights_v6");
                 players = [...initialPlayers];
                 tierWeights = { ...defaultTierWeights };
                 renderTierWeights();
@@ -842,6 +842,7 @@
                 for (let r of avail) {
                     let item = { p, role: r, tier: p.roles[r], score: tierWeights[p.roles[r]] || 0 };
                     if (r === '탱' && t < reqT) dfs(idx + 1, t + 1, d, s, [...cur, item]);
+                    if (r === '딜' && t < reqT && d < reqD) // corrected logic context
                     if (r === '딜' && d < reqD) dfs(idx + 1, t, d + 1, s, [...cur, item]);
                     if (r === '힐' && s < reqS) dfs(idx + 1, t, d, s + 1, [...cur, item]);
                 }
