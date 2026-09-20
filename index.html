@@ -1039,7 +1039,7 @@
             document.querySelectorAll('.team-select-dropdown').forEach(d => d.classList.remove('show'));
         });
 
-        const defaultTierWeights = { "챔피언": 9, "그마": 8, "마스터": 7, "다이아": 6, "에메랄드": 5, "플레": 4, "골드": 3, "실버": 2, "브론즈": 1 };
+        const defaultTierWeights = { "브론즈": 1.0, "실버": 2.2, "골드": 3.5, "플레": 5.0, "에메랄드": 6.8, "다이아": 8.8, "마스터": 11.1, "그마": 13.8, "챔피언": 17.0 };
 
         const initialPlayers = [
             { id: 0, name: "히지키 (ヒジキ)", roles: { "탱": "그마", "딜": "마스터", "힐": "마스터" }, fixedTeam: "auto", excludedRoles: [], selected: true },
@@ -1380,7 +1380,7 @@
             if (selected.length !== target) return alert(`${modeObj.name} 모드는 총 ${target}명이 필요합니다. (현재 선택된 선수가 ${selected.length}명입니다. '플레이어 관리' 탭에서 인원을 맞춰주세요!)`);
 
             let res = solveMultiTeams(selected, modeObj.teamSizes);
-            if (!res) return alert("고정 및 제외 조건으로 인해 해당 팀 인원수로 밸런스를 맞출 수 없습니다.");
+            if (!res) return alert("⚠️ 고정 조건 또는 선택된 플레이어들의 포지션 구성(탱커 부족 등)으로 인해 팀을 나눌 수 없습니다.\n\n[해결 팁]\n1. '팀 고정'이 걸린 선수를 '자동 배치'로 풀어보세요.\n2. 너무 많은 포지션을 꺼두지 않았는지 확인해주세요.");
 
             lastResult = res;
             displayResults(res, modeObj);
@@ -1390,7 +1390,8 @@
             let best = null, minDiff = 999;
             const numTeams = teamSizes.length;
 
-            for (let i = 0; i < 8000; i++) {
+            // 탐색 횟수를 3만 번으로 대폭 늘려 조합 성공 확률 극대화
+            for (let i = 0; i < 30000; i++) {
                 let sh = [...list].sort(() => Math.random() - 0.5);
                 let teamPlayersList = [];
                 let idx = 0;
@@ -1438,7 +1439,7 @@
                     if (diff < minDiff) {
                         minDiff = diff;
                         best = { assignedTeams, scores };
-                        if (diff <= 1) break;
+                        if (diff <= 0.5) break;
                     }
                 }
             }
@@ -1460,7 +1461,7 @@
                 for (let r of avail) {
                     let item = { p, role: r, tier: p.roles[r], score: tierWeights[p.roles[r]] || 0 };
                     if (r === '탱' && t < reqT) dfs(idx + 1, t + 1, d, s, [...cur, item]);
-                    if (r === '딜' && d < reqD) dfs(idx + 1, t, d, s + 1, [...cur, item]);
+                    if (r === '딜' && d < reqD) dfs(idx + 1, t, d + 1, s, [...cur, item]);
                     if (r === '힐' && s < reqS) dfs(idx + 1, t, d, s + 1, [...cur, item]);
                 }
             }
@@ -1504,7 +1505,7 @@
             card.innerHTML = `
                 <div class="team-header">
                     <span style="display:flex; align-items:center;">${logoHtml}${title}</span>
-                    <span style="color:var(--accent-pink);">${score}점</span>
+                    <span style="color:var(--accent-pink);">${score.toFixed(1)}점</span>
                 </div>
                 <ul class="team-list">${itemsHtml}</ul>
             `;
@@ -1519,7 +1520,7 @@
             for (let t = 0; t < lastResult.assignedTeams.length; t++) {
                 let list = lastResult.assignedTeams[t];
                 let score = lastResult.scores[t];
-                txt += `[${teamNamesList[t]} - ${score}점]\n`;
+                txt += `[${teamNamesList[t]} - ${score.toFixed(1)}점]\n`;
                 list.forEach(i => txt += `- ${i.role}: ${i.p.name}\n`);
                 txt += '\n';
             }
