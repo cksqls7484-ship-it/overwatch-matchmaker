@@ -337,11 +337,12 @@
         }
         .custom-tier-btn:hover { border-color: var(--accent-pink); }
 
+        /* 티어 선택 팝업이 카드 오른쪽으로 잘리지 않도록 방향 고정 및 스크롤 방지 */
         .custom-tier-dropdown {
             position: absolute;
             top: 100%;
             left: 0;
-            width: 260px;
+            width: 230px;
             background-color: var(--panel-bg);
             border: 2px solid var(--border-color);
             border-radius: 12px;
@@ -350,8 +351,8 @@
             grid-template-columns: repeat(5, 1fr);
             gap: 4px;
             padding: 8px;
-            z-index: 200;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
             box-sizing: border-box;
         }
 
@@ -391,21 +392,22 @@
         }
         .team-select-btn:hover { border-color: var(--accent-pink); }
 
+        /* 팀 고정 드롭다운이 위쪽 카드를 가리지 않고 아래쪽으로 안전하게 열리도록 수정 */
         .team-select-dropdown {
             position: absolute;
-            bottom: 100%;
+            top: 100%;
             left: 0;
             width: 100%;
             background-color: var(--panel-bg);
             border: 2px solid var(--border-color);
             border-radius: 10px;
-            margin-bottom: 4px;
+            margin-top: 4px;
             display: none;
             flex-direction: column;
             gap: 2px;
             padding: 4px;
-            z-index: 200;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
             box-sizing: border-box;
         }
 
@@ -1390,7 +1392,6 @@
             let best = null, minDiff = 999;
             const numTeams = teamSizes.length;
 
-            // 탐색 횟수를 3만 번으로 대폭 늘려 조합 성공 확률 극대화
             for (let i = 0; i < 30000; i++) {
                 let sh = [...list].sort(() => Math.random() - 0.5);
                 let teamPlayersList = [];
