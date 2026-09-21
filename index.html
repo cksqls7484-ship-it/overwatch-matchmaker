@@ -210,20 +210,22 @@
             margin-bottom: 12px;
         }
 
-        .btn-primary {
+        .btn-dice-only {
             width: 100%;
             background-color: var(--accent-pink);
             border: none;
             color: #1e1b22;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 900;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 32px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(244, 114, 182, 0.3);
+            box-shadow: 0 6px 16px rgba(244, 114, 182, 0.35);
             transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .btn-primary:hover { background-color: var(--accent-rose); transform: translateY(-1px); }
+        .btn-dice-only:hover { background-color: var(--accent-rose); transform: translateY(-1px); }
 
         .btn-secondary {
             background-color: var(--panel-sub-bg);
@@ -309,8 +311,8 @@
         }
 
         .team-icon-small {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             object-fit: contain;
             vertical-align: middle;
             flex-shrink: 0;
@@ -368,7 +370,7 @@
         }
         .custom-tier-option:hover { border-color: var(--accent-pink); background-color: #3e384b; }
 
-        /* [팀 고정 시스템 전용 팝업 스타일] */
+        /* [팀 고정 시스템 아이콘 전용 스타일] */
         .team-fix-wrapper {
             position: relative;
             width: 100%;
@@ -378,24 +380,21 @@
             background-color: var(--panel-bg);
             border: 2px solid var(--border-color);
             color: var(--text-main);
-            padding: 6px 10px;
+            padding: 6px;
             border-radius: 10px;
-            font-size: 12px;
-            font-weight: 800;
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
             cursor: pointer;
             box-sizing: border-box;
-            height: 36px;
+            height: 38px;
         }
         .team-fix-btn:hover { border-color: var(--accent-pink); }
 
         .team-fix-dropdown {
             position: fixed;
-            width: 210px;
+            width: 70px;
             background-color: var(--panel-bg);
             border: 2px solid var(--border-color);
             border-radius: 12px;
@@ -406,21 +405,21 @@
             z-index: 9999;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
             box-sizing: border-box;
+            align-items: center;
         }
         .team-fix-dropdown.show { display: flex; }
 
         .team-fix-option {
-            padding: 8px 10px;
+            padding: 6px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 12px;
-            font-weight: 800;
-            color: var(--text-main);
             background-color: var(--panel-sub-bg);
             border: 1px solid transparent;
+            width: 100%;
+            box-sizing: border-box;
         }
         .team-fix-option:hover { border-color: var(--accent-pink); background-color: #3e384b; }
 
@@ -534,30 +533,10 @@
         .badge:hover { filter: brightness(1.1); }
         .badge.excluded { opacity: 0.3; filter: grayscale(1); background-color: #1e1b22; }
 
-        .match-command-center {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 12px;
-            background: linear-gradient(135deg, #282430 0%, #322d3d 100%);
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            align-items: center;
-        }
-
-        .match-command-info h3 {
-            margin: 0 0 6px 0;
-            font-size: 16px;
-            font-weight: 900;
-            color: var(--accent-pink);
-        }
-        .match-command-info p {
-            margin: 0;
-            font-size: 12px;
-            color: var(--text-sub);
-            font-weight: 600;
+        .match-actions-top {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 14px;
         }
 
         .results-grid {
@@ -633,7 +612,6 @@
 
         .player-tier-info { display: flex; align-items: center; gap: 8px; font-weight: 800; }
         .player-role-info { display: flex; align-items: center; gap: 4px; font-weight: 900; }
-        .ace-badge { background-color: var(--accent-gold); color: #1e1b22; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -794,18 +772,12 @@
 
         <!-- 2. 내전 매치 탭 화면 -->
         <div id="tab-content-match" class="tab-content">
-            <div class="match-command-center">
-                <div class="match-command-info">
-                    <h3>MATCHMAKING CONTROL ROOM</h3>
-                    <p>선택된 플레이어들의 티어와 포지션을 분석하여 가장 공정하고 팽팽한 밸런스의 팀을 자동 구성합니다.</p>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <button class="btn-secondary" style="padding: 10px 16px;" onclick="copyResults()">📋 결과 복사</button>
-                </div>
+            <div class="match-actions-top">
+                <button class="btn-secondary" style="padding: 10px 16px;" onclick="copyResults()">📋 결과 복사</button>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <button class="btn-primary" style="padding: 16px; font-size: 15px;" onclick="generateTeams()">🎲 밸런스 최적화 매치 믹스 시작하기</button>
+                <button class="btn-dice-only" onclick="generateTeams()">🎲</button>
             </div>
 
             <div class="results-section" id="results-section" style="display: flex;">
@@ -815,7 +787,7 @@
                     </div>
                     <div class="results-grid" id="results-grid">
                         <div style="text-align: center; color: var(--text-sub); padding: 60px; font-weight: 800; grid-column: 1 / -1;">
-                            '플레이어 관리' 탭에서 인원을 세팅한 뒤 상단의 <span style="color: var(--accent-pink);">[밸런스 최적화 매치 믹스 시작하기]</span> 버튼을 눌러주세요!
+                            '플레이어 관리' 탭에서 인원을 세팅한 뒤 상단의 <span style="color: var(--accent-pink);">[주사위 아이콘]</span> 버튼을 눌러주세요!
                         </div>
                     </div>
                 </div>
@@ -844,7 +816,7 @@
                             <option value="8">8팀 토너먼트 (8강 → 준결승 → 결승)</option>
                         </select>
                     </div>
-                    <button class="btn-primary" style="width: auto; padding: 10px 20px; font-size: 12px; margin-top: 17px;" onclick="startTournament()">대진표 생성 🚀</button>
+                    <button class="btn-secondary" style="width: auto; padding: 12px 20px; font-size: 13px; margin-top: 17px;" onclick="startTournament()">대진표 생성 🚀</button>
                 </div>
                 <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 14px;">
                     * 팀을 클릭하여 승리 팀을 결정하면 꺾은선 브래킷을 따라 자동으로 진출합니다. (대진표에는 팀원과 점수가 표시되지 않습니다)
@@ -1073,7 +1045,6 @@
             document.getElementById(`${prefix}-dropdown-${roleKey}`).classList.remove('show');
         }
 
-        // [팀 고정 시스템 팝업 제어 함수]
         function toggleTeamFixDropdown(e, playerId) {
             e.stopPropagation();
             const dropdownId = `team-fix-dropdown-${playerId}`;
@@ -1113,9 +1084,9 @@
 
         const initialPlayers = [
             { id: 0, name: "히지키 (ヒジキ)", roles: { "탱": "그마", "딜": "마스터", "힐": "마스터" }, fixedTeam: "auto", excludedRoles: [], selected: true },
-            { id: 1, name: "찬빈 (チャンビン)", roles: { "탱": "마스터", "딜": "그마", "힐": "그마" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 1, name: "찬ビン (チャンビン)", roles: { "탱": "마스터", "딜": "그마", "힐": "그마" }, fixedTeam: "auto", excludedRoles: [], selected: true },
             { id: 2, name: "이라카 (イラカ)", roles: { "탱": "다이아", "딜": "플레", "힐": "마스터" }, fixedTeam: "auto", excludedRoles: [], selected: true },
-            { id: 3, name: "츄리 (チュ리)", roles: { "딜": "다이아" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 3, name: "츄리 (チュリ)", roles: { "딜": "다이아" }, fixedTeam: "auto", excludedRoles: [], selected: true },
             { id: 4, name: "스이소 (スイソ)", roles: { "탱": "다이아", "딜": "에메랄드", "힐": "다이아" }, fixedTeam: "auto", excludedRoles: [], selected: true },
             { id: 5, name: "팽팽 (ペンペン)", roles: { "탱": "플레", "딜": "플레", "힐": "플레" }, fixedTeam: "auto", excludedRoles: [], selected: true },
             { id: 6, name: "테루루 (テルル)", roles: { "탱": "플레", "딜": "플레", "힐": "플레" }, fixedTeam: "auto", excludedRoles: [], selected: true },
@@ -1282,30 +1253,28 @@
                         }
                     });
 
-                    let currentFixText = p.fixedTeam === 'auto' ? '자동 배치' : `${p.fixedTeam}팀 고정`;
-                    let currentFixHtml = `${getTeamImgHtml(p.fixedTeam)} <span>${currentFixText}</span>`;
+                    let currentFixHtml = getTeamImgHtml(p.fixedTeam);
                     
                     let teamFixHtml = `
                         <div class="team-fix-wrapper">
                             <div class="team-fix-btn" id="team-fix-btn-${p.id}" onclick="toggleTeamFixDropdown(event, ${p.id})">
                                 ${currentFixHtml}
-                                <span style="font-size:9px; color:var(--text-sub); margin-left:auto;">▼</span>
                             </div>
                             <div class="team-fix-dropdown" id="team-fix-dropdown-${p.id}">
                                 <div class="team-fix-option" onclick="selectTeamFix(event, ${p.id}, 'auto')">
-                                    ${getTeamImgHtml('auto')} 자동 배치
+                                    ${getTeamImgHtml('auto')}
                                 </div>
                                 <div class="team-fix-option" onclick="selectTeamFix(event, ${p.id}, 'A')">
-                                    ${getTeamImgHtml('A')} A팀 고정
+                                    ${getTeamImgHtml('A')}
                                 </div>
                                 <div class="team-fix-option" onclick="selectTeamFix(event, ${p.id}, 'B')">
-                                    ${getTeamImgHtml('B')} B팀 고정
+                                    ${getTeamImgHtml('B')}
                                 </div>
                                 <div class="team-fix-option" onclick="selectTeamFix(event, ${p.id}, 'C')">
-                                    ${getTeamImgHtml('C')} C팀 고정
+                                    ${getTeamImgHtml('C')}
                                 </div>
                                 <div class="team-fix-option" onclick="selectTeamFix(event, ${p.id}, 'D')">
-                                    ${getTeamImgHtml('D')} D팀 고정
+                                    ${getTeamImgHtml('D')}
                                 </div>
                             </div>
                         </div>
@@ -1566,25 +1535,14 @@
             const order = { "탱": 1, "딜": 2, "힐": 3 };
             list.sort((a, b) => order[a.role] - order[b.role]);
 
-            let maxPlayerScore = -1;
-            let acePlayerName = null;
-            list.forEach(i => {
-                if (i.score > maxPlayerScore) {
-                    maxPlayerScore = i.score;
-                    acePlayerName = i.p.name;
-                }
-            });
-
             let logoHtml = getTeamImgHtml(teamKey);
 
             let itemsHtml = list.map(i => {
-                let isAce = (i.p.name === acePlayerName);
                 return `
                     <li class="team-item">
                         <span class="player-tier-info">
                             ${getTierImgHtml(i.tier)}
                             <strong>${i.p.name}</strong>
-                            ${isAce ? '<span class="ace-badge">ACE</span>' : ''}
                         </span>
                         <span class="player-role-info">
                             ${getRoleImgHtml(i.role)}
