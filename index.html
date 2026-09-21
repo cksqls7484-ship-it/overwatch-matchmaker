@@ -430,7 +430,6 @@
             gap: 8px;
             flex: 1;
             min-width: 0;
-            pointer-events: none;
         }
 
         .card-user label {
@@ -440,10 +439,10 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            pointer-events: none;
+            cursor: pointer;
         }
 
-        .card-actions { display: flex; gap: 4px; pointer-events: auto; }
+        .card-actions { display: flex; gap: 4px; }
 
         .btn-icon {
             background-color: var(--panel-bg);
@@ -463,7 +462,6 @@
             font-size: 12px;
             font-weight: 800;
             flex-wrap: wrap;
-            pointer-events: none;
         }
 
         .badge {
@@ -476,7 +474,6 @@
             gap: 8px;
             cursor: pointer;
             border: 2px solid var(--border-color);
-            pointer-events: auto;
         }
         .badge:hover { filter: brightness(1.1); }
         .badge.excluded { opacity: 0.3; filter: grayscale(1); background-color: #1e1b22; }
@@ -1058,7 +1055,7 @@
             { name: { ko: "부산", jp: "釜山" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_busan.png" },
             { name: { ko: "일리오스", jp: "イリオス" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_ilios.png" },
             { name: { ko: "오아시스", jp: "オアシス" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_oasis.png" },
-            { name: "남극 반도", type: { ko: "남극 반도", jp: "南極半島" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_antarctic.png" },
+            { name: { ko: "남극 반도", jp: "南極半島" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_antarctic.png" },
             { name: { ko: "사모아", jp: "サモア" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_samoa.png" },
             
             { name: { ko: "66번 국도", jp: "ルート66" }, type: "escort", typeName: { ko: "호위", jp: "エスコート" }, image: "./map_route66.png" },
@@ -1491,6 +1488,16 @@
                 const card = document.createElement("div");
                 card.className = p.selected ? `player-card selected` : `player-card`;
 
+                // 카드 전체 클릭 이벤트 부여
+                card.onclick = (e) => {
+                    if (e.target.closest('button') || e.target.closest('.team-fix-wrapper') || e.target.closest('.badge') || e.target.closest('input')) return;
+                    const currentSelectedCount = players.filter(x => x.selected).length;
+                    if (!p.selected && currentSelectedCount >= targetCount) return alert(`현재 모드는 최대 ${targetCount}명까지만 선택할 수 있습니다!`);
+                    p.selected = !p.selected;
+                    saveStorage();
+                    renderPlayerCards();
+                };
+
                 if (isEditing) {
                     card.innerHTML = `
                         <div class="input-group" style="margin-bottom:6px;">
@@ -1507,7 +1514,6 @@
                             <button class="btn-secondary" style="flex:1; padding:8px;" onclick="cancelInlineEdit(event)">${tMap.cancelBtn}</button>
                         </div>
                     `;
-                    grid.appendChild(card);
                 } else {
                     let badges = [];
                     ['탱', '딜', '힐'].forEach(rKey => {
@@ -1545,17 +1551,8 @@
                         <div class="role-badges">${badges.join("")}</div>
                         <div>${teamFixHtml}</div>
                     `;
-
-                    card.onclick = (e) => {
-                        if (e.target.closest('button') || e.target.closest('.team-fix-wrapper') || e.target.closest('.badge')) return;
-                        const currentSelectedCount = players.filter(x => x.selected).length;
-                        if (!p.selected && currentSelectedCount >= target) return alert(`현재 모드는 최대 ${target}명까지만 선택할 수 있습니다!`);
-                        p.selected = !p.selected;
-                        saveStorage();
-                        renderPlayerCards();
-                    };
-                    grid.appendChild(card);
                 }
+                grid.appendChild(card);
             });
             updateCountLabel();
         }
