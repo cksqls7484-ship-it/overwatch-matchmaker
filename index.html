@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overwatch Matchmaker Pro - Bracket & Map UI</title>
+    <title>Overwatch - Bracket & Map UI</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;800;900&display=swap');
 
@@ -663,7 +663,6 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* 당첨 시 반짝이고 튀어오르는 효과 클래스 */
         .map-display-card.winner-glow {
             border-color: var(--accent-pink) !important;
             box-shadow: 0 0 35px rgba(244, 114, 182, 0.6), inset 0 0 20px rgba(244, 114, 182, 0.2);
@@ -711,7 +710,7 @@
 </head>
 <body>
     <nav class="ow-navbar">
-        <div class="ow-logo-area">Overwatch Matchmaker Pro</div>
+        <div class="ow-logo-area">Overwatch</div>
         <button class="btn-icon" onclick="resetAllData()">데이터 초기화</button>
     </nav>
 
@@ -845,10 +844,10 @@
             </div>
         </div>
 
-        <!-- 4. 맵 룰렛 탭 화면 (박진감 & 가속/감속 슬로우모션 연출 적용) -->
+        <!-- 4. 맵 룰렛 탭 화면 -->
         <div id="tab-content-map" class="tab-content">
             <div class="panel">
-                <div class="panel-title"><span>🗺️ 오버워치 공식 맵 추첨 룰렛</span></div>
+                <div class="panel-title"><span>🗺️ 맵 룰렛</span></div>
                 <div class="map-roulette-box">
                     <div style="margin-bottom: 20px;">
                         <label style="font-size: 11px; font-weight: 800; color: var(--text-sub); display: block; margin-bottom: 8px;">추첨 모드 선택</label>
@@ -870,7 +869,7 @@
                         <div class="map-name-display" id="map-name-display">버튼을 눌러 맵을 뽑아주세요!</div>
                     </div>
 
-                    <button class="btn-secondary" id="map-spin-btn" style="padding: 16px 40px; font-size: 18px; background-color: var(--accent-pink); color: #1e1b22; border-color: var(--accent-pink); font-weight: 900; cursor: pointer; border-radius: 14px; box-shadow: 0 6px 20px rgba(244,114,182,0.4);" onclick="spinMapRoulette()">🎰 맵 랜덤 돌리기!</button>
+                    <button class="btn-secondary" id="map-spin-btn" style="padding: 14px; font-size: 28px; background-color: var(--accent-pink); color: #1e1b22; border-color: var(--accent-pink); cursor: pointer; border-radius: 14px; box-shadow: 0 6px 20px rgba(244,114,182,0.4); width: 80px; height: 80px; margin: 0 auto; display: flex; align-items: center; justify-content: center;" onclick="spinMapRoulette()">🎲</button>
                 </div>
             </div>
         </div>
@@ -944,7 +943,7 @@
         let editingId = null;
         let tournamentState = null;
         let currentMapCategory = 'all';
-        let isSpinning = false; // 중복 클릭 방지
+        let isSpinning = false;
 
         function switchTab(tabName) {
             document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -972,7 +971,6 @@
             if (btnElem) btnElem.classList.add('active');
         }
 
-        // 박진감 넘치는 가속/감속 슬로우모션 룰렛 엔진 구현
         function spinMapRoulette() {
             if (isSpinning) return;
 
@@ -991,12 +989,11 @@
             const card = document.getElementById("map-card-container");
             card.classList.remove("winner-glow");
 
-            let currentDelay = 50; // 시작 속도 (빠름)
-            let maxSteps = 35;     // 총 변경 횟수
+            let currentDelay = 50;
+            let maxSteps = 35;
             let step = 0;
 
             function runStep() {
-                // 무작위 맵 화면 출력
                 let randomMap = filteredMaps[Math.floor(Math.random() * filteredMaps.length)];
                 document.getElementById("map-name-display").innerText = randomMap.name;
                 document.getElementById("map-type-badge").innerText = randomMap.typeName;
@@ -1012,15 +1009,13 @@
                 step++;
 
                 if (step < maxSteps) {
-                    // 점점 느려지게 만드는 알고리즘 (지수 함수적 증가)
                     if (step > maxSteps - 12) {
-                        currentDelay += (step - (maxSteps - 12)) * 18; // 마지막 구간 극적인 감속
+                        currentDelay += (step - (maxSteps - 12)) * 18;
                     } else if (step < 8) {
-                        currentDelay = Math.max(25, currentDelay - 3); // 초반 가속
+                        currentDelay = Math.max(25, currentDelay - 3);
                     }
                     setTimeout(runStep, currentDelay);
                 } else {
-                    // 최종 당첨 연출 (네온 글로우 및 완료 해제)
                     isSpinning = false;
                     spinBtn.disabled = false;
                     spinBtn.style.opacity = "1";
