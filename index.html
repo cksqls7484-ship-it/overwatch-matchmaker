@@ -58,6 +58,30 @@
             letter-spacing: 0.5px;
         }
 
+        .lang-switch-group {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .lang-btn {
+            background-color: var(--panel-sub-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-sub);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .lang-btn.active {
+            background-color: var(--accent-pink);
+            border-color: var(--accent-pink);
+            color: #1e1b22;
+        }
+
         .container {
             max-width: 1400px;
             margin: 20px auto;
@@ -614,7 +638,6 @@
             stroke-linejoin: round;
         }
 
-        /* 맵 룰렛 대형 박진감 스타일 */
         .map-roulette-box {
             text-align: center;
             padding: 20px 10px;
@@ -711,16 +734,22 @@
 <body>
     <nav class="ow-navbar">
         <div class="ow-logo-area">Overwatch</div>
-        <button class="btn-icon" onclick="resetAllData()">데이터 초기화</button>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <div class="lang-switch-group">
+                <button class="lang-btn active" id="lang-ko-btn" onclick="setLanguage('ko')">한국어</button>
+                <button class="lang-btn" id="lang-jp-btn" onclick="setLanguage('jp')">JP</button>
+            </div>
+            <button class="btn-icon" id="txt-reset-data" onclick="resetAllData()">데이터 초기화</button>
+        </div>
     </nav>
 
     <div class="container">
         <!-- 상단 탭 네비게이션 -->
         <div class="sub-tab-bar">
-            <button class="sub-tab-btn active" id="tab-player-btn" onclick="switchTab('player')">👤 플레이어 관리</button>
-            <button class="sub-tab-btn" id="tab-match-btn" onclick="switchTab('match')">⚔️ 내전 매치</button>
-            <button class="sub-tab-btn" id="tab-tourney-btn" onclick="switchTab('tourney')">🏆 토너먼트</button>
-            <button class="sub-tab-btn" id="tab-map-btn" onclick="switchTab('map')">🗺️ 맵 룰렛</button>
+            <button class="sub-tab-btn active" id="tab-player-btn" onclick="switchTab('player')">👤 <span data-i18n="tabPlayer">플레이어 관리</span></button>
+            <button class="sub-tab-btn" id="tab-match-btn" onclick="switchTab('match')">⚔️ <span data-i18n="tabMatch">내전 매치</span></button>
+            <button class="sub-tab-btn" id="tab-tourney-btn" onclick="switchTab('tourney')">🏆 <span data-i18n="tabTourney">토너먼트</span></button>
+            <button class="sub-tab-btn" id="tab-map-btn" onclick="switchTab('map')">🗺️ <span data-i18n="tabMap">맵 룰렛</span></button>
         </div>
 
         <!-- 1. 플레이어 관리 탭 화면 -->
@@ -728,14 +757,14 @@
             <div class="main-layout">
                 <div>
                     <div class="panel">
-                        <div class="panel-title">⚡ 대전 모드 선택</div>
+                        <div class="panel-title"><span data-i18n="modeSelectTitle">⚡ 대전 모드 선택</span></div>
                         <div class="mode-grid" id="mode-grid"></div>
                         
                         <div style="background-color: var(--panel-sub-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 12px;">
-                            <label style="font-size: 10px; font-weight: 800; color: var(--accent-rose); display: block; margin-bottom: 5px;">➕ 커스텀 모드 만들기 (팀별 인원 설정)</label>
+                            <label style="font-size: 10px; font-weight: 800; color: var(--accent-rose); display: block; margin-bottom: 5px;" data-i18n="customModeSubTitle">➕ 커스텀 모드 만들기 (팀별 인원 설정)</label>
                             <div class="input-group" style="margin-bottom: 8px;">
-                                <label>모드 이름</label>
-                                <input type="text" id="new-mode-name" class="form-control" placeholder="예: 4팀 난전 (4v4v4v4)">
+                                <label data-i18n="modeNameLabel">모드 이름</label>
+                                <input type="text" id="new-mode-name" class="form-control" placeholder="예: 4팀 난전 (4v4v4v4)" data-i18n-placeholder="modeNamePlaceholder">
                             </div>
                             <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 10px;">
                                 <div class="input-group" style="margin-bottom:0;"><label style="font-size:9px;">A팀</label><input type="text" id="team-a-size" class="custom-size-input" value="5"></div>
@@ -743,27 +772,27 @@
                                 <div class="input-group" style="margin-bottom:0;"><label style="font-size:9px;">C팀</label><input type="text" id="team-c-size" class="custom-size-input" value="0"></div>
                                 <div class="input-group" style="margin-bottom:0;"><label style="font-size:9px;">D팀</label><input type="text" id="team-d-size" class="custom-size-input" value="0"></div>
                             </div>
-                            <button class="btn-secondary" style="width:100%; padding: 7px;" onclick="addNewCustomMode()">커스텀 모드 생성</button>
+                            <button class="btn-secondary" style="width:100%; padding: 7px;" onclick="addNewCustomMode()" data-i18n="createCustomModeBtn">커스텀 모드 생성</button>
                         </div>
                     </div>
 
                     <div class="panel">
-                        <div class="panel-title">➕ 선수 새로 등록</div>
+                        <div class="panel-title"><span data-i18n="addPlayerTitle">➕ 선수 새로 등록</span></div>
                         <div class="input-group">
-                            <label>선수 닉네임</label>
-                            <input type="text" id="p-name" class="form-control" placeholder="예: 홍길동">
+                            <label data-i18n="playerNicknameLabel">선수 닉네임</label>
+                            <input type="text" id="p-name" class="form-control" placeholder="예: 홍길동" data-i18n-placeholder="playerNicknamePlaceholder">
                         </div>
                         <div class="input-group">
-                            <label>포지션별 티어 설정</label>
+                            <label data-i18n="tierSettingLabel">포지션별 티어 설정</label>
                             <div class="role-tier-inputs" id="add-player-tiers"></div>
                         </div>
-                        <button class="btn-secondary" style="width:100%;" onclick="saveNewPlayer()">선수 등록하기</button>
+                        <button class="btn-secondary" style="width:100%;" onclick="saveNewPlayer()" data-i18n="registerPlayerBtn">선수 등록하기</button>
                     </div>
 
                     <div class="panel">
                         <div class="panel-title">
-                            <span>⚙️ 티어 가중치 점수</span>
-                            <button class="btn-icon" onclick="resetTierScores()">기본값</button>
+                            <span data-i18n="tierWeightTitle">⚙️ 티어 가중치 점수</span>
+                            <button class="btn-icon" onclick="resetTierScores()" data-i18n="defaultBtn">기본값</button>
                         </div>
                         <div class="tier-setting-grid" id="tier-weights-box"></div>
                     </div>
@@ -772,13 +801,13 @@
                 <div>
                     <div class="panel">
                         <div class="panel-title">
-                            <span>👥 전체 선수 명단 관리 <small id="lbl-count" style="color:var(--accent-rose);">(12명 필요)</small></span>
+                            <span><span data-i18n="playerListTitle">👥 전체 선수 명단 관리</span> <small id="lbl-count" style="color:var(--accent-rose);">(12명 필요)</small></span>
                         </div>
                         <div class="player-tools">
-                            <input type="text" class="form-control" id="search-box" placeholder="닉네임 검색..." oninput="renderPlayerCards()" style="width: 160px;">
+                            <input type="text" class="form-control" id="search-box" placeholder="닉네임 검색..." data-i18n-placeholder="searchPlaceholder" oninput="renderPlayerCards()" style="width: 160px;">
                             <div style="display: flex; gap: 5px;">
-                                <button class="btn-secondary" style="padding: 5px 8px; font-size: 10px;" onclick="toggleSelectAll(true)">전체 선택</button>
-                                <button class="btn-secondary" style="padding: 5px 8px; font-size: 10px;" onclick="toggleSelectAll(false)">전체 해제</button>
+                                <button class="btn-secondary" style="padding: 5px 8px; font-size: 10px;" onclick="toggleSelectAll(true)" data-i18n="selectAllBtn">전체 선택</button>
+                                <button class="btn-secondary" style="padding: 5px 8px; font-size: 10px;" onclick="toggleSelectAll(false)" data-i18n="deselectAllBtn">전체 해제</button>
                             </div>
                         </div>
                         <div class="player-grid" id="player-grid"></div>
@@ -790,7 +819,7 @@
         <!-- 2. 내전 매치 탭 화면 -->
         <div id="tab-content-match" class="tab-content">
             <div class="match-actions-top">
-                <button class="btn-secondary" style="padding: 10px 16px;" onclick="copyResults()">📋 결과 복사</button>
+                <button class="btn-secondary" style="padding: 10px 16px;" onclick="copyResults()" data-i18n="copyResultsBtn">📋 결과 복사</button>
             </div>
             <div style="margin-bottom: 20px;">
                 <button class="btn-dice-only" onclick="generateTeams()">🎲</button>
@@ -798,11 +827,11 @@
             <div class="results-section" id="results-section" style="display: flex;">
                 <div class="panel" style="width: 100%; margin-top: 0;">
                     <div class="panel-title">
-                        <span>🏆 실시간 팀 배치 및 전력 분석 결과</span>
+                        <span data-i18n="matchResultTitle">🏆 실시간 팀 배치 및 전력 분석 결과</span>
                     </div>
                     <div class="results-grid" id="results-grid">
-                        <div style="text-align: center; color: var(--text-sub); padding: 60px; font-weight: 800; grid-column: 1 / -1;">
-                            '플레이어 관리' 탭에서 인원을 세팅한 뒤 상단의 <span style="color: var(--accent-pink);">[주사위 아이콘]</span> 버튼을 눌러주세요!
+                        <div style="text-align: center; color: var(--text-sub); padding: 60px; font-weight: 800; grid-column: 1 / -1;" data-i18n="matchGuideText">
+                            '플레이어 관리' 탭에서 인원을 세팅한 뒤 상단의 [주사위 아이콘] 버튼을 눌러주세요!
                         </div>
                     </div>
                 </div>
@@ -813,31 +842,31 @@
         <div id="tab-content-tourney" class="tab-content">
             <div class="panel">
                 <div class="panel-title">
-                    <span>🏆 토너먼트 대진표 관리</span>
+                    <span data-i18n="tourneyTitle">🏆 토너먼트 대진표 관리</span>
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: center; margin-bottom: 14px;">
                     <div class="input-group" style="margin-bottom: 0;">
-                        <label>토너먼트 포맷 (팀당 인원)</label>
+                        <label data-i18n="tourneyFormatLabel">토너먼트 포맷 (팀당 인원)</label>
                         <select id="tourney-team-size" class="form-control">
-                            <option value="5">5v5 토너먼트</option>
-                            <option value="6" selected>6v6 토너먼트</option>
+                            <option value="5" data-i18n="tourneySize5">5v5 토너먼트</option>
+                            <option value="6" selected data-i18n="tourneySize6">6v6 토너먼트</option>
                         </select>
                     </div>
                     <div class="input-group" style="margin-bottom: 0;">
-                        <label>참가 팀 수 선택</label>
+                        <label data-i18n="tourneyCountLabel">참가 팀 수 선택</label>
                         <select id="tourney-team-count" class="form-control">
-                            <option value="3">3팀 토너먼트 (패자부활전 포함)</option>
-                            <option value="4">4팀 토너먼트 (준결승 → 결승)</option>
-                            <option value="8">8팀 토너먼트 (8강 → 준결승 → 결승)</option>
+                            <option value="3" data-i18n="tourneyCount3">3팀 토너먼트 (패자부활전 포함)</option>
+                            <option value="4" data-i18n="tourneyCount4">4팀 토너먼트 (준결승 → 결승)</option>
+                            <option value="8" data-i18n="tourneyCount8">8팀 토너먼트 (8강 → 준결승 → 결승)</option>
                         </select>
                     </div>
-                    <button class="btn-secondary" style="width: auto; padding: 12px 20px; font-size: 13px; margin-top: 17px;" onclick="startTournament()">대진표 생성 🚀</button>
+                    <button class="btn-secondary" style="width: auto; padding: 12px 20px; font-size: 13px; margin-top: 17px;" onclick="startTournament()" data-i18n="tourneyCreateBtn">대진표 생성 🚀</button>
                 </div>
-                <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 14px;">
+                <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 14px;" data-i18n="tourneyGuideText">
                     * 팀을 클릭하여 승리 팀을 결정하면 꺾은선 브래킷을 따라 자동으로 진출합니다.
                 </div>
                 <div class="tournament-bracket" id="tournament-bracket-area">
-                    <div style="text-align: center; color: var(--text-sub); padding: 40px; font-weight: 800;">
+                    <div style="text-align: center; color: var(--text-sub); padding: 40px; font-weight: 800;" data-i18n="tourneyInitText">
                         상단에서 포맷을 설정하고 대진표를 생성해 주세요!
                     </div>
                 </div>
@@ -847,26 +876,26 @@
         <!-- 4. 맵 룰렛 탭 화면 -->
         <div id="tab-content-map" class="tab-content">
             <div class="panel">
-                <div class="panel-title"><span>🗺️ 맵 룰렛</span></div>
+                <div class="panel-title"><span data-i18n="mapRouletteTitle">🗺️ 맵 룰렛</span></div>
                 <div class="map-roulette-box">
                     <div style="margin-bottom: 20px;">
-                        <label style="font-size: 11px; font-weight: 800; color: var(--text-sub); display: block; margin-bottom: 8px;">추첨 모드 선택</label>
+                        <label style="font-size: 11px; font-weight: 800; color: var(--text-sub); display: block; margin-bottom: 8px;" data-i18n="mapModeSelectLabel">추첨 모드 선택</label>
                         <div class="map-category-grid" id="map-category-grid">
-                            <button class="map-cat-btn active" onclick="setMapCategory('all', this)">전체</button>
-                            <button class="map-cat-btn" onclick="setMapCategory('control', this)">쟁탈</button>
-                            <button class="map-cat-btn" onclick="setMapCategory('escort', this)">호위</button>
-                            <button class="map-cat-btn" onclick="setMapCategory('hybrid', this)">혼합</button>
-                            <button class="map-cat-btn" onclick="setMapCategory('push', this)">밀기</button>
-                            <button class="map-cat-btn" onclick="setMapCategory('flashpoint', this)">플래시포인트</button>
+                            <button class="map-cat-btn active" onclick="setMapCategory('all', this)" data-i18n="mapCatAll">전체</button>
+                            <button class="map-cat-btn" onclick="setMapCategory('control', this)" data-i18n="mapCatControl">쟁탈</button>
+                            <button class="map-cat-btn" onclick="setMapCategory('escort', this)" data-i18n="mapCatEscort">호위</button>
+                            <button class="map-cat-btn" onclick="setMapCategory('hybrid', this)" data-i18n="mapCatHybrid">혼합</button>
+                            <button class="map-cat-btn" onclick="setMapCategory('push', this)" data-i18n="mapCatPush">밀기</button>
+                            <button class="map-cat-btn" onclick="setMapCategory('flashpoint', this)" data-i18n="mapCatFlash">플래시포인트</button>
                         </div>
                     </div>
                     
                     <div class="map-display-card" id="map-card-container">
-                        <div class="map-type-badge" id="map-type-badge">전체</div>
+                        <div class="map-type-badge" id="map-type-badge" data-i18n="mapCatAll">전체</div>
                         <div class="map-img-wrapper" id="map-img-wrapper">
                             <img id="map-img-display" src="" alt="맵 이미지" style="display:none;" onerror="this.style.display='none';">
                         </div>
-                        <div class="map-name-display" id="map-name-display">버튼을 눌러 맵을 뽑아주세요!</div>
+                        <div class="map-name-display" id="map-name-display" data-i18n="mapDefaultText">버튼을 눌러 맵을 뽑아주세요!</div>
                     </div>
 
                     <button class="btn-secondary" id="map-spin-btn" style="padding: 14px; font-size: 28px; background-color: var(--accent-pink); color: #1e1b22; border-color: var(--accent-pink); cursor: pointer; border-radius: 14px; box-shadow: 0 6px 20px rgba(244,114,182,0.4); width: 80px; height: 80px; margin: 0 auto; display: flex; align-items: center; justify-content: center;" onclick="spinMapRoulette()">🎲</button>
@@ -876,6 +905,130 @@
     </div>
 
     <script>
+        // 다국어 딕셔너리 시스템 (한국어 / 일본어)
+        const i18nData = {
+            ko: {
+                resetData: "데이터 초기화",
+                tabPlayer: "플레이어 관리",
+                tabMatch: "내전 매치",
+                tabTourney: "토너먼트",
+                tabMap: "맵 룰렛",
+                modeSelectTitle: "⚡ 대전 모드 선택",
+                customModeSubTitle: "➕ 커스텀 모드 만들기 (팀별 인원 설정)",
+                modeNameLabel: "모드 이름",
+                modeNamePlaceholder: "예: 4팀 난전 (4v4v4v4)",
+                createCustomModeBtn: "커스텀 모드 생성",
+                addPlayerTitle: "➕ 선수 새로 등록",
+                playerNicknameLabel: "선수 닉네임",
+                playerNicknamePlaceholder: "예: 홍길동",
+                tierSettingLabel: "포지션별 티어 설정",
+                registerPlayerBtn: "선수 등록하기",
+                tierWeightTitle: "⚙️ 티어 가중치 점수",
+                defaultBtn: "기본값",
+                playerListTitle: "👥 전체 선수 명단 관리",
+                searchPlaceholder: "닉네임 검색...",
+                selectAllBtn: "전체 선택",
+                deselectAllBtn: "전체 해제",
+                copyResultsBtn: "📋 결과 복사",
+                matchResultTitle: "🏆 실시간 팀 배치 및 전력 분석 결과",
+                matchGuideText: "'플레이어 관리' 탭에서 인원을 세팅한 뒤 상단의 [주사위 아이콘] 버튼을 눌러주세요!",
+                tourneyTitle: "🏆 토너먼트 대진표 관리",
+                tourneyFormatLabel: "토너먼트 포맷 (팀당 인원)",
+                tourneySize5: "5v5 토너먼트",
+                tourneySize6: "6v6 토너먼트",
+                tourneyCountLabel: "참가 팀 수 선택",
+                tourneyCount3: "3팀 토너먼트 (패자부활전 포함)",
+                tourneyCount4: "4팀 토너먼트 (준결승 → 결승)",
+                tourneyCount8: "8팀 토너먼트 (8강 → 준결승 → 결승)",
+                tourneyCreateBtn: "대진표 생성 🚀",
+                tourneyGuideText: "* 팀을 클릭하여 승리 팀을 결정하면 꺾은선 브래킷을 따라 자동으로 진출합니다.",
+                tourneyInitText: "상단에서 포맷을 설정하고 대진표를 생성해 주세요!",
+                mapRouletteTitle: "🗺️ 맵 룰렛",
+                mapModeSelectLabel: "추첨 모드 선택",
+                mapCatAll: "전체",
+                mapCatControl: "쟁탈",
+                mapCatEscort: "호위",
+                mapCatHybrid: "혼합",
+                mapCatPush: "밀기",
+                mapCatFlash: "플래시포인트",
+                mapDefaultText: "버튼을 눌러 맵을 뽑아주세요!",
+                tierNone: "없음"
+            },
+            jp: {
+                resetData: "データ初期化",
+                tabPlayer: "プレイヤー管理",
+                tabMatch: "カスタムマッチ",
+                tabTourney: "トーナメント",
+                tabMap: "マップルーレット",
+                modeSelectTitle: "⚡ 対戦モード選択",
+                customModeSubTitle: "➕ カスタムモード作成 (チーム別人数設定)",
+                modeNameLabel: "モード名",
+                modeNamePlaceholder: "例: 4チーム混戦 (4v4v4v4)",
+                createCustomModeBtn: "カスタムモード生成",
+                addPlayerTitle: "➕ 新規プレイヤー登録",
+                playerNicknameLabel: "プレイヤー名",
+                playerNicknamePlaceholder: "例: 홍길동",
+                tierSettingLabel: "ポジション別ティア設定",
+                registerPlayerBtn: "プレイヤー登録",
+                tierWeightTitle: "⚙️ ティアウェイトスコア",
+                defaultBtn: "デフォルト",
+                playerListTitle: "👥 全プレイヤー一覧管理",
+                searchPlaceholder: "名前で検索...",
+                selectAllBtn: "すべて選択",
+                deselectAllBtn: "選択解除",
+                copyResultsBtn: "📋 結果をコピー",
+                matchResultTitle: "🏆 リアルタイムチーム配置＆戦力分析結果",
+                matchGuideText: "「プレイヤー管理」タブで人数を設定した後、上部の[サイコロアイコン]ボタンを押してください！",
+                tourneyTitle: "🏆 トーナメント表管理",
+                tourneyFormatLabel: "トーナメント形式 (1チームの人数)",
+                tourneySize5: "5v5 トーナメント",
+                tourneySize6: "6v6 トーナメント",
+                tourneyCountLabel: "参加チーム数選択",
+                tourneyCount3: "3チームトーナメント (敗者復活戦含む)",
+                tourneyCount4: "4チームトーナメント (準決勝 → 決勝)",
+                tourneyCount8: "8チームトーナメント (準々決勝 → 準決勝 → 決勝)",
+                tourneyCreateBtn: "トーナメント生成 🚀",
+                tourneyGuideText: "* チームをクリックして勝利チームを決定すると、ブラケットに沿って自動で進出します。",
+                tourneyInitText: "上部で形式を設定し、トーナメントを生成してください！",
+                mapRouletteTitle: "🗺️ マップルーレット",
+                mapModeSelectLabel: "抽選モード選択",
+                mapCatAll: "すべて",
+                mapCatControl: "コントロール",
+                mapCatEscort: "エスコート",
+                mapCatHybrid: "ハイブリッド",
+                mapCatPush: "プッシュ",
+                mapCatFlash: "フラッシュポイント",
+                mapDefaultText: "ボタンを押してマップを引いてください！",
+                tierNone: "なし"
+            }
+        };
+
+        let currentLang = 'ko';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('lang-ko-btn').classList.toggle('active', lang === 'ko');
+            document.getElementById('lang-jp-btn').classList.toggle('active', lang === 'jp');
+
+            // data-i18n 속성을 가진 모든 요소 텍스트 변경
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18nData[lang][key]) {
+                    el.innerText = i18nData[lang][key];
+                }
+            });
+
+            // placeholder 변경
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (i18nData[lang][key]) {
+                    el.placeholder = i18nData[lang][key];
+                }
+            });
+
+            renderPlayerCards();
+        }
+
         const tierImageUrls = {
             "브론즈": "./bronze.png", "실버": "./silver.png", "골드": "./gold.png",
             "플레": "./platinum.png", "에메랄드": "./emerald.png", "다이아": "./diamond.png",
@@ -1128,11 +1281,12 @@
         }
 
         function createCustomTierSelect(prefix, roleKey, currentTier) {
-            let optionsHtml = `<div class="custom-tier-option" onclick="selectTier(event, '${prefix}', '${roleKey}', 'none')"><span style="font-size:10px; color:var(--text-sub);">없음</span></div>`;
+            const noneText = i18nData[currentLang].tierNone;
+            let optionsHtml = `<div class="custom-tier-option" onclick="selectTier(event, '${prefix}', '${roleKey}', 'none')"><span style="font-size:10px; color:var(--text-sub);">${noneText}</span></div>`;
             tiersList.forEach(t => {
                 optionsHtml += `<div class="custom-tier-option" onclick="selectTier(event, '${prefix}', '${roleKey}', '${t}')">${getTierImgHtml(t)}</div>`;
             });
-            let currentDisplay = currentTier && currentTier !== 'none' ? `${getTierImgHtml(currentTier)}` : `<span style="font-size:11px; color:var(--text-sub);">없음</span>`;
+            let currentDisplay = currentTier && currentTier !== 'none' ? `${getTierImgHtml(currentTier)}` : `<span style="font-size:11px; color:var(--text-sub);">${noneText}</span>`;
             return `
                 <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
                     ${getRoleImgHtml(roleKey)}
@@ -1166,7 +1320,8 @@
             e.stopPropagation();
             document.getElementById(`${prefix}-val-${roleKey}`).value = tierName;
             const btn = document.getElementById(`${prefix}-btn-${roleKey}`);
-            btn.innerHTML = tierName !== 'none' ? `${getTierImgHtml(tierName)}` : `<span style="font-size:11px; color:var(--text-sub);">없음</span>`;
+            const noneText = i18nData[currentLang].tierNone;
+            btn.innerHTML = tierName !== 'none' ? `${getTierImgHtml(tierName)}` : `<span style="font-size:11px; color:var(--text-sub);">${noneText}</span>`;
             document.getElementById(`${prefix}-dropdown-${roleKey}`).classList.remove('show');
         }
 
@@ -1286,7 +1441,7 @@
             const checked = players.filter(p => p.selected).length;
             const lbl = document.getElementById("lbl-count");
             if (!lbl) return;
-            lbl.innerText = `(${checked} / ${target}명 선택됨)`;
+            lbl.innerText = `(${checked} / ${target})`;
             lbl.style.color = checked === target ? "#f472b6" : "#fb7185";
         }
 
@@ -1547,7 +1702,7 @@
             card.innerHTML = `
                 <div class="team-header">
                     <span style="display:flex; align-items:center;">${getTeamImgHtml(teamKey)}${title}</span>
-                    <span style="color:var(--accent-pink);">${score.toFixed(1)}점</span>
+                    <span style="color:var(--accent-pink);">${score.toFixed(1)}</span>
                 </div>
                 <div class="match-stats-widget">
                     <div class="ratio-bar-container">
@@ -1556,9 +1711,9 @@
                         <div class="ratio-bar-sup" style="width: ${supPct}%"></div>
                     </div>
                     <div class="ratio-text-row">
-                        <div class="stat-item">${getRoleImgHtml('탱')} 탱: ${tankPct}%</div>
-                        <div class="stat-item">${getRoleImgHtml('딜')} 딜: ${dpsPct}%</div>
-                        <div class="stat-item">${getRoleImgHtml('힐')} 힐: ${supPct}%</div>
+                        <div class="stat-item">${getRoleImgHtml('탱')} ${tankPct}%</div>
+                        <div class="stat-item">${getRoleImgHtml('딜')} ${dpsPct}%</div>
+                        <div class="stat-item">${getRoleImgHtml('힐')} ${supPct}%</div>
                     </div>
                 </div>
                 <ul class="team-list">${itemsHtml}</ul>
@@ -1569,7 +1724,7 @@
         function copyResults() {
             if (!lastResult) return;
             let modeObj = getCurrentModeObj();
-            let txt = `🎮 내전 매치 결과 (${modeObj.name})\n\n`;
+            let txt = `🎮 매치 결과 (${modeObj.name})\n\n`;
             for (let t = 0; t < lastResult.assignedTeams.length; t++) {
                 txt += `[${teamNamesList[t]} - ${lastResult.scores[t].toFixed(1)}점]\n`;
                 lastResult.assignedTeams[t].forEach(i => txt += `- ${i.role}: ${i.p.name}\n`);
@@ -1579,7 +1734,7 @@
         }
 
         function getTeamCardContentHtml(teamObj) {
-            if (!teamObj) return '<span style="color:var(--text-sub); font-size:12px;">팀 대기 중...</span>';
+            if (!teamObj) return '<span style="color:var(--text-sub); font-size:12px;">...</span>';
             return `<div style="display:flex; align-items:center;">${getTeamImgHtml(teamObj.key)}<strong>${teamObj.name}</strong></div>`;
         }
 
@@ -1620,19 +1775,19 @@
                             <path d="M 230 207 L 285 207 L 285 140 L 540 140" />
                         </svg>
                         <div class="bracket-node" style="grid-column: 1; grid-row: 1;">
-                            <div style="font-size:10px; font-weight:800; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg);">1라운드</div>
+                            <div style="font-size:10px; font-weight:800; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg);">Round 1</div>
                             <div class="${m1.winner === 'A' ? 'bracket-row winner' : 'bracket-row'}" onclick="setTourneyWinner('3team_m1', 0, 'A')">${getTeamCardContentHtml(m1.teamA)}<span>${m1.winner === 'A' ? '👑' : ''}</span></div>
                             <div class="${m1.winner === 'B' ? 'bracket-row winner' : 'bracket-row'}" onclick="setTourneyWinner('3team_m1', 0, 'B')">${getTeamCardContentHtml(m1.teamB)}<span>${m1.winner === 'B' ? '👑' : ''}</span></div>
                         </div>
                         <div class="bracket-node" style="grid-column: 1; grid-row: 3;">
-                            <div style="font-size:10px; font-weight:800; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg);">패자부활전</div>
+                            <div style="font-size:10px; font-weight:800; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg);">Losers</div>
                             <div class="${m2.winner === 'A' ? 'bracket-row winner' : 'bracket-row'}" ${m2.teamA ? `onclick="setTourneyWinner('3team_m2', 0, 'A')"` : ''}>${getTeamCardContentHtml(m2.teamA)}<span>${m2.winner === 'A' ? '👑' : ''}</span></div>
                             <div class="${m2.winner === 'B' ? 'bracket-row winner' : 'bracket-row'}" onclick="setTourneyWinner('3team_m2', 0, 'B')">${getTeamCardContentHtml(m2.teamB)}<span>${m2.winner === 'B' ? '👑' : ''}</span></div>
                         </div>
                         <div class="bracket-node" style="grid-column: 3; grid-row: 1 / span 3; align-self: center;">
-                            <div style="font-size:10px; font-weight:800; color:var(--accent-pink); padding:6px 10px; background:var(--panel-sub-bg);">🏆 결승전</div>
-                            <div class="${f.winner === 'A' ? 'bracket-row winner' : 'bracket-row'}" ${f.teamA ? `onclick="setTourneyWinner('3team_finals', 0, 'A')"` : ''}>${getTeamCardContentHtml(f.teamA)}<span>${f.winner === 'A' ? '👑 우승' : ''}</span></div>
-                            <div class="${f.winner === 'B' ? 'bracket-row winner' : 'bracket-row'}" ${f.teamB ? `onclick="setTourneyWinner('3team_finals', 0, 'B')"` : ''}>${getTeamCardContentHtml(f.teamB)}<span>${f.winner === 'B' ? '👑 우승' : ''}</span></div>
+                            <div style="font-size:10px; font-weight:800; color:var(--accent-pink); padding:6px 10px; background:var(--panel-sub-bg);">🏆 Final</div>
+                            <div class="${f.winner === 'A' ? 'bracket-row winner' : 'bracket-row'}" ${f.teamA ? `onclick="setTourneyWinner('3team_finals', 0, 'A')"` : ''}>${getTeamCardContentHtml(f.teamA)}<span>${f.winner === 'A' ? '👑' : ''}</span></div>
+                            <div class="${f.winner === 'B' ? 'bracket-row winner' : 'bracket-row'}" ${f.teamB ? `onclick="setTourneyWinner('3team_finals', 0, 'B')"` : ''}>${getTeamCardContentHtml(f.teamB)}<span>${f.winner === 'B' ? '👑' : ''}</span></div>
                         </div>
                     </div>
                 `;
@@ -1645,19 +1800,19 @@
                             <path d="M 230 207 L 285 207 L 285 140 L 540 140" />
                         </svg>
                         <div class="bracket-node" style="grid-column: 1; grid-row: 1;">
-                            <div style="font-size:10px; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg);">준결승 1</div>
+                            <div style="font-size:10px; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg);">Semi-Final 1</div>
                             <div class="${s1.winner === 'A' ? 'bracket-row winner' : 'bracket-row'}" onclick="setTourneyWinner('semis', 0, 'A')">${getTeamCardContentHtml(s1.teamA)}<span>${s1.winner === 'A' ? '👑' : ''}</span></div>
                             <div class="${s1.winner === 'B' ? 'bracket-row winner' : 'bracket-row'}" onclick="setTourneyWinner('semis', 0, 'B')">${getTeamCardContentHtml(s1.teamB)}<span>${s1.winner === 'B' ? '👑' : ''}</span></div>
                         </div>
                         <div class="bracket-node" style="grid-column: 1; grid-row: 3;">
-                            <div style="font-size:10px; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg);">준결승 2</div>
+                            <div style="font-size:10px; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg);">Semi-Final 2</div>
                             <div class="${s2.winner === 'A' ? 'bracket-row winner' : 'bracket-row'}" onclick="setTourneyWinner('semis', 1, 'A')">${getTeamCardContentHtml(s2.teamA)}<span>${s2.winner === 'A' ? '👑' : ''}</span></div>
                             <div class="${s2.winner === 'B' ? 'bracket-row winner' : 'bracket-row'}" onclick="setTourneyWinner('semis', 1, 'B')">${getTeamCardContentHtml(s2.teamB)}<span>${s2.winner === 'B' ? '👑' : ''}</span></div>
                         </div>
                         <div class="bracket-node" style="grid-column: 3; grid-row: 1 / span 3; align-self: center;">
-                            <div style="font-size:10px; color:var(--accent-pink); padding:6px 10px; background:var(--panel-sub-bg);">🏆 결승전</div>
-                            <div class="${f.winner === 'A' ? 'bracket-row winner' : 'bracket-row'}" ${f.teamA ? `onclick="setTourneyWinner('finals', 0, 'A')"` : ''}>${getTeamCardContentHtml(f.teamA)}<span>${f.winner === 'A' ? '👑 우승' : ''}</span></div>
-                            <div class="${f.winner === 'B' ? 'bracket-row winner' : 'bracket-row'}" ${f.teamB ? `onclick="setTourneyWinner('finals', 0, 'B')"` : ''}>${getTeamCardContentHtml(f.teamB)}<span>${f.winner === 'B' ? '👑 우승' : ''}</span></div>
+                            <div style="font-size:10px; color:var(--accent-pink); padding:6px 10px; background:var(--panel-sub-bg);">🏆 Final</div>
+                            <div class="${f.winner === 'A' ? 'bracket-row winner' : 'bracket-row'}" ${f.teamA ? `onclick="setTourneyWinner('finals', 0, 'A')"` : ''}>${getTeamCardContentHtml(f.teamA)}<span>${f.winner === 'A' ? '👑' : ''}</span></div>
+                            <div class="${f.winner === 'B' ? 'bracket-row winner' : 'bracket-row'}" ${f.teamB ? `onclick="setTourneyWinner('finals', 0, 'B')"` : ''}>${getTeamCardContentHtml(f.teamB)}<span>${f.winner === 'B' ? '👑' : ''}</span></div>
                         </div>
                     </div>
                 `;
