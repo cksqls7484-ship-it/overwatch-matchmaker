@@ -16,6 +16,8 @@
             --border-selected: #f472b6;
             --accent-pink: #f472b6;
             --accent-rose: #fb7185;
+            --accent-gold: #fbbf24;
+            --accent-cyan: #38bdf8;
             --text-main: #f3e8ff;
             --text-sub: #d8b4fe;
             --team-a: #38bdf8;
@@ -337,7 +339,6 @@
         }
         .custom-tier-btn:hover { border-color: var(--accent-pink); }
 
-        /* 화면 잘림 현상을 완벽히 방지하는 고정형 팝업 스타일 */
         .custom-tier-dropdown {
             position: fixed;
             width: 230px;
@@ -533,11 +534,31 @@
         .badge:hover { filter: brightness(1.1); }
         .badge.excluded { opacity: 0.3; filter: grayscale(1); background-color: #1e1b22; }
 
-        .results-section {
-            margin-top: 20px;
-            display: none;
-            flex-direction: column;
-            gap: 14px;
+        /* [내전 매치 탭 전용 초고급 스타일] */
+        .match-command-center {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            background: linear-gradient(135deg, #282430 0%, #322d3d 100%);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            align-items: center;
+        }
+
+        .match-command-info h3 {
+            margin: 0 0 6px 0;
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--accent-pink);
+        }
+        .match-command-info p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--text-sub);
+            font-weight: 600;
         }
 
         .results-grid {
@@ -555,11 +576,14 @@
             background-color: var(--panel-sub-bg);
             border: 2px solid var(--border-color);
             border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             width: 100%;
             box-sizing: border-box;
+            position: relative;
+            transition: 0.2s;
         }
+        .team-card:hover { border-color: var(--accent-pink); }
         .team-card.a { border-top: 6px solid var(--team-a); }
         .team-card.b { border-top: 6px solid var(--team-b); }
         .team-card.c { border-top: 6px solid var(--team-c); }
@@ -573,18 +597,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 900;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
             border-bottom: 2px solid var(--border-color);
             color: var(--text-main);
+        }
+
+        .match-stats-widget {
+            background-color: var(--panel-bg);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            font-size: 11px;
+            font-weight: 800;
         }
 
         .team-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
         .team-item {
             background-color: var(--panel-bg);
-            padding: 10px 12px;
+            padding: 10px 14px;
             border-radius: 10px;
             display: flex;
             justify-content: space-between;
@@ -592,10 +629,12 @@
             font-size: 13px;
             border: 2px solid var(--border-color);
             color: var(--text-main);
+            position: relative;
         }
 
         .player-tier-info { display: flex; align-items: center; gap: 8px; font-weight: 800; }
         .player-role-info { display: flex; align-items: center; gap: 4px; font-weight: 900; }
+        .ace-badge { background-color: var(--accent-gold); color: #1e1b22; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -679,6 +718,40 @@
             <div class="main-layout">
                 <div>
                     <div class="panel">
+                        <div class="panel-title">⚡ 대전 모드 선택</div>
+                        <div class="mode-grid" id="mode-grid"></div>
+                        
+                        <div style="background-color: var(--panel-sub-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 0;">
+                            <label style="font-size: 10px; font-weight: 800; color: var(--accent-rose); display: block; margin-bottom: 5px;">➕ 커스텀 모드 만들기 (팀별 인원 설정)</label>
+                            <div class="input-group" style="margin-bottom: 8px;">
+                                <label>모드 이름</label>
+                                <input type="text" id="new-mode-name" class="form-control" placeholder="예: 4팀 난전 (4v4v4v4)">
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 10px;">
+                                <div class="input-group" style="margin-bottom:0;">
+                                    <label style="font-size:9px;">A팀</label>
+                                    <input type="text" id="team-a-size" class="custom-size-input" value="5">
+                                </div>
+                                <div class="input-group" style="margin-bottom:0;">
+                                    <label style="font-size:9px;">B팀</label>
+                                    <input type="text" id="team-b-size" class="custom-size-input" value="5">
+                                </div>
+                                <div class="input-group" style="margin-bottom:0;">
+                                    <label style="font-size:9px;">C팀</label>
+                                    <input type="text" id="team-c-size" class="custom-size-input" value="0">
+                                </div>
+                                <div class="input-group" style="margin-bottom:0;">
+                                    <label style="font-size:9px;">D팀</label>
+                                    <input type="text" id="team-d-size" class="custom-size-input" value="0">
+                                </div>
+                            </div>
+
+                            <button class="btn-secondary" style="width:100%; padding: 7px;" onclick="addNewCustomMode()">커스텀 모드 생성</button>
+                        </div>
+                    </div>
+
+                    <div class="panel">
                         <div class="panel-title">➕ 선수 새로 등록</div>
                         <div class="input-group">
                             <label>선수 닉네임</label>
@@ -720,59 +793,30 @@
             </div>
         </div>
 
-        <!-- 2. 내전 매치 탭 화면 -->
+        <!-- 2. 내전 매치 탭 화면 (개편 완료) -->
         <div id="tab-content-match" class="tab-content">
-            <div class="main-layout">
-                <div>
-                    <div class="panel">
-                        <div class="panel-title">⚡ 대전 모드 선택</div>
-                        <div class="mode-grid" id="mode-grid"></div>
-                        
-                        <div style="background-color: var(--panel-sub-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 14px;">
-                            <label style="font-size: 10px; font-weight: 800; color: var(--accent-rose); display: block; margin-bottom: 5px;">➕ 커스텀 모드 만들기 (팀별 인원 설정)</label>
-                            <div class="input-group" style="margin-bottom: 8px;">
-                                <label>모드 이름</label>
-                                <input type="text" id="new-mode-name" class="form-control" placeholder="예: 4팀 난전 (4v4v4v4)">
-                            </div>
-
-                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 10px;">
-                                <div class="input-group" style="margin-bottom:0;">
-                                    <label style="font-size:9px;">A팀</label>
-                                    <input type="text" id="team-a-size" class="custom-size-input" value="5">
-                                </div>
-                                <div class="input-group" style="margin-bottom:0;">
-                                    <label style="font-size:9px;">B팀</label>
-                                    <input type="text" id="team-b-size" class="custom-size-input" value="5">
-                                </div>
-                                <div class="input-group" style="margin-bottom:0;">
-                                    <label style="font-size:9px;">C팀</label>
-                                    <input type="text" id="team-c-size" class="custom-size-input" value="0">
-                                </div>
-                                <div class="input-group" style="margin-bottom:0;">
-                                    <label style="font-size:9px;">D팀</label>
-                                    <input type="text" id="team-d-size" class="custom-size-input" value="0">
-                                </div>
-                            </div>
-
-                            <button class="btn-secondary" style="width:100%; padding: 7px;" onclick="addNewCustomMode()">커스텀 모드 생성</button>
-                        </div>
-
-                        <button class="btn-primary" onclick="generateTeams()">Random 매치 돌리기 🎲</button>
-                    </div>
+            <div class="match-command-center">
+                <div class="match-command-info">
+                    <h3>MATCHMAKING CONTROL ROOM</h3>
+                    <p>선택된 플레이어들의 티어와 포지션을 분석하여 가장 공정하고 팽팽한 밸런스의 팀을 자동 구성합니다.</p>
                 </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-secondary" style="padding: 10px 16px;" onclick="copyResults()">📋 결과 복사</button>
+                </div>
+            </div>
 
-                <div>
-                    <div class="results-section" id="results-section" style="display: flex; margin-top: 0;">
-                        <div class="panel" style="width: 100%;">
-                            <div class="panel-title">
-                                <span>🏆 생성된 팀 배치 결과</span>
-                                <button class="btn-secondary" style="padding: 5px 8px; font-size: 10px;" onclick="copyResults()">📋 결과 복사</button>
-                            </div>
-                            <div class="results-grid" id="results-grid">
-                                <div style="text-align: center; color: var(--text-sub); padding: 40px; font-weight: 800; grid-column: 1 / -1;">
-                                    좌측에서 모드를 선택하고 'Random 매치 돌리기' 버튼을 눌러주세요!
-                                </div>
-                            </div>
+            <div style="margin-bottom: 20px;">
+                <button class="btn-primary" style="padding: 16px; font-size: 15px;" onclick="generateTeams()">🎲 밸런스 최적화 매치 믹스 시작하기</button>
+            </div>
+
+            <div class="results-section" id="results-section" style="display: flex;">
+                <div class="panel" style="width: 100%; margin-top: 0;">
+                    <div class="panel-title">
+                        <span>🏆 실시간 팀 배치 및 전력 분석 결과</span>
+                    </div>
+                    <div class="results-grid" id="results-grid">
+                        <div style="text-align: center; color: var(--text-sub); padding: 60px; font-weight: 800; grid-column: 1 / -1;">
+                            '플레이어 관리' 탭에서 인원을 세팅한 뒤 상단의 <span style="color: var(--accent-pink);">[밸런스 최적화 매치 믹스 시작하기]</span> 버튼을 눌러주세요!
                         </div>
                     </div>
                 </div>
@@ -1485,37 +1529,64 @@
             grid.innerHTML = "";
 
             const numTeams = modeObj.teamSizes.length;
+            
+            // 전력 균형도 분석 (최대 점수와 최소 점수 차이 기반)
+            let maxScore = Math.max(...data.scores);
+            let minScore = Math.min(...data.scores);
+            let diff = maxScore - minScore;
+            let balanceGrade = diff < 1.5 ? "🔥 완벽한 밸런스 (S급)" : (diff < 3.5 ? "✨ 안정적인 매치 (A급)" : "⚡ 일반 매치");
+
             for (let t = 0; t < numTeams; t++) {
                 let typeKey = teamKeysList[t].toLowerCase();
-                grid.appendChild(buildTeamCard(typeKey, teamNamesList[t], data.assignedTeams[t], data.scores[t], teamKeysList[t]));
+                let extraInfo = `밸런스 등급: <span style="color:var(--accent-cyan);">${balanceGrade}</span>`;
+
+                grid.appendChild(buildTeamCard(typeKey, teamNamesList[t], data.assignedTeams[t], data.scores[t], teamKeysList[t], extraInfo));
             }
         }
 
-        function buildTeamCard(type, title, list, score, teamKey) {
+        function buildTeamCard(type, title, list, score, teamKey, extraInfo) {
             const card = document.createElement("div");
             card.className = `team-card ${type}`;
 
             const order = { "탱": 1, "딜": 2, "힐": 3 };
             list.sort((a, b) => order[a.role] - order[b.role]);
 
+            // 팀 내 최고 점수 플레이어(에이스) 찾기
+            let maxPlayerScore = -1;
+            let acePlayerName = null;
+            list.forEach(i => {
+                if (i.score > maxPlayerScore) {
+                    maxPlayerScore = i.score;
+                    acePlayerName = i.p.name;
+                }
+            });
+
             let logoHtml = getTeamImgHtml(teamKey);
 
-            let itemsHtml = list.map(i => `
-                <li class="team-item">
-                    <span class="player-tier-info">
-                        ${getTierImgHtml(i.tier)}
-                        <strong>${i.p.name}</strong>
-                    </span>
-                    <span class="player-role-info">
-                        ${getRoleImgHtml(i.role)}
-                    </span>
-                </li>
-            `).join("");
+            let itemsHtml = list.map(i => {
+                let isAce = (i.p.name === acePlayerName);
+                return `
+                    <li class="team-item">
+                        <span class="player-tier-info">
+                            ${getTierImgHtml(i.tier)}
+                            <strong>${i.p.name}</strong>
+                            ${isAce ? '<span class="ace-badge">ACE</span>' : ''}
+                        </span>
+                        <span class="player-role-info">
+                            ${getRoleImgHtml(i.role)}
+                        </span>
+                    </li>
+                `;
+            }).join("");
 
             card.innerHTML = `
                 <div class="team-header">
                     <span style="display:flex; align-items:center;">${logoHtml}${title}</span>
                     <span style="color:var(--accent-pink);">${score.toFixed(1)}점</span>
+                </div>
+                <div class="match-stats-widget">
+                    <span>분석 완료</span>
+                    <span>${extraInfo}</span>
                 </div>
                 <ul class="team-list">${itemsHtml}</ul>
             `;
@@ -1636,7 +1707,6 @@
                             <path d="M 230 207 L 285 207 L 285 140 L 540 140" />
                         </svg>
 
-                        <!-- 1라운드 -->
                         <div class="bracket-node" style="grid-column: 1; grid-row: 1;">
                             <div style="font-size:10px; font-weight:800; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg); border-bottom:1px solid var(--border-color);">1라운드 (A vs B)</div>
                             <div class="${m1rA}" onclick="setTourneyWinner('3team_m1', 0, 'A')">
@@ -1649,7 +1719,6 @@
                             </div>
                         </div>
 
-                        <!-- 패자부활전 -->
                         <div class="bracket-node" style="grid-column: 1; grid-row: 3;">
                             <div style="font-size:10px; font-weight:800; color:var(--text-sub); padding:6px 10px; background:var(--panel-sub-bg); border-bottom:1px solid var(--border-color);">패자부활전 (패자 vs C팀)</div>
                             <div class="${m2rA}" ${m2.teamA ? `onclick="setTourneyWinner('3team_m2', 0, 'A')"` : ''}>
@@ -1662,7 +1731,6 @@
                             </div>
                         </div>
 
-                        <!-- 결승전 -->
                         <div class="bracket-node" style="grid-column: 3; grid-row: 1 / span 3; align-self: center;">
                             <div style="font-size:10px; font-weight:800; color:var(--accent-pink); padding:6px 10px; background:var(--panel-sub-bg); border-bottom:1px solid var(--border-color);">🏆 결승전</div>
                             <div class="${fR1}" ${f.teamA ? `onclick="setTourneyWinner('3team_finals', 0, 'A')"` : ''}>
