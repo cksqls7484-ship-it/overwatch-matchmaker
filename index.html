@@ -581,19 +581,40 @@
             color: var(--text-main);
         }
 
-        /* 포지션별 점수 비중 위젯 스타일 */
+        /* 포지션 비율 게이지 바 및 위젯 스타일 */
         .match-stats-widget {
             background-color: var(--panel-bg);
             border-radius: 10px;
-            padding: 10px 14px;
+            padding: 12px 14px;
             margin-bottom: 14px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ratio-bar-container {
+            display: flex;
+            height: 10px;
+            width: 100%;
+            background-color: var(--panel-sub-bg);
+            border-radius: 5px;
+            overflow: hidden;
+            gap: 2px;
+        }
+
+        .ratio-bar-tank { background-color: #38bdf8; transition: width 0.3s; }
+        .ratio-bar-dps { background-color: #ef4444; transition: width 0.3s; }
+        .ratio-bar-sup { background-color: #22c55e; transition: width 0.3s; }
+
+        .ratio-text-row {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border: 1px solid var(--border-color);
             font-size: 12px;
             font-weight: 900;
         }
+
         .stat-item {
             display: flex;
             align-items: center;
@@ -1566,9 +1587,16 @@
                     <span style="color:var(--accent-pink);">${score.toFixed(1)}점</span>
                 </div>
                 <div class="match-stats-widget">
-                    <div class="stat-item">${getRoleImgHtml('탱')} 탱: ${tankPct}%</div>
-                    <div class="stat-item">${getRoleImgHtml('딜')} 딜: ${dpsPct}%</div>
-                    <div class="stat-item">${getRoleImgHtml('힐')} 힐: ${supPct}%</div>
+                    <div class="ratio-bar-container">
+                        <div class="ratio-bar-tank" style="width: ${tankPct}%"></div>
+                        <div class="ratio-bar-dps" style="width: ${dpsPct}%"></div>
+                        <div class="ratio-bar-sup" style="width: ${supPct}%"></div>
+                    </div>
+                    <div class="ratio-text-row">
+                        <div class="stat-item">${getRoleImgHtml('탱')} 탱: ${tankPct}%</div>
+                        <div class="stat-item">${getRoleImgHtml('딜')} 딜: ${dpsPct}%</div>
+                        <div class="stat-item">${getRoleImgHtml('힐')} 힐: ${supPct}%</div>
+                    </div>
                 </div>
                 <ul class="team-list">${itemsHtml}</ul>
             `;
