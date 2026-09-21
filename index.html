@@ -20,7 +20,6 @@
             --accent-cyan: #38bdf8;
             --text-main: #f3e8ff;
             --text-sub: #d8b4fe;
-            /* 요청하신 팀별 대표 색상 설정 (A: 빨강, B: 파랑, C: 노랑, D: 초록) */
             --team-a: #ef4444;
             --team-b: #3b82f6;
             --team-c: #eab308;
@@ -582,17 +581,23 @@
             color: var(--text-main);
         }
 
+        /* 포지션별 점수 비중 위젯 스타일 */
         .match-stats-widget {
             background-color: var(--panel-bg);
             border-radius: 10px;
             padding: 10px 14px;
             margin-bottom: 14px;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             align-items: center;
             border: 1px solid var(--border-color);
-            font-size: 11px;
-            font-weight: 800;
+            font-size: 12px;
+            font-weight: 900;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .team-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
@@ -1513,21 +1518,14 @@
             grid.innerHTML = "";
 
             const numTeams = modeObj.teamSizes.length;
-            
-            let maxScore = Math.max(...data.scores);
-            let minScore = Math.min(...data.scores);
-            let diff = maxScore - minScore;
-            let balanceGrade = diff < 1.5 ? "🔥 완벽한 밸런스 (S급)" : (diff < 3.5 ? "✨ 안정적인 매치 (A급)" : "⚡ 일반 매치");
 
             for (let t = 0; t < numTeams; t++) {
                 let typeKey = teamKeysList[t].toLowerCase();
-                let extraInfo = `밸런스 등급: <span style="color:var(--accent-cyan);">${balanceGrade}</span>`;
-
-                grid.appendChild(buildTeamCard(typeKey, teamNamesList[t], data.assignedTeams[t], data.scores[t], teamKeysList[t], extraInfo));
+                grid.appendChild(buildTeamCard(typeKey, teamNamesList[t], data.assignedTeams[t], data.scores[t], teamKeysList[t]));
             }
         }
 
-        function buildTeamCard(type, title, list, score, teamKey, extraInfo) {
+        function buildTeamCard(type, title, list, score, teamKey) {
             const card = document.createElement("div");
             card.className = `team-card ${type}`;
 
@@ -1535,6 +1533,18 @@
             list.sort((a, b) => order[a.role] - order[b.role]);
 
             let logoHtml = getTeamImgHtml(teamKey);
+
+            // 포지션별 점수 합계 및 백분율(%) 계산
+            let roleScores = { "탱": 0, "딜": 0, "힐": 0 };
+            list.forEach(i => {
+                if (roleScores[i.role] !== undefined) {
+                    roleScores[i.role] += i.score;
+                }
+            });
+
+            let tankPct = score > 0 ? ((roleScores["탱"] / score) * 100).toFixed(1) : 0;
+            let dpsPct = score > 0 ? ((roleScores["딜"] / score) * 100).toFixed(1) : 0;
+            let supPct = score > 0 ? ((roleScores["힐"] / score) * 100).toFixed(1) : 0;
 
             let itemsHtml = list.map(i => {
                 return `
@@ -1556,8 +1566,9 @@
                     <span style="color:var(--accent-pink);">${score.toFixed(1)}점</span>
                 </div>
                 <div class="match-stats-widget">
-                    <span>분석 완료</span>
-                    <span>${extraInfo}</span>
+                    <div class="stat-item">${getRoleImgHtml('탱')} 탱: ${tankPct}%</div>
+                    <div class="stat-item">${getRoleImgHtml('딜')} 딜: ${dpsPct}%</div>
+                    <div class="stat-item">${getRoleImgHtml('힐')} 힐: ${supPct}%</div>
                 </div>
                 <ul class="team-list">${itemsHtml}</ul>
             `;
