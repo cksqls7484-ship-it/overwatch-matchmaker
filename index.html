@@ -309,11 +309,11 @@
         }
 
         .team-icon-small {
-            width: 18px;
-            height: 18px;
+            width: 22px;
+            height: 22px;
             object-fit: contain;
             vertical-align: middle;
-            margin-right: 6px;
+            flex-shrink: 0;
         }
 
         .custom-tier-select-wrapper {
@@ -368,61 +368,61 @@
         }
         .custom-tier-option:hover { border-color: var(--accent-pink); background-color: #3e384b; }
 
-        .team-select-wrapper {
+        /* [팀 고정 시스템 전용 팝업 스타일] */
+        .team-fix-wrapper {
             position: relative;
-            flex: 1;
+            width: 100%;
         }
 
-        .team-select-btn {
+        .team-fix-btn {
             background-color: var(--panel-bg);
             border: 2px solid var(--border-color);
             color: var(--text-main);
             padding: 6px 10px;
             border-radius: 10px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 800;
             width: 100%;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 8px;
             cursor: pointer;
             box-sizing: border-box;
+            height: 36px;
         }
-        .team-select-btn:hover { border-color: var(--accent-pink); }
+        .team-fix-btn:hover { border-color: var(--accent-pink); }
 
-        .team-select-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
+        .team-fix-dropdown {
+            position: fixed;
+            width: 210px;
             background-color: var(--panel-bg);
             border: 2px solid var(--border-color);
-            border-radius: 10px;
-            margin-top: 4px;
+            border-radius: 12px;
             display: none;
             flex-direction: column;
-            gap: 2px;
-            padding: 4px;
-            z-index: 999;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            gap: 4px;
+            padding: 8px;
+            z-index: 9999;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
             box-sizing: border-box;
         }
+        .team-fix-dropdown.show { display: flex; }
 
-        .team-select-dropdown.show { display: flex; }
-
-        .team-select-option {
-            padding: 6px 8px;
+        .team-fix-option {
+            padding: 8px 10px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            border-radius: 6px;
+            gap: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 800;
             color: var(--text-main);
             background-color: var(--panel-sub-bg);
+            border: 1px solid transparent;
         }
-        .team-select-option:hover { background-color: #3e384b; color: var(--accent-pink); }
+        .team-fix-option:hover { border-color: var(--accent-pink); background-color: #3e384b; }
 
         .player-tools {
             display: flex;
@@ -449,7 +449,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 145px;
+            min-height: 155px;
             height: auto;
             box-sizing: border-box;
             position: relative;
@@ -534,7 +534,6 @@
         .badge:hover { filter: brightness(1.1); }
         .badge.excluded { opacity: 0.3; filter: grayscale(1); background-color: #1e1b22; }
 
-        /* [내전 매치 탭 전용 초고급 스타일] */
         .match-command-center {
             display: grid;
             grid-template-columns: 1fr auto;
@@ -793,7 +792,7 @@
             </div>
         </div>
 
-        <!-- 2. 내전 매치 탭 화면 (개편 완료) -->
+        <!-- 2. 내전 매치 탭 화면 -->
         <div id="tab-content-match" class="tab-content">
             <div class="match-command-center">
                 <div class="match-command-info">
@@ -1051,6 +1050,7 @@
             document.querySelectorAll('.custom-tier-dropdown').forEach(d => {
                 if (d.id !== dropdownId) d.classList.remove('show');
             });
+            document.querySelectorAll('.team-fix-dropdown').forEach(d => d.classList.remove('show'));
 
             const dropdown = document.getElementById(dropdownId);
             const btn = document.getElementById(btnId);
@@ -1073,25 +1073,40 @@
             document.getElementById(`${prefix}-dropdown-${roleKey}`).classList.remove('show');
         }
 
-        function toggleTeamDropdown(e, playerId) {
+        // [팀 고정 시스템 팝업 제어 함수]
+        function toggleTeamFixDropdown(e, playerId) {
             e.stopPropagation();
-            document.querySelectorAll('.team-select-dropdown').forEach(d => {
-                if (d.id !== `team-dropdown-${playerId}`) d.classList.remove('show');
+            const dropdownId = `team-fix-dropdown-${playerId}`;
+            const btnId = `team-fix-btn-${playerId}`;
+
+            document.querySelectorAll('.team-fix-dropdown').forEach(d => {
+                if (d.id !== dropdownId) d.classList.remove('show');
             });
-            const dropdown = document.getElementById(`team-dropdown-${playerId}`);
-            dropdown.classList.toggle('show');
+            document.querySelectorAll('.custom-tier-dropdown').forEach(d => d.classList.remove('show'));
+
+            const dropdown = document.getElementById(dropdownId);
+            const btn = document.getElementById(btnId);
+
+            if (!dropdown.classList.contains('show')) {
+                const rect = btn.getBoundingClientRect();
+                dropdown.style.top = (rect.bottom + 4) + 'px';
+                dropdown.style.left = rect.left + 'px';
+                dropdown.classList.add('show');
+            } else {
+                dropdown.classList.remove('show');
+            }
         }
 
         function selectTeamFix(e, playerId, teamVal) {
             e.stopPropagation();
             updateOpt(playerId, 'fixedTeam', teamVal);
-            document.getElementById(`team-dropdown-${playerId}`).classList.remove('show');
+            document.getElementById(`team-fix-dropdown-${playerId}`).classList.remove('show');
             renderPlayerCards();
         }
 
         window.addEventListener('click', () => {
             document.querySelectorAll('.custom-tier-dropdown').forEach(d => d.classList.remove('show'));
-            document.querySelectorAll('.team-select-dropdown').forEach(d => d.classList.remove('show'));
+            document.querySelectorAll('.team-fix-dropdown').forEach(d => d.classList.remove('show'));
         });
 
         const defaultTierWeights = { "브론즈": 1.0, "실버": 2.2, "골드": 3.5, "플레": 5.0, "에메랄드": 6.8, "다이아": 8.8, "마스터": 11.1, "그마": 13.8, "챔피언": 17.0 };
@@ -1100,7 +1115,7 @@
             { id: 0, name: "히지키 (ヒジキ)", roles: { "탱": "그마", "딜": "마스터", "힐": "마스터" }, fixedTeam: "auto", excludedRoles: [], selected: true },
             { id: 1, name: "찬빈 (チャンビン)", roles: { "탱": "마스터", "딜": "그마", "힐": "그마" }, fixedTeam: "auto", excludedRoles: [], selected: true },
             { id: 2, name: "이라카 (イラカ)", roles: { "탱": "다이아", "딜": "플레", "힐": "마스터" }, fixedTeam: "auto", excludedRoles: [], selected: true },
-            { id: 3, name: "츄리 (チュリ)", roles: { "딜": "다이아" }, fixedTeam: "auto", excludedRoles: [], selected: true },
+            { id: 3, name: "츄리 (チュ리)", roles: { "딜": "다이아" }, fixedTeam: "auto", excludedRoles: [], selected: true },
             { id: 4, name: "스이소 (スイソ)", roles: { "탱": "다이아", "딜": "에메랄드", "힐": "다이아" }, fixedTeam: "auto", excludedRoles: [], selected: true },
             { id: 5, name: "팽팽 (ペンペン)", roles: { "탱": "플레", "딜": "플레", "힐": "플레" }, fixedTeam: "auto", excludedRoles: [], selected: true },
             { id: 6, name: "테루루 (テルル)", roles: { "탱": "플레", "딜": "플레", "힐": "플레" }, fixedTeam: "auto", excludedRoles: [], selected: true },
@@ -1267,27 +1282,29 @@
                         }
                     });
 
-                    let currentFixHtml = p.fixedTeam === 'auto' ? `${getTeamImgHtml('auto')} 자동 배치` : `${getTeamImgHtml(p.fixedTeam)} ${p.fixedTeam}팀 고정`;
+                    let currentFixText = p.fixedTeam === 'auto' ? '자동 배치' : `${p.fixedTeam}팀 고정`;
+                    let currentFixHtml = `${getTeamImgHtml(p.fixedTeam)} <span>${currentFixText}</span>`;
+                    
                     let teamFixHtml = `
-                        <div class="team-select-wrapper">
-                            <div class="team-select-btn" onclick="toggleTeamDropdown(event, ${p.id})">
-                                <span>${currentFixHtml}</span>
-                                <span style="font-size:9px; color:var(--text-sub);">▼</span>
+                        <div class="team-fix-wrapper">
+                            <div class="team-fix-btn" id="team-fix-btn-${p.id}" onclick="toggleTeamFixDropdown(event, ${p.id})">
+                                ${currentFixHtml}
+                                <span style="font-size:9px; color:var(--text-sub); margin-left:auto;">▼</span>
                             </div>
-                            <div class="team-select-dropdown" id="team-dropdown-${p.id}">
-                                <div class="team-select-option" onclick="selectTeamFix(event, ${p.id}, 'auto')">
+                            <div class="team-fix-dropdown" id="team-fix-dropdown-${p.id}">
+                                <div class="team-fix-option" onclick="selectTeamFix(event, ${p.id}, 'auto')">
                                     ${getTeamImgHtml('auto')} 자동 배치
                                 </div>
-                                <div class="team-select-option" onclick="selectTeamFix(event, ${p.id}, 'A')">
+                                <div class="team-fix-option" onclick="selectTeamFix(event, ${p.id}, 'A')">
                                     ${getTeamImgHtml('A')} A팀 고정
                                 </div>
-                                <div class="team-select-option" onclick="selectTeamFix(event, ${p.id}, 'B')">
+                                <div class="team-fix-option" onclick="selectTeamFix(event, ${p.id}, 'B')">
                                     ${getTeamImgHtml('B')} B팀 고정
                                 </div>
-                                <div class="team-select-option" onclick="selectTeamFix(event, ${p.id}, 'C')">
+                                <div class="team-fix-option" onclick="selectTeamFix(event, ${p.id}, 'C')">
                                     ${getTeamImgHtml('C')} C팀 고정
                                 </div>
-                                <div class="team-select-option" onclick="selectTeamFix(event, ${p.id}, 'D')">
+                                <div class="team-fix-option" onclick="selectTeamFix(event, ${p.id}, 'D')">
                                     ${getTeamImgHtml('D')} D팀 고정
                                 </div>
                             </div>
@@ -1305,14 +1322,13 @@
                             </div>
                         </div>
                         <div class="role-badges">${badges.join("")}</div>
-                        <div style="display: flex; gap: 6px; align-items: center; margin-top: 4px;">
-                            <span style="font-size:11px; color:var(--text-sub); font-weight:800;">팀 고정:</span>
+                        <div>
                             ${teamFixHtml}
                         </div>
                     `;
                     
                     card.onclick = (e) => {
-                        if (e.target.closest('button') || e.target.closest('.team-select-wrapper') || e.target.closest('.badge')) {
+                        if (e.target.closest('button') || e.target.closest('.team-fix-wrapper') || e.target.closest('.badge')) {
                             return;
                         }
 
@@ -1530,7 +1546,6 @@
 
             const numTeams = modeObj.teamSizes.length;
             
-            // 전력 균형도 분석 (최대 점수와 최소 점수 차이 기반)
             let maxScore = Math.max(...data.scores);
             let minScore = Math.min(...data.scores);
             let diff = maxScore - minScore;
@@ -1551,7 +1566,6 @@
             const order = { "탱": 1, "딜": 2, "힐": 3 };
             list.sort((a, b) => order[a.role] - order[b.role]);
 
-            // 팀 내 최고 점수 플레이어(에이스) 찾기
             let maxPlayerScore = -1;
             let acePlayerName = null;
             list.forEach(i => {
