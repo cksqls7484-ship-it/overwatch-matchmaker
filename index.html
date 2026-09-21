@@ -739,7 +739,7 @@
                 <button class="lang-btn active" id="lang-ko-btn" onclick="setLanguage('ko')">한국어</button>
                 <button class="lang-btn" id="lang-jp-btn" onclick="setLanguage('jp')">JP</button>
             </div>
-            <button class="btn-icon" id="txt-reset-data" onclick="resetAllData()">데이터 초기화</button>
+            <button class="btn-icon" id="txt-reset-data" onclick="resetAllData()" data-i18n="resetData">데이터 초기화</button>
         </div>
     </nav>
 
@@ -905,7 +905,6 @@
     </div>
 
     <script>
-        // 다국어 딕셔너리 시스템 (한국어 / 일본어)
         const i18nData = {
             ko: {
                 resetData: "데이터 초기화",
@@ -952,7 +951,12 @@
                 mapCatPush: "밀기",
                 mapCatFlash: "플래시포인트",
                 mapDefaultText: "버튼을 눌러 맵을 뽑아주세요!",
-                tierNone: "없음"
+                tierNone: "없음",
+                editBtn: "수정",
+                deleteBtn: "삭제",
+                saveBtn: "저장",
+                cancelBtn: "취소",
+                alertNoMaps: "해당 카테고리에 맵이 없습니다."
             },
             jp: {
                 resetData: "データ初期化",
@@ -967,7 +971,7 @@
                 createCustomModeBtn: "カスタムモード生成",
                 addPlayerTitle: "➕ 新規プレイヤー登録",
                 playerNicknameLabel: "プレイヤー名",
-                playerNicknamePlaceholder: "例: 홍길동",
+                playerNicknamePlaceholder: "例: 洪吉童",
                 tierSettingLabel: "ポジション別ティア設定",
                 registerPlayerBtn: "プレイヤー登録",
                 tierWeightTitle: "⚙️ ティアウェイトスコア",
@@ -999,7 +1003,12 @@
                 mapCatPush: "プッシュ",
                 mapCatFlash: "フラッシュポイント",
                 mapDefaultText: "ボタンを押してマップを引いてください！",
-                tierNone: "なし"
+                tierNone: "なし",
+                editBtn: "修正",
+                deleteBtn: "削除",
+                saveBtn: "保存",
+                cancelBtn: "キャンセル",
+                alertNoMaps: "該当するカテゴリーにマップがありません。"
             }
         };
 
@@ -1010,7 +1019,6 @@
             document.getElementById('lang-ko-btn').classList.toggle('active', lang === 'ko');
             document.getElementById('lang-jp-btn').classList.toggle('active', lang === 'jp');
 
-            // data-i18n 속성을 가진 모든 요소 텍스트 변경
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (i18nData[lang][key]) {
@@ -1018,7 +1026,6 @@
                 }
             });
 
-            // placeholder 변경
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-i18n-placeholder');
                 if (i18nData[lang][key]) {
@@ -1046,39 +1053,39 @@
         };
 
         const overwatchMaps = [
-            { name: "네팔", type: "control", typeName: "쟁탈", image: "./map_nepal.png" },
-            { name: "리장 타워", type: "control", typeName: "쟁탈", image: "./map_lijiang.png" },
-            { name: "부산", type: "control", typeName: "쟁탈", image: "./map_busan.png" },
-            { name: "일리오스", type: "control", typeName: "쟁탈", image: "./map_ilios.png" },
-            { name: "오아시스", type: "control", typeName: "쟁탈", image: "./map_oasis.png" },
-            { name: "남극 반도", type: "control", typeName: "쟁탈", image: "./map_antarctic.png" },
-            { name: "사모아", type: "control", typeName: "쟁탈", image: "./map_samoa.png" },
+            { name: { ko: "네팔", jp: "ネパール" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_nepal.png" },
+            { name: { ko: "리장 타워", jp: "麗江タワー" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_lijiang.png" },
+            { name: { ko: "부산", jp: "釜山" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_busan.png" },
+            { name: { ko: "일리오스", jp: "イリオス" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_ilios.png" },
+            { name: { ko: "오아시스", jp: "オアシス" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_oasis.png" },
+            { name: "남극 반도", type: { ko: "남극 반도", jp: "南極半島" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_antarctic.png" },
+            { name: { ko: "사모아", jp: "サモア" }, type: "control", typeName: { ko: "쟁탈", jp: "コントロール" }, image: "./map_samoa.png" },
             
-            { name: "66번 국도", type: "escort", typeName: "호위", image: "./map_route66.png" },
-            { name: "감시 기지: 지브롤터", type: "escort", typeName: "호위", image: "./map_gibraltar.png" },
-            { name: "도라도", type: "escort", typeName: "호위", image: "./map_dorado.png" },
-            { name: "리알토", type: "escort", typeName: "호위", image: "./map_rialto.png" },
-            { name: "서킷 로얄", type: "escort", typeName: "호위", image: "./map_circuit.png" },
-            { name: "쓰레기촌", type: "escort", typeName: "호위", image: "./map_junkertown.png" },
-            { name: "하바나", type: "escort", typeName: "호위", image: "./map_havana.png" },
+            { name: { ko: "66번 국도", jp: "ルート66" }, type: "escort", typeName: { ko: "호위", jp: "エスコート" }, image: "./map_route66.png" },
+            { name: { ko: "감시 기지: 지브롤터", jp: "ウォッチポイント：ジブラルタル" }, type: "escort", typeName: { ko: "호위", jp: "エスコート" }, image: "./map_gibraltar.png" },
+            { name: { ko: "도라도", jp: "ドラド" }, type: "escort", typeName: { ko: "호위", jp: "エスコート" }, image: "./map_dorado.png" },
+            { name: { ko: "리알토", jp: "リアルト" }, type: "escort", typeName: { ko: "호위", jp: "エスコート" }, image: "./map_rialto.png" },
+            { name: { ko: "서킷 로얄", jp: "サーキット・ロワイヤル" }, type: "escort", typeName: { ko: "호위", jp: "エスコート" }, image: "./map_circuit.png" },
+            { name: { ko: "쓰레기촌", jp: "ジャンカータウン" }, type: "escort", typeName: { ko: "호위", jp: "エスコート" }, image: "./map_junkertown.png" },
+            { name: { ko: "하바나", jp: "ハバナ" }, type: "escort", typeName: { ko: "호위", jp: "エスコート" }, image: "./map_havana.png" },
 
-            { name: "블리자드 월드", type: "hybrid", typeName: "혼합", image: "./map_blizzardworld.png" },
-            { name: "아이헨발데", type: "hybrid", typeName: "혼합", image: "./map_eichenwalde.png" },
-            { name: "왕의 길", type: "hybrid", typeName: "혼합", image: "./map_kingsrow.png" },
-            { name: "미드타운", type: "hybrid", typeName: "혼합", image: "./map_midtown.png" },
-            { name: "파라이수", type: "hybrid", typeName: "혼합", image: "./map_paraiso.png" },
-            { name: "할리우드", type: "hybrid", typeName: "혼합", image: "./map_hollywood.png" },
-            { name: "눔바니", type: "hybrid", typeName: "혼합", image: "./map_numbani.png" },
-            { name: "네온 교차로", type: "hybrid", typeName: "혼합", image: "./map_neonintersection.png" },
+            { name: { ko: "블리자드 월드", jp: "ブリザード・ワールド" }, type: "hybrid", typeName: { ko: "혼합", jp: "ハイブリッド" }, image: "./map_blizzardworld.png" },
+            { name: { ko: "아이헨발데", jp: "アイヒェンヴァルデ" }, type: "hybrid", typeName: { ko: "혼합", jp: "ハイブリッド" }, image: "./map_eichenwalde.png" },
+            { name: { ko: "왕의 길", jp: "キングス・ロウ" }, type: "hybrid", typeName: { ko: "혼합", jp: "ハイブリッド" }, image: "./map_kingsrow.png" },
+            { name: { ko: "미드타운", jp: "ミッドタウン" }, type: "hybrid", typeName: { ko: "혼합", jp: "ハイブリッド" }, image: "./map_midtown.png" },
+            { name: { ko: "파라이수", jp: "パライソ" }, type: "hybrid", typeName: { ko: "혼합", jp: "ハイブリッド" }, image: "./map_paraiso.png" },
+            { name: { ko: "할리우드", jp: "ハリウッド" }, type: "hybrid", typeName: { ko: "혼합", jp: "ハイブリッド" }, image: "./map_hollywood.png" },
+            { name: { ko: "눔바니", jp: "ヌンバニ" }, type: "hybrid", typeName: { ko: "혼합", jp: "ハイブリッド" }, image: "./map_numbani.png" },
+            { name: { ko: "네온 교차로", jp: "ネオン交差点" }, type: "hybrid", typeName: { ko: "혼합", jp: "ハイブリッド" }, image: "./map_neonintersection.png" },
 
-            { name: "콜로세오", type: "push", typeName: "밀기", image: "./map_colosseo.png" },
-            { name: "이스페란사", type: "push", typeName: "밀기", image: "./map_esperanca.png" },
-            { name: "뉴 퀸 스트리트", type: "push", typeName: "밀기", image: "./map_newqueenstreet.png" },
-            { name: "루나사피", type: "push", typeName: "밀기", image: "./map_lunasapi.png" },
+            { name: { ko: "콜로세오", jp: "コロッセオ" }, type: "push", typeName: { ko: "밀기", jp: "プッシュ" }, image: "./map_colosseo.png" },
+            { name: { ko: "이스페란사", jp: "エススペランサ" }, type: "push", typeName: { ko: "밀기", jp: "プッシュ" }, image: "./map_esperanca.png" },
+            { name: { ko: "뉴 퀸 스트리트", jp: "ニュー・クイーン・ストリート" }, type: "push", typeName: { ko: "밀기", jp: "プッシュ" }, image: "./map_newqueenstreet.png" },
+            { name: { ko: "루나사피", jp: "ルナサピ" }, type: "push", typeName: { ko: "밀기", jp: "プッシュ" }, image: "./map_lunasapi.png" },
 
-            { name: "뉴 정크 시티", type: "flashpoint", typeName: "플래시포인트", image: "./map_newjunkcity.png" },
-            { name: "수라바사", type: "flashpoint", typeName: "플래시포인트", image: "./map_suravasa.png" },
-            { name: "아틀리스", type: "flashpoint", typeName: "플래시포인트", image: "./map_atlis.png" }
+            { name: { ko: "뉴 정크 시티", jp: "ニュー・ジャンク・シティ" }, type: "flashpoint", typeName: { ko: "플래시포인트", jp: "フラッシュポイント" }, image: "./map_newjunkcity.png" },
+            { name: { ko: "수라바사", jp: "スラバサ" }, type: "flashpoint", typeName: { ko: "플래시포인트", jp: "フラッシュポイント" }, image: "./map_suravasa.png" },
+            { name: { ko: "아틀리스", jp: "アトリス" }, type: "flashpoint", typeName: { ko: "플래시포인트", jp: "フラッシュポイント" }, image: "./map_atlis.png" }
         ];
 
         const teamNamesList = ['A팀', 'B팀', 'C팀', 'D팀', 'E팀', 'F팀', 'G팀', 'H팀'];
@@ -1132,7 +1139,7 @@
                 filteredMaps = overwatchMaps.filter(m => m.type === currentMapCategory);
             }
 
-            if (filteredMaps.length === 0) return alert("해당 카테고리에 맵이 없습니다.");
+            if (filteredMaps.length === 0) return alert(i18nData[currentLang].alertNoMaps);
 
             isSpinning = true;
             const spinBtn = document.getElementById("map-spin-btn");
@@ -1148,8 +1155,8 @@
 
             function runStep() {
                 let randomMap = filteredMaps[Math.floor(Math.random() * filteredMaps.length)];
-                document.getElementById("map-name-display").innerText = randomMap.name;
-                document.getElementById("map-type-badge").innerText = randomMap.typeName;
+                document.getElementById("map-name-display").innerText = typeof randomMap.name === 'object' ? randomMap.name[currentLang] : randomMap.name;
+                document.getElementById("map-type-badge").innerText = typeof randomMap.typeName === 'object' ? randomMap.typeName[currentLang] : randomMap.typeName;
                 
                 let imgElem = document.getElementById("map-img-display");
                 if (randomMap.image) {
@@ -1475,6 +1482,7 @@
             const searchBox = document.getElementById("search-box");
             const search = searchBox ? searchBox.value.toLowerCase() : "";
             const targetCount = getTargetCount();
+            const tMap = i18nData[currentLang];
 
             players.forEach((p) => {
                 if (search && !p.name.toLowerCase().includes(search)) return;
@@ -1495,8 +1503,8 @@
                             ${createCustomTierSelect(`edit-${p.id}`, '힐', p.roles["힐"])}
                         </div>
                         <div style="display:flex; gap:6px;">
-                            <button class="btn-secondary" style="flex:1; background-color: var(--accent-pink); border-color: var(--accent-pink); color: #1e1b22; font-weight: 900; padding:8px;" onclick="saveInlineEdit(event, ${p.id})">저장</button>
-                            <button class="btn-secondary" style="flex:1; padding:8px;" onclick="cancelInlineEdit(event)">취소</button>
+                            <button class="btn-secondary" style="flex:1; background-color: var(--accent-pink); border-color: var(--accent-pink); color: #1e1b22; font-weight: 900; padding:8px;" onclick="saveInlineEdit(event, ${p.id})">${tMap.saveBtn}</button>
+                            <button class="btn-secondary" style="flex:1; padding:8px;" onclick="cancelInlineEdit(event)">${tMap.cancelBtn}</button>
                         </div>
                     `;
                     grid.appendChild(card);
@@ -1530,8 +1538,8 @@
                         <div class="card-header">
                             <div class="card-user"><label title="${p.name}">${p.name}</label></div>
                             <div class="card-actions">
-                                <button class="btn-icon" onclick="startInlineEdit(event, ${p.id})">수정</button>
-                                <button class="btn-icon" onclick="deletePlayer(event, ${p.id})">삭제</button>
+                                <button class="btn-icon" onclick="startInlineEdit(event, ${p.id})">${tMap.editBtn}</button>
+                                <button class="btn-icon" onclick="deletePlayer(event, ${p.id})">${tMap.deleteBtn}</button>
                             </div>
                         </div>
                         <div class="role-badges">${badges.join("")}</div>
