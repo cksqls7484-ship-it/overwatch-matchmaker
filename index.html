@@ -758,17 +758,53 @@
                         <div class="mode-grid" id="mode-grid"></div>
                         
                         <div style="background-color: var(--panel-sub-bg); border: 2px solid var(--border-color); border-radius: 12px; padding: 12px;">
-                            <label style="font-size: 10px; font-weight: 800; color: var(--accent-rose); display: block; margin-bottom: 5px;" data-i18n="customModeSubTitle">➕ 커스텀 모드 만들기 (팀별 인원 설정)</label>
+                            <label style="font-size: 10px; font-weight: 800; color: var(--accent-rose); display: block; margin-bottom: 8px;" data-i18n="customModeSubTitle">➕ 커스텀 모드 만들기 (팀별 역할군 설정)</label>
+                            
                             <div class="input-group" style="margin-bottom: 8px;">
                                 <label data-i18n="modeNameLabel">모드 이름</label>
-                                <input type="text" id="new-mode-name" class="form-control" placeholder="예: 4팀 난전 (4v4v4v4)" data-i18n-placeholder="modeNamePlaceholder">
+                                <input type="text" id="new-mode-name" class="form-control" placeholder="예: 3탱 자유전" data-i18n-placeholder="modeNamePlaceholder">
                             </div>
-                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 10px;">
-                                <div class="input-group" style="margin-bottom:0;"><label style="font-size:9px;">A팀</label><input type="text" id="team-a-size" class="custom-size-input" value="5"></div>
-                                <div class="input-group" style="margin-bottom:0;"><label style="font-size:9px;">B팀</label><input type="text" id="team-b-size" class="custom-size-input" value="5"></div>
-                                <div class="input-group" style="margin-bottom:0;"><label style="font-size:9px;">C팀</label><input type="text" id="team-c-size" class="custom-size-input" value="0"></div>
-                                <div class="input-group" style="margin-bottom:0;"><label style="font-size:9px;">D팀</label><input type="text" id="team-d-size" class="custom-size-input" value="0"></div>
+
+                            <!-- 팀별 설정 영역 -->
+                            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
+                                <!-- A팀 설정 -->
+                                <div style="background: var(--panel-bg); padding: 8px; border-radius: 8px; border: 1px solid var(--border-color);">
+                                    <div style="font-size: 10px; font-weight: bold; color: var(--team-a); margin-bottom: 4px;">A팀 역할군 수</div>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
+                                        <div style="text-align:center;"><label style="font-size:8px;">탱커</label><input type="text" id="team-a-tank" class="custom-size-input" value="1"></div>
+                                        <div style="text-align:center;"><label style="font-size:8px;">딜러</label><input type="text" id="team-a-dps" class="custom-size-input" value="2"></div>
+                                        <div style="text-align:center;"><label style="font-size:8px;">힐러</label><input type="text" id="team-a-sup" class="custom-size-input" value="2"></div>
+                                    </div>
+                                </div>
+                                <!-- B팀 설정 -->
+                                <div style="background: var(--panel-bg); padding: 8px; border-radius: 8px; border: 1px solid var(--border-color);">
+                                    <div style="font-size: 10px; font-weight: bold; color: var(--team-b); margin-bottom: 4px;">B팀 역할군 수</div>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
+                                        <div style="text-align:center;"><label style="font-size:8px;">탱커</label><input type="text" id="team-b-tank" class="custom-size-input" value="1"></div>
+                                        <div style="text-align:center;"><label style="font-size:8px;">딜러</label><input type="text" id="team-b-dps" class="custom-size-input" value="2"></div>
+                                        <div style="text-align:center;"><label style="font-size:8px;">힐러</label><input type="text" id="team-b-sup" class="custom-size-input" value="2"></div>
+                                    </div>
+                                </div>
+                                <!-- C팀 설정 (0이면 사용 안 함) -->
+                                <div style="background: var(--panel-bg); padding: 8px; border-radius: 8px; border: 1px solid var(--border-color);">
+                                    <div style="font-size: 10px; font-weight: bold; color: var(--team-c); margin-bottom: 4px;">C팀 역할군 수 (0명이면 미사용)</div>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
+                                        <div style="text-align:center;"><label style="font-size:8px;">탱커</label><input type="text" id="team-c-tank" class="custom-size-input" value="0"></div>
+                                        <div style="text-align:center;"><label style="font-size:8px;">딜러</label><input type="text" id="team-c-dps" class="custom-size-input" value="0"></div>
+                                        <div style="text-align:center;"><label style="font-size:8px;">힐러</label><input type="text" id="team-c-sup" class="custom-size-input" value="0"></div>
+                                    </div>
+                                </div>
+                                <!-- D팀 설정 (0이면 사용 안 함) -->
+                                <div style="background: var(--panel-bg); padding: 8px; border-radius: 8px; border: 1px solid var(--border-color);">
+                                    <div style="font-size: 10px; font-weight: bold; color: var(--team-d); margin-bottom: 4px;">D팀 역할군 수 (0명이면 미사용)</div>
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
+                                        <div style="text-align:center;"><label style="font-size:8px;">탱커</label><input type="text" id="team-d-tank" class="custom-size-input" value="0"></div>
+                                        <div style="text-align:center;"><label style="font-size:8px;">딜러</label><input type="text" id="team-d-dps" class="custom-size-input" value="0"></div>
+                                        <div style="text-align:center;"><label style="font-size:8px;">힐러</label><input type="text" id="team-d-sup" class="custom-size-input" value="0"></div>
+                                    </div>
+                                </div>
                             </div>
+
                             <button class="btn-secondary" style="width:100%; padding: 7px;" onclick="addNewCustomMode()" data-i18n="createCustomModeBtn">커스텀 모드 생성</button>
                         </div>
                     </div>
@@ -910,9 +946,9 @@
                 tabTourney: "토너먼트",
                 tabMap: "맵 룰렛",
                 modeSelectTitle: "⚡ 대전 모드 선택",
-                customModeSubTitle: "➕ 커스텀 모드 만들기 (팀별 인원 설정)",
+                customModeSubTitle: "➕ 커스텀 모드 만들기 (팀별 역할군 설정)",
                 modeNameLabel: "모드 이름",
-                modeNamePlaceholder: "예: 4팀 난전 (4v4v4v4)",
+                modeNamePlaceholder: "예: 3탱 자유전",
                 createCustomModeBtn: "커스텀 모드 생성",
                 addPlayerTitle: "➕ 선수 새로 등록",
                 playerNicknameLabel: "선수 닉네임",
@@ -962,9 +998,9 @@
                 tabTourney: "トーナメント",
                 tabMap: "マップルーレット",
                 modeSelectTitle: "⚡ 対戦モード選択",
-                customModeSubTitle: "➕ カスタムモード作成 (チーム別人数設定)",
+                customModeSubTitle: "➕ カスタムモード作成 (チーム別ロール設定)",
                 modeNameLabel: "モード名",
-                modeNamePlaceholder: "例: 4チーム混戦 (4v4v4v4)",
+                modeNamePlaceholder: "例: 3タンク自由戦",
                 createCustomModeBtn: "カスタムモード生成",
                 addPlayerTitle: "➕ 新規プレイヤー登録",
                 playerNicknameLabel: "プレイヤー名",
@@ -1090,9 +1126,9 @@
         const tiersList = ["챔피언", "그마", "마스터", "다이아", "에메랄드", "플레", "골드", "실버", "브론즈"];
 
         let defaultModes = [
-            { id: '5v5', name: '5v5', teamSizes: [5, 5], isDefault: true },
-            { id: '6v6', name: '6v6', teamSizes: [6, 6], isDefault: true },
-            { id: '5v5v5', name: '5v5v5', teamSizes: [5, 5, 5], isDefault: true }
+            { id: '5v5', name: '5v5', teamRoleConfigs: [{tank:1, dps:2, sup:2}, {tank:1, dps:2, sup:2}], isDefault: true },
+            { id: '6v6', name: '6v6', teamRoleConfigs: [{tank:2, dps:2, sup:2}, {tank:2, dps:2, sup:2}], isDefault: true },
+            { id: '5v5v5', name: '5v5v5', teamRoleConfigs: [{tank:1, dps:2, sup:2}, {tank:1, dps:2, sup:2}, {tank:1, dps:2, sup:2}], isDefault: true }
         ];
 
         let customModes = loadCustomModes();
@@ -1184,12 +1220,25 @@
         }
 
         function loadCustomModes() {
-            const data = localStorage.getItem("ow_pro_custom_modes_v31");
-            return data ? JSON.parse(data) : [...defaultModes];
+            const data = localStorage.getItem("ow_pro_custom_modes_v32");
+            if (!data) return [...defaultModes];
+            let parsed = JSON.parse(data);
+            // 구버전 데이터 호환성 보정
+            parsed.forEach(m => {
+                if (!m.teamRoleConfigs && m.teamSizes) {
+                    m.teamRoleConfigs = m.teamSizes.map(size => {
+                        let t = (size === 5) ? 1 : (size === 6) ? 2 : 1;
+                        let d = Math.floor((size - t) / 2);
+                        let s = size - t - d;
+                        return {tank: t, dps: d, sup: s};
+                    });
+                }
+            });
+            return parsed;
         }
 
         function saveCustomModesStorage() {
-            localStorage.setItem("ow_pro_custom_modes_v31", JSON.stringify(customModes));
+            localStorage.setItem("ow_pro_custom_modes_v32", JSON.stringify(customModes));
         }
 
         function getTeamImgHtml(teamKey) {
@@ -1226,22 +1275,23 @@
 
         function addNewCustomMode() {
             const name = document.getElementById("new-mode-name").value.trim();
-            const a = parseFloat(document.getElementById("team-a-size").value) || 0;
-            const b = parseFloat(document.getElementById("team-b-size").value) || 0;
-            const c = parseFloat(document.getElementById("team-c-size").value) || 0;
-            const d = parseFloat(document.getElementById("team-d-size").value) || 0;
-
             if (!name) return alert("모드 이름을 입력하세요!");
-            let teamSizes = [];
-            if (a > 0) teamSizes.push(a);
-            if (b > 0) teamSizes.push(b);
-            if (c > 0) teamSizes.push(c);
-            if (d > 0) teamSizes.push(d);
 
-            if (teamSizes.length < 2) return alert("최소 2개 이상의 팀에 인원이 설정되어야 합니다.");
+            let configs = [];
+            ['a', 'b', 'c', 'd'].forEach(prefix => {
+                let t = parseInt(document.getElementById(`team-${prefix}-tank`).value) || 0;
+                let d = parseInt(document.getElementById(`team-${prefix}-dps`).value) || 0;
+                let s = parseInt(document.getElementById(`team-${prefix}-sup`).value) || 0;
+                let total = t + d + s;
+                if (total > 0) {
+                    configs.push({ tank: t, dps: d, sup: s });
+                }
+            });
+
+            if (configs.length < 2) return alert("최소 2개 이상의 팀에 역할군 인원이 설정되어야 합니다.");
 
             const id = 'custom_' + Date.now();
-            customModes.push({ id, name, teamSizes, isDefault: false });
+            customModes.push({ id, name, teamRoleConfigs: configs, isDefault: false });
             saveCustomModesStorage();
             document.getElementById("new-mode-name").value = "";
             renderModes();
@@ -1269,7 +1319,7 @@
 
         function getTargetCount() {
             const mode = getCurrentModeObj();
-            return mode.teamSizes.reduce((sum, val) => sum + val, 0);
+            return mode.teamRoleConfigs.reduce((sum, cfg) => sum + cfg.tank + cfg.dps + cfg.sup, 0);
         }
 
         function getTierImgHtml(tierName) {
@@ -1380,12 +1430,12 @@
         let lastResult = null;
 
         function saveStorage() {
-            localStorage.setItem("ow_pro_players_v31", JSON.stringify(players));
-            localStorage.setItem("ow_pro_weights_v31", JSON.stringify(tierWeights));
+            localStorage.setItem("ow_pro_players_v32", JSON.stringify(players));
+            localStorage.setItem("ow_pro_weights_v32", JSON.stringify(tierWeights));
         }
 
         function loadPlayers() {
-            const data = localStorage.getItem("ow_pro_players_v31");
+            const data = localStorage.getItem("ow_pro_players_v32");
             if (!data) return [...initialPlayers];
             let parsed = JSON.parse(data);
             parsed.forEach((p, idx) => { 
@@ -1396,15 +1446,15 @@
         }
 
         function loadWeights() {
-            const data = localStorage.getItem("ow_pro_weights_v31");
+            const data = localStorage.getItem("ow_pro_weights_v32");
             return data ? JSON.parse(data) : { ...defaultTierWeights };
         }
 
         function resetAllData() {
             if (confirm("모든 데이터를 초기 상태로 복구하시겠습니까?")) {
-                localStorage.removeItem("ow_pro_players_v31");
-                localStorage.removeItem("ow_pro_weights_v31");
-                localStorage.removeItem("ow_pro_custom_modes_v31");
+                localStorage.removeItem("ow_pro_players_v32");
+                localStorage.removeItem("ow_pro_weights_v32");
+                localStorage.removeItem("ow_pro_custom_modes_v32");
                 players = [...initialPlayers];
                 tierWeights = { ...defaultTierWeights };
                 customModes = [...defaultModes];
@@ -1488,7 +1538,6 @@
                 const card = document.createElement("div");
                 card.className = p.selected ? `player-card selected` : `player-card`;
 
-                // 카드 전체 클릭 이벤트 부여
                 card.onclick = (e) => {
                     if (e.target.closest('button') || e.target.closest('.team-fix-wrapper') || e.target.closest('.badge') || e.target.closest('input')) return;
                     const currentSelectedCount = players.filter(x => x.selected).length;
@@ -1609,17 +1658,19 @@
         function generateTeams() {
             const selected = getSelectedPlayers();
             const modeObj = getCurrentModeObj();
-            const target = modeObj.teamSizes.reduce((a, b) => a + b, 0);
+            const target = modeObj.teamRoleConfigs.reduce((sum, cfg) => sum + cfg.tank + cfg.dps + cfg.sup, 0);
             if (selected.length !== target) return alert(`${modeObj.name} 모드는 총 ${target}명이 필요합니다. (현재 선택된 선수가 ${selected.length}명입니다.)`);
-            let res = solveMultiTeams(selected, modeObj.teamSizes);
+            let res = solveMultiTeams(selected, modeObj.teamRoleConfigs);
             if (!res) return alert("고정 조건 또는 포지션 구성으로 인해 팀을 나눌 수 없습니다.");
             lastResult = res;
             displayResults(res, modeObj);
         }
 
-        function solveMultiTeams(list, teamSizes) {
+        function solveMultiTeams(list, teamConfigs) {
             let best = null, minDiff = 999;
-            const numTeams = teamSizes.length;
+            const numTeams = teamConfigs.length;
+            const teamSizes = teamConfigs.map(cfg => cfg.tank + cfg.dps + cfg.sup);
+
             for (let i = 0; i < 30000; i++) {
                 let sh = [...list].sort(() => Math.random() - 0.5);
                 let teamPlayersList = [], idx = 0, valid = true;
@@ -1634,12 +1685,8 @@
 
                 let assignedTeams = [], scores = [], allAssigned = true;
                 for (let t = 0; t < numTeams; t++) {
-                    let size = teamSizes[t];
-                    let reqTank = (size === 5) ? 1 : 2;
-                    if (size <= 3) reqTank = 1;
-                    let reqDps = Math.floor((size - reqTank) / 2);
-                    let reqSup = size - reqTank - reqDps;
-                    let assigned = assignRoles(teamPlayersList[t], reqTank, reqDps, reqSup);
+                    let cfg = teamConfigs[t];
+                    let assigned = assignRoles(teamPlayersList[t], cfg.tank, cfg.dps, cfg.sup);
                     if (!assigned) { allAssigned = false; break; }
                     scores.push(assigned.reduce((s, x) => s + x.score, 0));
                     assignedTeams.push(assigned);
@@ -1680,7 +1727,7 @@
             const grid = document.getElementById("results-grid");
             if (!grid) return;
             grid.innerHTML = "";
-            for (let t = 0; t < modeObj.teamSizes.length; t++) {
+            for (let t = 0; t < modeObj.teamRoleConfigs.length; t++) {
                 grid.appendChild(buildTeamCard(teamKeysList[t].toLowerCase(), teamNamesList[t], data.assignedTeams[t], data.scores[t], teamKeysList[t]));
             }
         }
@@ -1751,7 +1798,12 @@
 
             if (selected.length < requiredTotal) return alert(`총 ${requiredTotal}명의 선수가 필요합니다! (현재: ${selected.length}명)`);
 
-            let res = solveMultiTeams(selected, new Array(tourneyTeamCount).fill(teamSize));
+            let defaultTank = (teamSize === 5) ? 1 : 2;
+            let defaultDps = Math.floor((teamSize - defaultTank) / 2);
+            let defaultSup = teamSize - defaultTank - defaultDps;
+            let standardConfig = { tank: defaultTank, dps: defaultDps, sup: defaultSup };
+
+            let res = solveMultiTeams(selected, new Array(tourneyTeamCount).fill(standardConfig));
             if (!res) return alert("토너먼트 팀 분배에 실패했습니다.");
 
             let teamsMeta = [];
