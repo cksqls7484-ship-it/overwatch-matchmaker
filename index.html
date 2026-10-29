@@ -938,12 +938,6 @@
     </div>
 
     <script>
-        // 여기에 요청하신 JsonBin 설정 정보를 반영했습니다.
-        const JSONBIN_CONFIG = {
-            binId: "6ae2c354ac6210605a5ae106", 
-            apiKey: "$2a$10$Kr1zVsoY5ZoA4NISH0p0.Uh6×3fasHklVga8YeJApbCAoB3cz/By"
-        };
-
         const i18nData = {
             ko: {
                 resetData: "데이터 초기화",
@@ -1229,6 +1223,7 @@
             const data = localStorage.getItem("ow_pro_custom_modes_v32");
             if (!data) return [...defaultModes];
             let parsed = JSON.parse(data);
+            // 구버전 데이터 호환성 보정
             parsed.forEach(m => {
                 if (!m.teamRoleConfigs && m.teamSizes) {
                     m.teamRoleConfigs = m.teamSizes.map(size => {
