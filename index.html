@@ -950,7 +950,6 @@
     </div>
 
     <script>
-        // API Key가 정확히 반영된 설정 정보
         const JSONBIN_CONFIG = {
             binId: "6ae2c354ac6210605a5ae106", 
             apiKey: "$2a$10$Kr1zVsoY5sZoA4NISH0pO.Uh6x3fasHklVga8YeJApbCAoB3cz/By"
@@ -1121,6 +1120,8 @@
             { name: { ko: "서킷 로얄", jp: "サーキット・ロワイヤル" }, type: "escort", typeName: { ko: "호위", jp: "エスコート" }, image: "./map_circuit.png" },
             { name: { ko: "쓰레기촌", jp: "ジャンカータウン" }, type: "escort", typeName: { ko: "호위", jp: "エスコート" }, image: "./map_junkertown.png" },
             { name: { ko: "하바나", jp: "ハバナ" }, type: "escort", typeName: { ko: "호위", jp: "エスコート" }, image: "./map_havana.png" },
+            /* ✨ 그림스 뵈튼 (호위 맵, 이미지 파일명: map_grimsbodn.png) */
+            { name: { ko: "그림스 뵈튼", jp: "グリムス・ボードン" }, type: "escort", typeName: { ko: "호위", jp: "エスコート" }, image: "./map_grimsbodn.png" },
 
             { name: { ko: "블리자드 월드", jp: "ブリザード・ワールド" }, type: "hybrid", typeName: { ko: "혼합", jp: "ハイブリッド" }, image: "./map_blizzardworld.png" },
             { name: { ko: "아이헨발데", jp: "アイヒェンヴァルデ" }, type: "hybrid", typeName: { ko: "혼합", jp: "ハイブリッド" }, image: "./map_eichenwalde.png" },
@@ -1178,7 +1179,6 @@
         let isSpinning = false;
         let isSavingToCloud = false;
 
-        // 클라우드 서버(JSONBin)에서 데이터 불러오기
         async function syncDataFromCloud() {
             const badge = document.getElementById("sync-status-badge");
             badge.innerText = "🔄 동기화 중...";
@@ -1207,7 +1207,6 @@
             }
         }
 
-        // 클라우드 서버(JSONBin)에 데이터 저장하기
         async function saveStorage() {
             const badge = document.getElementById("sync-status-badge");
             badge.innerText = "💾 저장 중...";
@@ -1937,7 +1936,6 @@
             renderTournament();
         }
 
-        // 페이지가 열릴 때 클라우드 서버에서 최신 데이터를 먼저 불러옴
         window.onload = async function() {
             await syncDataFromCloud();
             renderTierWeights();
